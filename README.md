@@ -7,7 +7,7 @@ Generate TypeScript typings from Contentstack Content Types. Interfaces and fiel
 ## How to install this plugin
 
 ```shell
-$ csdx plugins:install https://github.com/Contentstack-Solutions/contentstack-cli-tsgen
+$ csdx plugins:install contentstack-cli-tsgen
 ```
 
 ## `csdx tsgen`
