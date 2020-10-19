@@ -2,7 +2,7 @@
 ![Node.js CI](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/workflows/Node.js%20CI/badge.svg)
 
 ## Description
-Generate TypeScript typings from Contentstack Content Types. Interfaces and fields are annotated with jsdoc comments.
+Generate TypeScript typings from Contentstack Content Types. Interfaces and fields are annotated with JSDoc comments.
 
 ## How to install this plugin
 
@@ -12,14 +12,14 @@ $ csdx plugins:install contentstack-cli-tsgen
 
 ## `csdx tsgen`
 
-Generate TypeScript typings from a Stack.
+generate TypeScript typings from a Stack
 
 ```
 USAGE
   $ csdx tsgen
 
 OPTIONS
-  -a, --token-alias=token-alias  (required) Delivery Token Alias
+  -a, --token-alias=token-alias  (required) Delivery token alias
   -d, --[no-]doc                 Include documentation comments
   -o, --output=output            (required) Full path to output
   -p, --prefix=prefix            Interface prefix, e.g. "I"
@@ -30,7 +30,7 @@ EXAMPLES
   $ csdx tsgen -a "delivery-token-alias" -o "contentstack/generated.d.ts" --no-doc
 ```
 
-_See code: [src/commands/tsgen.ts](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/blob/v1.0.4/src/commands/tsgen.ts)_
+_See code: [src/commands/tsgen.ts](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/blob/v1.0.5/src/commands/tsgen.ts)_
 <!-- commandsstop -->
 
 ## Supported Fields
@@ -73,7 +73,7 @@ interface BuiltinExample {
     };
   };
   /** SEO */
-  seo?: ISeo;
+  seo?: Seo;
   /** Single line textbox */
   single_line?: string;
   /** Multi line textbox */
