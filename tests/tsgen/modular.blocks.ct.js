@@ -1,0 +1,273 @@
+const modularBlocks = {
+  created_at: "2020-07-12T15:38:40.048Z",
+  updated_at: "2020-07-12T15:40:10.208Z",
+  title: "Modular Blocks",
+  uid: "modular_blocks",
+  _version: 2,
+  inbuilt_class: false,
+  schema: [
+    {
+      display_name: "Title",
+      uid: "title",
+      data_type: "text",
+      mandatory: true,
+      unique: true,
+      field_metadata: {
+        _default: true,
+        version: 3,
+      },
+      multiple: false,
+      non_localizable: false,
+    },
+    {
+      display_name: "URL",
+      uid: "url",
+      data_type: "text",
+      mandatory: true,
+      field_metadata: {
+        _default: true,
+        version: 3,
+      },
+      multiple: false,
+      unique: false,
+      non_localizable: false,
+    },
+    {
+      data_type: "blocks",
+      display_name: "Modular Blocks",
+      blocks: [
+        {
+          title: "String Block",
+          uid: "string_block",
+          schema: [
+            {
+              data_type: "text",
+              display_name: "Single line textbox",
+              uid: "single_line",
+              field_metadata: {
+                description: "",
+                default_value: "",
+                version: 3,
+              },
+              format: "",
+              error_messages: {
+                format: "",
+              },
+              non_localizable: false,
+              multiple: false,
+              mandatory: false,
+              unique: false,
+            },
+            {
+              data_type: "text",
+              display_name: "Multi line textbox",
+              uid: "multi_line",
+              field_metadata: {
+                description: "",
+                default_value: "",
+                multiline: true,
+                version: 3,
+              },
+              format: "",
+              error_messages: {
+                format: "",
+              },
+              non_localizable: false,
+              multiple: false,
+              mandatory: false,
+              unique: false,
+            },
+            {
+              data_type: "text",
+              display_name: "Markdown",
+              uid: "markdown",
+              field_metadata: {
+                description: "",
+                markdown: true,
+                version: 3,
+              },
+              non_localizable: false,
+              multiple: false,
+              mandatory: false,
+              unique: false,
+            },
+            {
+              data_type: "text",
+              display_name: "Rich text editor",
+              uid: "rich_text_editor",
+              field_metadata: {
+                allow_rich_text: true,
+                description: "",
+                multiline: false,
+                rich_text_type: "advanced",
+                options: [],
+                version: 3,
+              },
+              non_localizable: false,
+              multiple: false,
+              mandatory: false,
+              unique: false,
+            },
+          ],
+        },
+        {
+          title: "String Block with Options",
+          uid: "string_block_with_options",
+          schema: [
+            {
+              data_type: "text",
+              display_name: "Single line textbox Required",
+              uid: "single_line_textbox_required",
+              field_metadata: {
+                description: "",
+                default_value: "",
+                version: 3,
+              },
+              format: "",
+              error_messages: {
+                format: "",
+              },
+              non_localizable: false,
+              mandatory: true,
+              multiple: false,
+              unique: false,
+            },
+            {
+              data_type: "text",
+              display_name: "Single line textbox Multiple",
+              uid: "single_line_textbox_multiple",
+              field_metadata: {
+                description: "",
+                default_value: "",
+                version: 3,
+              },
+              format: "",
+              error_messages: {
+                format: "",
+              },
+              non_localizable: false,
+              multiple: true,
+              mandatory: false,
+              unique: false,
+            },
+          ],
+        },
+        {
+          title: "Boolean Block",
+          uid: "boolean_block",
+          schema: [
+            {
+              data_type: "boolean",
+              display_name: "Boolean",
+              uid: "boolean",
+              field_metadata: {
+                description: "",
+                default_value: "",
+              },
+              multiple: false,
+              mandatory: false,
+              unique: false,
+              non_localizable: false,
+            },
+          ],
+        },
+      ],
+      multiple: true,
+      uid: "modular_blocks",
+      field_metadata: {},
+      mandatory: false,
+      unique: false,
+      non_localizable: false,
+    },
+  ],
+  last_activity: {},
+  maintain_revisions: true,
+  description: "",
+  DEFAULT_ACL: {
+    others: {
+      read: false,
+      create: false,
+    },
+    users: [
+      {
+        uid: "blta1a106c13958e89d",
+        read: true,
+        sub_acl: {
+          read: true,
+        },
+      },
+    ],
+  },
+  SYS_ACL: {
+    roles: [
+      {
+        uid: "blt127263b8951e2542",
+        read: true,
+        sub_acl: {
+          create: true,
+          read: true,
+          update: true,
+          delete: true,
+          publish: true,
+        },
+        update: true,
+        delete: true,
+      },
+      {
+        uid: "blt7e69bb0e63cc5fb6",
+        read: true,
+        sub_acl: {
+          create: true,
+          read: true,
+          update: true,
+          delete: true,
+          publish: true,
+        },
+      },
+      {
+        uid: "bltb442c49a50c5804d",
+        read: true,
+        sub_acl: {
+          create: true,
+          read: true,
+          update: true,
+          delete: true,
+          publish: true,
+        },
+        update: true,
+        delete: true,
+      },
+    ],
+    others: {
+      read: false,
+      create: false,
+      update: false,
+      delete: false,
+      sub_acl: {
+        read: false,
+        create: false,
+        update: false,
+        delete: false,
+        publish: false,
+      },
+    },
+  },
+  options: {
+    is_page: true,
+    singleton: true,
+    title: "title",
+    sub_title: [],
+  },
+  abilities: {
+    get_one_object: true,
+    get_all_objects: true,
+    create_object: true,
+    update_object: true,
+    delete_object: true,
+    delete_all_objects: true,
+  },
+};
+
+module.exports = {
+  modularBlocks,
+};
