@@ -20,15 +20,17 @@ USAGE
 
 OPTIONS
   -a, --token-alias=token-alias  (required) Delivery Token Alias
+  -d, --[no-]doc                 Include documentation comments
   -o, --output=output            (required) Full path to output
   -p, --prefix=prefix            Interface prefix, e.g. "I"
 
 EXAMPLES
   $ csdx tsgen -a "delivery-token-alias" -o "contentstack/generated.d.ts"
-  $ csdx tsgen -p "I" -a "delivery-token-alias" -o "contentstack/generated.d.ts"
+  $ csdx tsgen -a "delivery-token-alias" -o "contentstack/generated.d.ts" -p "I"
+  $ csdx tsgen -a "delivery-token-alias" -o "contentstack/generated.d.ts" --no-doc
 ```
 
-_See code: [src/commands/tsgen.ts](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/blob/v1.0.0/src/commands/tsgen.ts)_
+_See code: [src/commands/tsgen.ts](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/blob/v1.0.4/src/commands/tsgen.ts)_
 <!-- commandsstop -->
 
 ## Supported Fields
@@ -90,7 +92,8 @@ interface BuiltinExample {
   modular_blocks?: (
     | {
         block_1: {
-          /** Number */ number?: number;
+          /** Number */ 
+          number?: number;
           /** Single line textbox */
           single_line?: string;
         };
@@ -99,7 +102,8 @@ interface BuiltinExample {
       }
     | {
         block_2: {
-          /** Boolean */ boolean?: boolean;
+          /** Boolean */ 
+          boolean?: boolean;
           /** Date */
           date?: string;
         };
@@ -108,7 +112,8 @@ interface BuiltinExample {
       }
     | {
         seo_gf: {
-          /** Keywords */ keywords?: string;
+          /** Keywords */ 
+          keywords?: string;
           /** Description */
           description?: string;
         };
@@ -119,9 +124,9 @@ interface BuiltinExample {
   /** Number */
   number?: number;
   /** Link */
-  link?: ILink;
+  link?: Link;
   /** File */
-  file?: IFile;
+  file?: File;
   /** Boolean */
   boolean?: boolean;
   /** Date */

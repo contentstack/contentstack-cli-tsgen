@@ -7,7 +7,8 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
   static examples = [
     '$ csdx tsgen -a "delivery-token-alias" -o "contentstack/generated.d.ts"',
-    '$ csdx tsgen -p "I" -a "delivery-token-alias" -o "contentstack/generated.d.ts"',
+    '$ csdx tsgen -a "delivery-token-alias" -o "contentstack/generated.d.ts" -p "I"',
+    '$ csdx tsgen -a "delivery-token-alias" -o "contentstack/generated.d.ts" --no-doc',
   ];
 
   static flags = {
@@ -35,15 +36,27 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       default: '',
       required: false,
     }),
+
+    doc: flags.boolean({
+      char: 'd',
+      description: 'Include documentation comments',
+      default: true,
+      allowNo: true
+    }),
   };
 
   async run() {
     try {
       const {flags} = this.parse(TypeScriptCodeGeneratorCommand)
-      const tokenAlias = flags['token-alias']
-      const prefix = flags.prefix
 
-      const token = this.getToken(tokenAlias)
+      const token = this.getToken(flags['token-alias'])
+      const prefix = flags.prefix
+      const includeDocumentation = flags.doc
+      const outputPath = flags.output
+
+      if (!outputPath || !outputPath.trim()) {
+        this.error("Please provide an output path.", {exit: 2})
+      }
 
       const config: StackConnectionConfig = {
         apiKey: token.apiKey,
@@ -55,7 +68,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       const client = await stackConnect(this.deliveryAPIClient.Stack, config)
 
       if (client.types) {
-        const result = await tsgenRunner(flags.output, client.types, prefix)
+        const result = await tsgenRunner(outputPath, client.types, prefix, includeDocumentation)
         this.log(`Wrote ${result.definitions} Content Types to '${result.outputPath}'.`)
       } else {
         this.log('No Content Types exist in the Stack.')
