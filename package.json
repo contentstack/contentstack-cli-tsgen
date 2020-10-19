@@ -37,7 +37,9 @@
   ],
   "homepage": "https://github.com/Contentstack-Solutions/contentstack-cli-tsgen",
   "keywords": [
-    "contentstack-plugin"
+    "contentstack",
+    "contentstack-plugin",
+    "typescript"
   ],
   "license": "MIT",
   "oclif": {

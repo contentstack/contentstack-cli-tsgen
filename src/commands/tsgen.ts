@@ -3,7 +3,7 @@ import {stackConnect, StackConnectionConfig} from '../lib/stack/client'
 import tsgenRunner from '../lib/tsgen/runner'
 
 export default class TypeScriptCodeGeneratorCommand extends Command {
-  static description = 'Generate TypeScript typings from a Stack.';
+  static description = 'generate TypeScript typings from a Stack';
 
   static examples = [
     '$ csdx tsgen -a "delivery-token-alias" -o "contentstack/generated.d.ts"',
@@ -14,7 +14,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
   static flags = {
     'token-alias': flags.string({
       char: 'a',
-      description: 'Delivery Token Alias',
+      description: 'Delivery token alias',
       hidden: false,
       multiple: false,
       required: true,
