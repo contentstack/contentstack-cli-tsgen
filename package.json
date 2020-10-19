@@ -8,7 +8,6 @@
     "@contentstack/cli-command": "0.1.0-beta",
     "@oclif/command": "^1.8.0",
     "@oclif/config": "^1.17.0",
-    "link": "^0.1.5",
     "lodash": "^4.17.20",
     "prettier": "^2.0.5",
     "tslib": "^1.13.0"
