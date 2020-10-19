@@ -262,11 +262,11 @@ export default function (userOptions: TSGenOptions) {
   }
 
   function type_link() {
-    return 'Link'
+    return `${options.naming?.prefix}Link`
   }
 
   function type_file() {
-    return 'File'
+    return `${options.naming?.prefix}File`
   }
 
   function type_global_field(field: ContentstackTypes.GlobalField) {
