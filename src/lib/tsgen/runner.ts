@@ -3,7 +3,7 @@ import * as path from 'path'
 import * as prettier from 'prettier'
 
 import {defaultInterfaces} from '../stack/builtins'
-import { DocumentationGenerator } from './docgen/doc'
+import {DocumentationGenerator} from './docgen/doc'
 import JSDocumentationGenerator from './docgen/jsdoc'
 import NullDocumentationGenerator from './docgen/nulldoc'
 import tsgenFactory from './factory'
@@ -27,7 +27,7 @@ function createOutputPath(outputFile: string) {
 }
 
 export default async function tsgenRunner(outputFile: string, contentTypes: any[], prefix = '', includeDocumentation = true) {
-  const docgen: DocumentationGenerator = includeDocumentation ? new JSDocumentationGenerator() : new NullDocumentationGenerator();
+  const docgen: DocumentationGenerator = includeDocumentation ? new JSDocumentationGenerator() : new NullDocumentationGenerator()
 
   const outputPath = createOutputPath(outputFile)
   const globalFields = new Set()

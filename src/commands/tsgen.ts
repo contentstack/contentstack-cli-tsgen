@@ -41,7 +41,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       char: 'd',
       description: 'Include documentation comments',
       default: true,
-      allowNo: true
+      allowNo: true,
     }),
   };
 
@@ -54,8 +54,12 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       const includeDocumentation = flags.doc
       const outputPath = flags.output
 
+      if (token.type !== 'delivery') {
+        this.warn('Possibly using a management token. You may not be able to connect to your Stack. Please use a delivery token.')
+      }
+
       if (!outputPath || !outputPath.trim()) {
-        this.error("Please provide an output path.", {exit: 2})
+        this.error('Please provide an output path.', {exit: 2})
       }
 
       const config: StackConnectionConfig = {
