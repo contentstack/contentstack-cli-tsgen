@@ -1,4 +1,5 @@
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
+![Node.js CI](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/workflows/Node.js%20CI/badge.svg)
 
 ## Description
 Generate TypeScript typings from Contentstack Content Types. Interfaces and fields are annotated with jsdoc comments.
