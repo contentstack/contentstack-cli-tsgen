@@ -6,9 +6,9 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
   static description = 'generate TypeScript typings from a Stack';
 
   static examples = [
-    '$ csdx tsgen -a "delivery-token-alias" -o "contentstack/generated.d.ts"',
-    '$ csdx tsgen -a "delivery-token-alias" -o "contentstack/generated.d.ts" -p "I"',
-    '$ csdx tsgen -a "delivery-token-alias" -o "contentstack/generated.d.ts" --no-doc',
+    '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts"',
+    '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" -p "I"',
+    '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --no-doc',
   ];
 
   static flags = {

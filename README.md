@@ -2,7 +2,8 @@
 ![npm](https://img.shields.io/npm/v/contentstack-cli-tsgen)
 
 ## Description
-Generate TypeScript typings from Contentstack Content Types. Interfaces and fields are annotated with JSDoc comments.
+This is a plugin for [Contentstack's](https://www.contentstack.com/) CLI.
+This plugin generates TypeScript typings from Content Types. Interfaces and fields are optionally annotated with JSDoc comments.
 
 ## How to install this plugin
 
@@ -10,7 +11,9 @@ Generate TypeScript typings from Contentstack Content Types. Interfaces and fiel
 $ csdx plugins:install contentstack-cli-tsgen
 ```
 
-## `csdx tsgen`
+## How to use this plugin
+
+`$ csdx tsgen`
 
 generate TypeScript typings from a Stack
 
@@ -25,12 +28,12 @@ OPTIONS
   -p, --prefix=prefix            Interface prefix, e.g. "I"
 
 EXAMPLES
-  $ csdx tsgen -a "delivery-token-alias" -o "contentstack/generated.d.ts"
-  $ csdx tsgen -a "delivery-token-alias" -o "contentstack/generated.d.ts" -p "I"
-  $ csdx tsgen -a "delivery-token-alias" -o "contentstack/generated.d.ts" --no-doc
+  $ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts"
+  $ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" -p "I"
+  $ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --no-doc
 ```
 
-_See code: [src/commands/tsgen.ts](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/blob/v1.0.5/src/commands/tsgen.ts)_
+_See code: [src/commands/tsgen.ts](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/blob/v1.0.6/src/commands/tsgen.ts)_
 <!-- commandsstop -->
 
 ## Supported Fields
