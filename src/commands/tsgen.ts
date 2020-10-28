@@ -14,7 +14,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
   static flags = {
     'token-alias': flags.string({
       char: 'a',
-      description: 'Delivery token alias',
+      description: 'delivery token alias',
       hidden: false,
       multiple: false,
       required: true,
@@ -22,7 +22,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
     output: flags.string({
       char: 'o',
-      description: 'Full path to output',
+      description: 'full path to output',
       hidden: false,
       multiple: false,
       required: true,
@@ -30,7 +30,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
     prefix: flags.string({
       char: 'p',
-      description: 'Interface prefix, e.g. "I"',
+      description: 'interface prefix, e.g. "I"',
       hidden: false,
       multiple: false,
       default: '',
@@ -39,7 +39,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
     doc: flags.boolean({
       char: 'd',
-      description: 'Include documentation comments',
+      description: 'include documentation comments',
       default: true,
       allowNo: true,
     }),

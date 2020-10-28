@@ -153,7 +153,7 @@ export default function (userOptions: TSGenOptions) {
         return choice.value
       }
 
-      return `"${choice.value}"`
+      return `${JSON.stringify(choice.value)}`
     }
 
     return op_paren(choices.map(v => get_value(v)).join(' | '))

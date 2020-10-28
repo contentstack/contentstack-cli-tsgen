@@ -23,6 +23,7 @@ describe('select (dropdown)', () => {
       title: string;
       select_single_value?: (\\"Option 1\\" | \\"Option 2\\" | \\"Option 3\\");
       select_single_value_required: (\\"Test 1\\" | \\"Test 2\\" | \\"Test 3\\");
+      select_single_value_with_quotes?: (\\"\\\\\\"ABC\\\\\\"\\" | \\"A'B'C\\" | \\"\`A\`B\`C\\");
       select_multi_value?: (\\"Multi 1\\" | \\"Multi 2\\" | \\"Multi 3\\")[];
       select_multi_value_required: (\\"Multi Req 1\\" | \\"Multi Req 2\\" | \\"Multi Req 3\\")[];
       select_number_values?: (1 | 2 | 3 | 4);
