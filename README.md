@@ -22,10 +22,10 @@ USAGE
   $ csdx tsgen
 
 OPTIONS
-  -a, --token-alias=token-alias  (required) Delivery token alias
-  -d, --[no-]doc                 Include documentation comments
-  -o, --output=output            (required) Full path to output
-  -p, --prefix=prefix            Interface prefix, e.g. "I"
+  -a, --token-alias=token-alias  (required) delivery token alias
+  -d, --[no-]doc                 include documentation comments
+  -o, --output=output            (required) full path to output
+  -p, --prefix=prefix            interface prefix, e.g. "I"
 
 EXAMPLES
   $ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts"

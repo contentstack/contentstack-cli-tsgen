@@ -1,9 +1,9 @@
 const select = {
   created_at: "2020-07-12T15:19:18.713Z",
-  updated_at: "2020-07-12T15:21:37.840Z",
+  updated_at: "2020-10-28T01:17:25.986Z",
   title: "Select",
   uid: "select",
-  _version: 3,
+  _version: 5,
   inbuilt_class: false,
   schema: [
     {
@@ -74,6 +74,35 @@ const select = {
         version: 3,
       },
       mandatory: true,
+      unique: false,
+      non_localizable: false,
+    },
+    {
+      data_type: "text",
+      display_name: "Select Single Value with Quotes",
+      display_type: "dropdown",
+      enum: {
+        advanced: false,
+        choices: [
+          {
+            value: '"ABC"',
+          },
+          {
+            value: "A'B'C",
+          },
+          {
+            value: "`A`B`C",
+          },
+        ],
+      },
+      multiple: false,
+      uid: "select_single_value_with_quotes",
+      field_metadata: {
+        description: "",
+        default_value: "",
+        version: 3,
+      },
+      mandatory: false,
       unique: false,
       non_localizable: false,
     },
@@ -256,5 +285,5 @@ const select = {
 };
 
 module.exports = {
-    select
-}
+  select,
+};
