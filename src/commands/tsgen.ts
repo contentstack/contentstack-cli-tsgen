@@ -65,7 +65,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       const config: StackConnectionConfig = {
         apiKey: token.apiKey,
         token: token.token,
-        region: this.region,
+        region: this.region.name,
         environment: token.environment || '',
       }
 
