@@ -1,0 +1,4 @@
+fileignoreconfig:
+- filename: lib/commands/tsgen.js
+  checksum: 02bab20fef5508565dbf38b5c12192c48ec27249b89d48c70303abaae17984ce
+version: "1.0"
