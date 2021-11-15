@@ -6,7 +6,9 @@ declare module '@contentstack/cli-command' {
     export class Command extends OclifCommand {
       get email(): string;
 
-      get region(): string;
+      get region(): {
+        name: string;
+      };
 
       get cmaHost(): string;
 
