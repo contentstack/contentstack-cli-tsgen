@@ -1,7 +1,7 @@
 export type StackConnectionConfig = {
   apiKey: string;
   token: string;
-  region: string;
+  region: any;
   environment: string;
 }
 
