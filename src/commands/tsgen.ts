@@ -43,6 +43,11 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       default: true,
       allowNo: true,
     }),
+
+    graphql: flags.boolean({
+      description: 'support graphql schema',
+      default: false,
+    }),
   };
 
   async run() {
@@ -51,6 +56,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
       const token = this.getToken(flags['token-alias'])
       const prefix = flags.prefix
+      const graphql = flags.graphql
       const includeDocumentation = flags.doc
       const outputPath = flags.output
 
@@ -65,14 +71,14 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       const config: StackConnectionConfig = {
         apiKey: token.apiKey,
         token: token.token,
-        region: (this.region.name === 'eu') ? 'eu': undefined,
+        region: (this.region.name === 'EU') ? 'EU' : null,
         environment: token.environment || '',
       }
 
       const client = await stackConnect(this.deliveryAPIClient.Stack, config)
 
       if (client.types) {
-        const result = await tsgenRunner(outputPath, client.types, prefix, includeDocumentation)
+        const result = await tsgenRunner(outputPath, client.types, prefix, includeDocumentation, graphql)
         this.log(`Wrote ${result.definitions} Content Types to '${result.outputPath}'.`)
       } else {
         this.log('No Content Types exist in the Stack.')
