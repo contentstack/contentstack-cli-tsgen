@@ -7,6 +7,7 @@ import {DocumentationGenerator} from './docgen/doc'
 import JSDocumentationGenerator from './docgen/jsdoc'
 import NullDocumentationGenerator from './docgen/nulldoc'
 import tsgenFactory from './factory'
+import {supportGraphql} from '../util'
 
 async function format(definition: string) {
   const prettierConfig = await prettier.resolveConfig(process.cwd())
@@ -26,7 +27,7 @@ function createOutputPath(outputFile: string) {
   return outputPath
 }
 
-export default async function tsgenRunner(outputFile: string, contentTypes: any[], prefix = '', includeDocumentation = true) {
+export default async function tsgenRunner(outputFile: string, contentTypes: any[], prefix = '', includeDocumentation = true, graphql: boolean) {
   const docgen: DocumentationGenerator = includeDocumentation ? new JSDocumentationGenerator() : new NullDocumentationGenerator()
 
   const outputPath = createOutputPath(outputFile)
@@ -40,7 +41,10 @@ export default async function tsgenRunner(outputFile: string, contentTypes: any[
     },
   })
 
-  for (const contentType of contentTypes) {
+  for (let contentType of contentTypes) {
+    if (graphql) {
+      contentType = supportGraphql(contentType)
+    }
     const tsgenResult = tsgen(contentType)
 
     definitions.push(tsgenResult.definition)
@@ -52,6 +56,7 @@ export default async function tsgenRunner(outputFile: string, contentTypes: any[
 
   const output = await format(
     [
+
       defaultInterfaces(prefix).join('\n\n'),
       [...globalFields].join('\n\n'),
       definitions.join('\n\n'),
