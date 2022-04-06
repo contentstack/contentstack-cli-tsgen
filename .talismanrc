@@ -1,6 +1,8 @@
 fileignoreconfig:
 - filename: lib/commands/tsgen.js
-  checksum: 02bab20fef5508565dbf38b5c12192c48ec27249b89d48c70303abaae17984ce
+  checksum: 80b8c02d3b2e471d9c0242deab848d0ef57c1fbc01ae4ffb307a90532494984a
+- filename: lib/lib/util/graphql.js
+  checksum: 966e7a3b2113c4452bbbf289a32b9ec7385c22eee84a912bb4501ee623481593
 - filename: package-lock.json
   checksum: 2641e0890a52bbbed9ff304aa6c8fbac9faa957418d30b4181245f7255400e6a
 - filename: src/lib/util/graphql.ts
