@@ -4,7 +4,7 @@ fileignoreconfig:
 - filename: lib/lib/util/graphql.js
   checksum: 966e7a3b2113c4452bbbf289a32b9ec7385c22eee84a912bb4501ee623481593
 - filename: package-lock.json
-  checksum: 7a2b4fdaba73a6fe50eaf656385f99e9dbb1321581f24e08017a86603fd44c94
+  checksum: 5886b958dc5cd306a393814a3454e85cb20c565f4c50d3e5e1c3562335ce506b
 - filename: src/lib/util/graphql.ts
   checksum: e1ee75ccbfcfd12705a16d4f63c648ed79dd758692383cd5e839f49b3538f1b6
 version: "1.0"
