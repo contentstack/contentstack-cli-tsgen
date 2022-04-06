@@ -1,6 +1,14 @@
 import {Command, flags} from '@contentstack/cli-command'
 import {stackConnect, StackConnectionConfig} from '../lib/stack/client'
 import tsgenRunner from '../lib/tsgen/runner'
+import getSdl from '../lib/util/graphql'
+import { 
+  buildClientSchema, 
+  printSchema,
+} from 'graphql'
+import { spawn } from 'child_process'
+import { promises as fsPromises } from 'fs'
+import * as YAML from 'yaml'
 
 export default class TypeScriptCodeGeneratorCommand extends Command {
   static description = 'generate TypeScript typings from a Stack';
@@ -75,16 +83,48 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
         environment: token.environment || '',
       }
 
-      const client = await stackConnect(this.deliveryAPIClient.Stack, config)
+      if (flags.graphql) {
+        let codegenConfig = this.generateCodegenConfig(outputPath)
+        await fsPromises.writeFile('./codegen.yml', YAML.stringify(codegenConfig))
+        let introspection = await getSdl(token)
+        let schema = buildClientSchema(introspection)
+        let pSchema = printSchema(schema)
+        await fsPromises.writeFile('./graphql-sdl.graphql', pSchema)
+        let generateTypes = spawn('npm', ['run', 'generate-types'])
 
-      if (client.types) {
-        const result = await tsgenRunner(outputPath, client.types, prefix, includeDocumentation, graphql)
-        this.log(`Wrote ${result.definitions} Content Types to '${result.outputPath}'.`)
+        generateTypes.stdout.on('data', function (data) {
+          console.log('stdout: ' + data.toString());
+        });
+
+        generateTypes.stderr.on('data', function (data) {
+          console.log('stderr: ' + data.toString());
+        });
+
+        generateTypes.on('exit', function (code) {
+          console.log(`child process exited with code ${code}`);
+        });
       } else {
-        this.log('No Content Types exist in the Stack.')
+        const client = await stackConnect(this.deliveryAPIClient.Stack, config)
+
+        if (client.types) {
+          const result = await tsgenRunner(outputPath, client.types, prefix, includeDocumentation, graphql)
+          this.log(`Wrote ${result.definitions} Content Types to '${result.outputPath}'.`)
+        } else {
+          this.log('No Content Types exist in the Stack.')
+        }
       }
+
     } catch (error) {
       this.error(error, {exit: 1})
     }
+  }
+
+  generateCodegenConfig(path: string) {
+    let config: any = { 
+      'schema': './graphql-sdl.graphql',
+      'generates': {}
+    }
+    config['generates'][path] = {plugins: ['typescript']}
+    return config
   }
 }
