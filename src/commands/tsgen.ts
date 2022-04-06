@@ -9,6 +9,7 @@ import {
 import { spawn } from 'child_process'
 import { promises as fsPromises } from 'fs'
 import * as YAML from 'yaml'
+import * as path from 'path'
 
 export default class TypeScriptCodeGeneratorCommand extends Command {
   static description = 'generate TypeScript typings from a Stack';
@@ -85,12 +86,16 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
       if (flags.graphql) {
         let codegenConfig = this.generateCodegenConfig(outputPath)
-        await fsPromises.writeFile('./codegen.yml', YAML.stringify(codegenConfig))
+        await fsPromises.writeFile(path.resolve(__dirname, './codegen.yml'), YAML.stringify(codegenConfig))
         let introspection = await getSdl(token)
         let schema = buildClientSchema(introspection)
         let pSchema = printSchema(schema)
-        await fsPromises.writeFile('./graphql-sdl.graphql', pSchema)
-        let generateTypes = spawn('npm', ['run', 'generate-types'])
+        await fsPromises.writeFile(path.resolve(__dirname, './graphql-sdl.graphql'), pSchema)
+        let generateTypes = spawn('node', [
+          path.resolve(__dirname, '../../node_modules/.bin/graphql-codegen'), 
+          '-c', 
+          path.resolve(__dirname, './codegen.yml')
+        ])
 
         generateTypes.stdout.on('data', function (data) {
           console.log('stdout: ' + data.toString());
@@ -114,17 +119,17 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
         }
       }
 
-    } catch (error) {
+    } catch (error: any) {
       this.error(error, {exit: 1})
     }
   }
 
-  generateCodegenConfig(path: string) {
+  generateCodegenConfig(outPath: string) {
     let config: any = { 
-      'schema': './graphql-sdl.graphql',
+      'schema': path.resolve(__dirname, './graphql-sdl.graphql'),
       'generates': {}
     }
-    config['generates'][path] = {plugins: ['typescript']}
+    config['generates'][outPath] = {plugins: ['typescript']}
     return config
   }
 }

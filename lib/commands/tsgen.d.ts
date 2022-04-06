@@ -10,5 +10,5 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
         graphql: import("@oclif/parser/lib/flags").IBooleanFlag<boolean>;
     };
     run(): Promise<void>;
-    generateCodegenConfig(path: string): any;
+    generateCodegenConfig(outPath: string): any;
 }
