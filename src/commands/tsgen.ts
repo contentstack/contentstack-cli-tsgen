@@ -1,9 +1,9 @@
-import { Command, flags } from '@contentstack/cli-command'
-import { stackConnect, StackConnectionConfig } from '../lib/stack/client'
-import tsgenRunner from '../lib/tsgen/runner'
+import { Command, flags } from "@contentstack/cli-command";
+import { stackConnect, StackConnectionConfig } from "../lib/stack/client";
+import tsgenRunner from "../lib/tsgen/runner";
 
 export default class TypeScriptCodeGeneratorCommand extends Command {
-  static description = 'generate TypeScript typings from a Stack';
+  static description = "generate TypeScript typings from a Stack";
 
   static examples = [
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts"',
@@ -12,34 +12,34 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
   ];
 
   static flags = {
-    'token-alias': flags.string({
-      char: 'a',
-      description: 'delivery token alias',
+    "token-alias": flags.string({
+      char: "a",
+      description: "delivery token alias",
       hidden: false,
       multiple: false,
       required: true,
     }),
 
     output: flags.string({
-      char: 'o',
-      description: 'full path to output',
+      char: "o",
+      description: "full path to output",
       hidden: false,
       multiple: false,
       required: true,
     }),
 
     prefix: flags.string({
-      char: 'p',
+      char: "p",
       description: 'interface prefix, e.g. "I"',
       hidden: false,
       multiple: false,
-      default: '',
+      default: "",
       required: false,
     }),
 
     doc: flags.boolean({
-      char: 'd',
-      description: 'include documentation comments',
+      char: "d",
+      description: "include documentation comments",
       default: true,
       allowNo: true,
     }),
@@ -47,38 +47,47 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
   async run() {
     try {
-      const { flags } = this.parse(TypeScriptCodeGeneratorCommand)
+      const { flags } = this.parse(TypeScriptCodeGeneratorCommand);
 
-      const token = this.getToken(flags['token-alias'])
-      const prefix = flags.prefix
-      const includeDocumentation = flags.doc
-      const outputPath = flags.output
+      const token = this.getToken(flags["token-alias"]);
+      const prefix = flags.prefix;
+      const includeDocumentation = flags.doc;
+      const outputPath = flags.output;
 
-      if (token.type !== 'delivery') {
-        this.warn('Possibly using a management token. You may not be able to connect to your Stack. Please use a delivery token.')
+      if (token.type !== "delivery") {
+        this.warn(
+          "Possibly using a management token. You may not be able to connect to your Stack. Please use a delivery token."
+        );
       }
 
       if (!outputPath || !outputPath.trim()) {
-        this.error('Please provide an output path.', { exit: 2 })
+        this.error("Please provide an output path.", { exit: 2 });
       }
 
       const config: StackConnectionConfig = {
         apiKey: token.apiKey,
         token: token.token,
-        region: (this.region.name === 'eu') ? 'eu' : undefined,
-        environment: token.environment || '',
-      }
+        region: this.region.name === "eu" ? "eu" : undefined,
+        environment: token.environment || "",
+      };
 
-      const client = await stackConnect(this.deliveryAPIClient.Stack, config)
+      const client = await stackConnect(this.deliveryAPIClient.Stack, config);
 
       if (client.types) {
-        const result = await tsgenRunner(outputPath, client.types, prefix, includeDocumentation)
-        this.log(`Wrote ${result.definitions} Content Types to '${result.outputPath}'.`)
+        const result = await tsgenRunner(
+          outputPath,
+          client.types,
+          prefix,
+          includeDocumentation
+        );
+        this.log(
+          `Wrote ${result.definitions} Content Types to '${result.outputPath}'.`
+        );
       } else {
-        this.log('No Content Types exist in the Stack.')
+        this.log("No Content Types exist in the Stack.");
       }
     } catch (error) {
-      this.error(error, { exit: 1 })
+      this.error(error, { exit: 1 });
     }
   }
 }
