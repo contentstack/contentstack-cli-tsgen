@@ -77,7 +77,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       } else {
         this.log('No Content Types exist in the Stack.')
       }
-    } catch (error: any) {
+    } catch (error) {
       this.error(error, {exit: 1})
     }
   }
