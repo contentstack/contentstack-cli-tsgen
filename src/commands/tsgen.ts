@@ -1,5 +1,5 @@
-import {Command, flags} from '@contentstack/cli-command'
-import {stackConnect, StackConnectionConfig} from '../lib/stack/client'
+import { Command, flags } from '@contentstack/cli-command'
+import { stackConnect, StackConnectionConfig } from '../lib/stack/client'
 import tsgenRunner from '../lib/tsgen/runner'
 
 export default class TypeScriptCodeGeneratorCommand extends Command {
@@ -47,7 +47,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
   async run() {
     try {
-      const {flags} = this.parse(TypeScriptCodeGeneratorCommand)
+      const { flags } = this.parse(TypeScriptCodeGeneratorCommand)
 
       const token = this.getToken(flags['token-alias'])
       const prefix = flags.prefix
@@ -59,13 +59,13 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       }
 
       if (!outputPath || !outputPath.trim()) {
-        this.error('Please provide an output path.', {exit: 2})
+        this.error('Please provide an output path.', { exit: 2 })
       }
 
       const config: StackConnectionConfig = {
         apiKey: token.apiKey,
         token: token.token,
-        region: (this.region.name === 'eu') ? 'eu': undefined,
+        region: (this.region.name === 'eu') ? 'eu' : undefined,
         environment: token.environment || '',
       }
 
@@ -78,7 +78,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
         this.log('No Content Types exist in the Stack.')
       }
     } catch (error) {
-      this.error(error, {exit: 1})
+      this.error(error, { exit: 1 })
     }
   }
 }
