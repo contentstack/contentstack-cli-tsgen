@@ -89,10 +89,10 @@ export default function (userOptions: TSGenOptions) {
     if (flag === TypeFlags.BuiltinJS) {
       visitedJSTypes.add(type)
     } else if (flag === TypeFlags.UserGlobalField) {
-      visitedGlobalFields.add(type)
+      visitedGlobalFields.add(field.reference_to)
 
-      if (!cachedGlobalFields[type]) {
-        cachedGlobalFields[type] = {
+      if (!cachedGlobalFields[field.reference_to]) {
+        cachedGlobalFields[field.reference_to] = {
           definition: visit_content_type(field),
         }
       }
@@ -116,7 +116,7 @@ export default function (userOptions: TSGenOptions) {
   function define_interface(
     contentType: ContentstackTypes.ContentType | ContentstackTypes.GlobalField
   ) {
-    return ['export interface', name_type(contentType.uid)].join(' ')
+    return ['export interface', name_type(contentType.data_type === 'global_field' ? (contentType.reference_to as string) : contentType.uid)].join(' ')
   }
 
   function op_array(type: string, field: ContentstackTypes.Field) {
@@ -195,9 +195,13 @@ export default function (userOptions: TSGenOptions) {
   }
 
   function visit_field(field: ContentstackTypes.Field) {
+    let fieldType = '';
+    if (field.data_type === 'global_field' && cachedGlobalFields[field.reference_to]) {
+        fieldType = name_type(field.reference_to);
+    }
     return [
       field.uid + op_required(field.mandatory) + ':',
-      visit_field_type(field) + ';',
+      fieldType || visit_field_type(field) + ';',
     ].join(' ')
   }
 
@@ -231,9 +235,7 @@ export default function (userOptions: TSGenOptions) {
   ) {
     return (
       '{' +
-      [block.uid + ':', '{' + visit_fields(block.schema || []) + '};'].join(
-        ' '
-      ) +
+      [block.uid + ':', block.reference_to ? name_type(block.reference_to as string) + ';' : '{' + visit_fields(block.schema || []) + '};'].join(' ') +
       visit_block_names(field, block) +
       '}'
     )
@@ -276,7 +278,7 @@ export default function (userOptions: TSGenOptions) {
       )
     }
 
-    const name = name_type(field.uid)
+    const name = name_type(field.reference_to)
 
     return name
   }
@@ -293,7 +295,19 @@ export default function (userOptions: TSGenOptions) {
     return ['(', references.join(' | '), ')', '[]'].join('')
   }
 
-  return function (contentType: ContentstackTypes.ContentType): TSGenResult {
+  return function (contentType: ContentstackTypes.ContentType): TSGenResult|any {
+    if (contentType.schema_type == 'global_field') {
+      const name = name_type(contentType.uid);
+      if (!cachedGlobalFields[name]) {
+        cachedGlobalFields[name] = {
+          definition: visit_content_type(contentType),
+        }
+      }
+      return {
+        definition: cachedGlobalFields[name].definition,
+        isGlobalField: true,
+      };
+    }
     return {
       definition: visit_content_type(contentType),
       metadata: {
