@@ -70,11 +70,7 @@ export async function getGlobalFields(config: StackConnectionConfig) {
         })
         res.on('end', () => {
           if (res.statusCode === 200) {
-            try {
-              resolve(JSON.parse(body))
-            } catch (error) {
-              reject('Parse error')
-            }
+            resolve(JSON.parse(body))
           } else {
             reject(body)
           }
