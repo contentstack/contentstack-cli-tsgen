@@ -297,7 +297,7 @@ export default function (userOptions: TSGenOptions) {
   }
 
   return function (contentType: ContentstackTypes.ContentType): TSGenResult|any {
-    if (contentType.schema_type == 'global_field') {
+    if (contentType.schema_type === 'global_field') {
       const name = name_type(contentType.uid)
       if (!cachedGlobalFields[name]) {
         cachedGlobalFields[name] = {
