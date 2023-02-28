@@ -21,7 +21,7 @@ export type FieldOptions = {
 export type Block = {
   title: string;
   schema: Schema;
-  reference_to?: String;
+  reference_to?: string;
 } & Identifier;
 
 export type GlobalField = {

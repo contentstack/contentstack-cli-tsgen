@@ -1,6 +1,6 @@
 import {Command, flags} from '@contentstack/cli-command'
 import {getGlobalFields, stackConnect, StackConnectionConfig} from '../lib/stack/client'
-import { ContentType } from '../lib/stack/schema';
+import {ContentType} from '../lib/stack/schema'
 import tsgenRunner from '../lib/tsgen/runner'
 
 export default class TypeScriptCodeGeneratorCommand extends Command {
@@ -72,16 +72,16 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
       const [client, globalFields] = await Promise.all([stackConnect(this.deliveryAPIClient.Stack, config), getGlobalFields(config)])
 
-      let schemas: ContentType[] = [];
+      let schemas: ContentType[] = []
       if (client.types?.length) {
         if ((globalFields as any)?.global_fields?.length) {
-          schemas = schemas.concat((globalFields as any).global_fields as ContentType);
+          schemas = schemas.concat((globalFields as any).global_fields as ContentType)
           schemas = schemas.map(schema => ({
             ...schema,
             schema_type: 'global_field',
           }))
         }
-        schemas = schemas.concat(client.types);
+        schemas = schemas.concat(client.types)
         const result = await tsgenRunner(outputPath, schemas, prefix, includeDocumentation)
         this.log(`Wrote ${result.definitions} Content Types to '${result.outputPath}'.`)
       } else {

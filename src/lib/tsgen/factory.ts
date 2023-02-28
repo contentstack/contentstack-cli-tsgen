@@ -196,9 +196,9 @@ export default function (userOptions: TSGenOptions) {
   }
 
   function visit_field(field: ContentstackTypes.Field) {
-    let fieldType = '';
+    let fieldType = ''
     if (field.data_type === 'global_field' && cachedGlobalFields[name_type(field.reference_to)]) {
-        fieldType = name_type(field.reference_to);
+      fieldType = name_type(field.reference_to)
     }
     return [
       field.uid + op_required(field.mandatory) + ':',
@@ -298,7 +298,7 @@ export default function (userOptions: TSGenOptions) {
 
   return function (contentType: ContentstackTypes.ContentType): TSGenResult|any {
     if (contentType.schema_type == 'global_field') {
-      const name = name_type(contentType.uid);
+      const name = name_type(contentType.uid)
       if (!cachedGlobalFields[name]) {
         cachedGlobalFields[name] = {
           definition: visit_content_type(contentType),
@@ -307,7 +307,7 @@ export default function (userOptions: TSGenOptions) {
       return {
         definition: cachedGlobalFields[name].definition,
         isGlobalField: true,
-      };
+      }
     }
     return {
       definition: visit_content_type(contentType),
