@@ -1,4 +1,4 @@
-import * as http from 'https';
+import * as http from 'https'
 
 type RegionUrlMap = {
   [prop: string]: string;
@@ -8,8 +8,8 @@ const REGION_URL_MAPPING: RegionUrlMap = {
   na: 'cdn.contentstack.io',
   us: 'cdn.contentstack.io',
   eu: 'eu-cdn.contentstack.com',
-  'azure-na': 'azure-na-cdn.contentstack.com'
-};
+  'azure-na': 'azure-na-cdn.contentstack.com',
+}
 
 export type StackConnectionConfig = {
   apiKey: string;
@@ -60,35 +60,32 @@ export async function getGlobalFields(config: StackConnectionConfig) {
         headers: {
           api_key: config.apiKey,
           access_token: config.token,
-        }
-      };
+        },
+      }
       const req = http.request(options, res => {
-        res.setEncoding('utf8');
-        let body = '';
+        res.setEncoding('utf8')
+        let body = ''
         res.on('data', chunk => {
-          body += chunk;
-        });
-    
+          body += chunk
+        })
         res.on('end', () => {
           if (res.statusCode === 200) {
             try {
-              resolve(JSON.parse(body));
+              resolve(JSON.parse(body))
             } catch (error) {
-              reject('Parse error');
+              reject('Parse error')
             }
           } else {
-            reject(body);
+            reject(body)
           }
-        });
+        })
       })
       req.on('error', error => {
-        reject(error);
-      });
-      req.end();
-    });
+        reject(error)
+      })
+      req.end()
+    })
   } catch (error) {
-    throw new Error(
-      'Could not connect to the stack. Please check your credentials.'
-    )
+    throw new Error('Could not connect to the stack. Please check your credentials.')
   }
 }

@@ -47,7 +47,7 @@ export default async function tsgenRunner(outputFile: string, contentTypes: any[
       globalFields.add(tsgenResult.definition)
     } else {
       definitions.push(tsgenResult.definition)
- 
+
       tsgenResult.metadata.types.globalFields.forEach((field: string) => {
         globalFields.add(tsgenResult.metadata.dependencies.globalFields[field].definition)
       })
