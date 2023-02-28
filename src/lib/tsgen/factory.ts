@@ -89,10 +89,11 @@ export default function (userOptions: TSGenOptions) {
     if (flag === TypeFlags.BuiltinJS) {
       visitedJSTypes.add(type)
     } else if (flag === TypeFlags.UserGlobalField) {
-      visitedGlobalFields.add(field.reference_to)
+      const _type = name_type(field.reference_to)
+      visitedGlobalFields.add(_type)
 
-      if (!cachedGlobalFields[field.reference_to]) {
-        cachedGlobalFields[field.reference_to] = {
+      if (!cachedGlobalFields[_type]) {
+        cachedGlobalFields[_type] = {
           definition: visit_content_type(field),
         }
       }
@@ -196,7 +197,7 @@ export default function (userOptions: TSGenOptions) {
 
   function visit_field(field: ContentstackTypes.Field) {
     let fieldType = '';
-    if (field.data_type === 'global_field' && cachedGlobalFields[field.reference_to]) {
+    if (field.data_type === 'global_field' && cachedGlobalFields[name_type(field.reference_to)]) {
         fieldType = name_type(field.reference_to);
     }
     return [
