@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "declaration": true,
+    "declaration": false,
     "importHelpers": true,
     "module": "commonjs",
     "outDir": "lib",
@@ -10,6 +10,9 @@
     "allowJs": true
   },
   "include": [
-    "src/**/*", "src/typings/@contentstack/cli-command.ts"
+    "src/**/*"
+  ],
+  "exclude": [
+    "src/**/*.d.ts"
   ]
 }
