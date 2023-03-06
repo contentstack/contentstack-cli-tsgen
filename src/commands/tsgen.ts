@@ -1,4 +1,5 @@
-import {Command, flags} from '@contentstack/cli-command'
+import {Command} from '@contentstack/cli-command';
+import {flags as _flags} from '@contentstack/cli-utilities';
 import {stackConnect, StackConnectionConfig} from '../lib/stack/client'
 import tsgenRunner from '../lib/tsgen/runner'
 
@@ -12,7 +13,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
   ];
 
   static flags = {
-    'token-alias': flags.string({
+    'token-alias': _flags.string({
       char: 'a',
       description: 'delivery token alias',
       hidden: false,
@@ -20,7 +21,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       required: true,
     }),
 
-    output: flags.string({
+    output: _flags.string({
       char: 'o',
       description: 'full path to output',
       hidden: false,
@@ -28,7 +29,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       required: true,
     }),
 
-    prefix: flags.string({
+    prefix: _flags.string({
       char: 'p',
       description: 'interface prefix, e.g. "I"',
       hidden: false,
@@ -37,7 +38,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       required: false,
     }),
 
-    doc: flags.boolean({
+    doc: _flags.boolean({
       char: 'd',
       description: 'include documentation comments',
       default: true,
@@ -47,7 +48,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
   async run() {
     try {
-      const {flags} = this.parse(TypeScriptCodeGeneratorCommand)
+      const {flags} = await this.parse(TypeScriptCodeGeneratorCommand)
 
       const token = this.getToken(flags['token-alias'])
       const prefix = flags.prefix
