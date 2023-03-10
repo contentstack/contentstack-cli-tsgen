@@ -1,4 +1,6 @@
 #!/usr/bin/env node
 
-require('@oclif/command').run()
-.catch(require('@oclif/errors/handle'))
+(async () => {
+    const oclif = require('@contentstack/cli-utilities/node_modules/@oclif/core')
+    await oclif.execute({ type: 'cjs', dir: __dirname })
+})()
