@@ -1,3 +1,16 @@
+import * as http from 'https'
+
+type RegionUrlMap = {
+  [prop: string]: string;
+};
+
+const REGION_URL_MAPPING: RegionUrlMap = {
+  na: 'cdn.contentstack.io',
+  us: 'cdn.contentstack.io',
+  eu: 'eu-cdn.contentstack.com',
+  'azure-na': 'azure-na-cdn.contentstack.com',
+}
+
 export type StackConnectionConfig = {
   apiKey: string;
   token: string;
@@ -32,5 +45,43 @@ export async function stackConnect(client: any, config: StackConnectionConfig) {
     throw new Error(
       'Could not connect to the stack. Please check your credentials.'
     )
+  }
+}
+
+// Currently delivery sdk does not support querying global fields on a stack. Hence direct call is required.
+export async function getGlobalFields(config: StackConnectionConfig) {
+  try {
+    return new Promise((resolve, reject) => {
+      const options: any = {
+        host: (REGION_URL_MAPPING as any)[config.region],
+        path: 'v3/global_fields?include_branch=false',
+        port: 443,
+        method: 'GET',
+        headers: {
+          api_key: config.apiKey,
+          access_token: config.token,
+        },
+      }
+      const req = http.request(options, res => {
+        res.setEncoding('utf8')
+        let body = ''
+        res.on('data', chunk => {
+          body += chunk
+        })
+        res.on('end', () => {
+          if (res.statusCode === 200) {
+            resolve(JSON.parse(body))
+          } else {
+            reject(body)
+          }
+        })
+      })
+      req.on('error', error => {
+        reject(error)
+      })
+      req.end()
+    })
+  } catch (error) {
+    throw new Error('Could not connect to the stack. Please check your credentials.')
   }
 }
