@@ -48,7 +48,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
   async run() {
     try {
-      const {flags} = this.parse(TypeScriptCodeGeneratorCommand)
+      const {flags} = await this.parse(TypeScriptCodeGeneratorCommand)
 
       const token = this.getToken(flags['token-alias'])
       const prefix = flags.prefix
