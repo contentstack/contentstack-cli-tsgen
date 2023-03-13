@@ -43,11 +43,15 @@ export default async function tsgenRunner(outputFile: string, contentTypes: any[
   for (const contentType of contentTypes) {
     const tsgenResult = tsgen(contentType)
 
-    definitions.push(tsgenResult.definition)
+    if (tsgenResult.isGlobalField) {
+      globalFields.add(tsgenResult.definition)
+    } else {
+      definitions.push(tsgenResult.definition)
 
-    tsgenResult.metadata.types.globalFields.forEach((field: string) => {
-      globalFields.add(tsgenResult.metadata.dependencies.globalFields[field].definition)
-    })
+      tsgenResult.metadata.types.globalFields.forEach((field: string) => {
+        globalFields.add(tsgenResult.metadata.dependencies.globalFields[field].definition)
+      })
+    }
   }
 
   const output = await format(
