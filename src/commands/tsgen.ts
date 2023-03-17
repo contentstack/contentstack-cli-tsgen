@@ -1,4 +1,4 @@
-import {Command} from '@contentstack/cli-command';
+import {Command} from '@contentstack/cli-command'
 import {flags as _flags} from '@contentstack/cli-utilities'
 import {getGlobalFields, stackConnect, StackConnectionConfig} from '../lib/stack/client'
 import {ContentType} from '../lib/stack/schema'
