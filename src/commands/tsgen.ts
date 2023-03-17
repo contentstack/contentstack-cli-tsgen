@@ -1,7 +1,8 @@
-import {Command} from '@contentstack/cli-command'
-import {flags as _flags} from '@contentstack/cli-utilities'
-import {getGlobalFields, stackConnect, StackConnectionConfig} from '../lib/stack/client'
-import {ContentType} from '../lib/stack/schema'
+import { FlagInput } from '@contentstack/cli-utilities/node_modules/@oclif/core/lib/interfaces/parser'
+import { Command } from '@contentstack/cli-command'
+import { flags } from '@contentstack/cli-utilities'
+import { getGlobalFields, stackConnect, StackConnectionConfig } from '../lib/stack/client'
+import { ContentType } from '../lib/stack/schema'
 import tsgenRunner from '../lib/tsgen/runner'
 
 export default class TypeScriptCodeGeneratorCommand extends Command {
@@ -13,8 +14,8 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --no-doc',
   ];
 
-  static flags = {
-    'token-alias': _flags.string({
+  static flags: FlagInput = {
+    'token-alias': flags.string({
       char: 'a',
       description: 'delivery token alias',
       hidden: false,
@@ -22,7 +23,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       required: true,
     }),
 
-    output: _flags.string({
+    output: flags.string({
       char: 'o',
       description: 'full path to output',
       hidden: false,
@@ -30,7 +31,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       required: true,
     }),
 
-    prefix: _flags.string({
+    prefix: flags.string({
       char: 'p',
       description: 'interface prefix, e.g. "I"',
       hidden: false,
@@ -39,7 +40,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       required: false,
     }),
 
-    doc: _flags.boolean({
+    doc: flags.boolean({
       char: 'd',
       description: 'include documentation comments',
       default: true,
@@ -49,7 +50,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
   async run() {
     try {
-      const {flags} = await this.parse(TypeScriptCodeGeneratorCommand)
+      const { flags } = await this.parse(TypeScriptCodeGeneratorCommand)
 
       const token = this.getToken(flags['token-alias'])
       const prefix = flags.prefix
@@ -61,7 +62,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       }
 
       if (!outputPath || !outputPath.trim()) {
-        this.error('Please provide an output path.', {exit: 2})
+        this.error('Please provide an output path.', { exit: 2 })
       }
 
       const config: StackConnectionConfig = {
@@ -89,7 +90,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
         this.log('No Content Types exist in the Stack.')
       }
     } catch (error) {
-      this.error(error as string, {exit: 1})
+      this.error(error as any, { exit: 1 })
     }
   }
 }
