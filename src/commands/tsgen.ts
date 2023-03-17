@@ -1,8 +1,8 @@
-import { FlagInput } from '@contentstack/cli-utilities/node_modules/@oclif/core/lib/interfaces/parser'
-import { Command } from '@contentstack/cli-command'
-import { flags } from '@contentstack/cli-utilities'
-import { getGlobalFields, stackConnect, StackConnectionConfig } from '../lib/stack/client'
-import { ContentType } from '../lib/stack/schema'
+import {FlagInput} from '@contentstack/cli-utilities/node_modules/@oclif/core/lib/interfaces/parser'
+import {Command} from '@contentstack/cli-command'
+import {flags} from '@contentstack/cli-utilities'
+import {getGlobalFields, stackConnect, StackConnectionConfig} from '../lib/stack/client'
+import {ContentType} from '../lib/stack/schema'
 import tsgenRunner from '../lib/tsgen/runner'
 
 export default class TypeScriptCodeGeneratorCommand extends Command {
@@ -50,7 +50,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
   async run() {
     try {
-      const { flags } = await this.parse(TypeScriptCodeGeneratorCommand)
+      const {flags} = await this.parse(TypeScriptCodeGeneratorCommand)
 
       const token = this.getToken(flags['token-alias'])
       const prefix = flags.prefix
@@ -62,7 +62,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       }
 
       if (!outputPath || !outputPath.trim()) {
-        this.error('Please provide an output path.', { exit: 2 })
+        this.error('Please provide an output path.', {exit: 2})
       }
 
       const config: StackConnectionConfig = {
@@ -90,7 +90,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
         this.log('No Content Types exist in the Stack.')
       }
     } catch (error) {
-      this.error(error as any, { exit: 1 })
+      this.error(error as any, {exit: 1})
     }
   }
 }
