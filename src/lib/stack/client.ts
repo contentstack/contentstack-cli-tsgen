@@ -1,4 +1,6 @@
 import * as http from 'https'
+import * as async from 'async'
+import {ContentTypeCollection} from 'contentstack'
 
 type RegionUrlMap = {
   [prop: string]: string;
@@ -18,6 +20,13 @@ export type StackConnectionConfig = {
   environment: string;
 }
 
+const limit = 100
+
+const queryParams = {
+  limit,
+  include_global_field_schema: true,
+}
+
 export async function stackConnect(client: any, config: StackConnectionConfig) {
   try {
     // eslint-disable-next-line new-cap
@@ -28,9 +37,34 @@ export async function stackConnect(client: any, config: StackConnectionConfig) {
       config.region
     )
 
-    const results = await stack.getContentTypes({
-      include_global_field_schema: true,
-    })
+    const results = (await stack.getContentTypes({
+      ...queryParams,
+      include_count: true,
+    })) as Omit<ContentTypeCollection, 'count'> & { count: number }
+
+    if (results.count > limit) {
+      const additionalQueries = Array.from(
+        { length: Math.ceil(results.count / limit) - 1 },
+        (_, i) => {
+          return async.reflect(async () => {
+            return await stack.getContentTypes({
+              ...queryParams,
+              skip: (i + 1) * limit,
+            })
+          })
+        }
+      )
+      const additionalResults = (await async.parallel(additionalQueries)) as {
+        value: ContentTypeCollection
+      }[]
+
+      additionalResults.map((r) => {
+        results.content_types = [
+          ...results.content_types,
+          ...r.value.content_types,
+        ]
+      })
+    }
 
     const types = results.content_types
 
