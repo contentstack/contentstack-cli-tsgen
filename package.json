@@ -1,5 +1,5 @@
 {
-  "name": "contentstack-cli-tsgen",
+  "name": "@tahzoo/contentstack-cli-tsgen",
   "description": "Generate TypeScript typings from a Stack.",
   "version": "2.1.0",
   "author": "Michael Davis",
@@ -36,7 +36,7 @@
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/Contentstack-Solutions/contentstack-cli-tsgen",
+  "homepage": "https://github.com/Tahzoo/contentstack-cli-tsgen",
   "keywords": [
     "contentstack",
     "cli",
@@ -51,7 +51,7 @@
       "@oclif/plugin-help"
     ]
   },
-  "repository": "Contentstack-Solutions/contentstack-cli-tsgen",
+  "repository": "Tahzoo/contentstack-cli-tsgen",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
     "posttest": "eslint . --ext .ts --config .eslintrc",
