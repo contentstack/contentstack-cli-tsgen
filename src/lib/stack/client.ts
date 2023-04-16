@@ -44,10 +44,10 @@ export async function stackConnect(client: any, config: StackConnectionConfig) {
 
     if (results.count > limit) {
       const additionalQueries = Array.from(
-        { length: Math.ceil(results.count / limit) - 1 },
+        {length: Math.ceil(results.count / limit) - 1},
         (_, i) => {
           return async.reflect(async () => {
-            return await stack.getContentTypes({
+            return stack.getContentTypes({
               ...queryParams,
               skip: (i + 1) * limit,
             })
@@ -55,15 +55,15 @@ export async function stackConnect(client: any, config: StackConnectionConfig) {
         }
       )
       const additionalResults = (await async.parallel(additionalQueries)) as {
-        value: ContentTypeCollection
+        value: ContentTypeCollection;
       }[]
 
-      additionalResults.map((r) => {
+      for (const r of additionalResults) {
         results.content_types = [
           ...results.content_types,
           ...r.value.content_types,
         ]
-      })
+      }
     }
 
     const types = results.content_types
