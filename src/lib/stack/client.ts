@@ -9,6 +9,7 @@ const REGION_URL_MAPPING: RegionUrlMap = {
   us: 'cdn.contentstack.io',
   eu: 'eu-cdn.contentstack.com',
   'azure-na': 'azure-na-cdn.contentstack.com',
+  'azure-eu': 'azure-eu-cdn.contentstack.com/'
 }
 
 export type StackConnectionConfig = {
