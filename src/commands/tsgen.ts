@@ -13,7 +13,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --no-doc',
   ];
 
-  static flags: any = {
+  static flags = {
     'token-alias': flags.string({
       char: 'a',
       description: 'delivery token alias',
