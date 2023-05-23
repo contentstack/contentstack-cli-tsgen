@@ -13,9 +13,11 @@
   },
   "devDependencies": {
     "@oclif/plugin-help": "^3.2.0",
+    "@types/async": "^3.2.18",
     "@types/jest": "^26.0.14",
     "@types/lodash": "^4.14.162",
     "@types/node": "^10.17.28",
+    "async": "^3.2.4",
     "eslint": "^5.16.0",
     "eslint-config-oclif": "^3.1.0",
     "eslint-config-oclif-typescript": "^0.1.0",
