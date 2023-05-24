@@ -36,7 +36,7 @@ export async function stackConnect(client: any, config: StackConnectionConfig) {
       delivery_token: config.token,
       environment: config.environment,
       region: config.region,
-      branch: config.branch
+      branch: config.branch,
     })
 
     const results = (await stack.getContentTypes({
