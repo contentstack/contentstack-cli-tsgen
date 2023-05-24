@@ -45,6 +45,14 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       default: true,
       allowNo: true,
     }),
+
+    branch: flags.string({
+      char: 'b',
+      description: 'branch',
+      hidden: false,
+      multiple: false,
+      required: true,
+    }),
   };
 
   async run() {
@@ -55,6 +63,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       const prefix = flags.prefix
       const includeDocumentation = flags.doc
       const outputPath = flags.output
+      const branch = flags.branch
 
       if (token.type !== 'delivery') {
         this.warn('Possibly using a management token. You may not be able to connect to your Stack. Please use a delivery token.')
@@ -69,6 +78,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
         token: token.token,
         region: (this.region.name === 'NA') ? 'us' : this.region.name.toLowerCase(),
         environment: token.environment || '',
+        branch: branch,
       }
 
       const [client, globalFields] = await Promise.all([stackConnect(this.deliveryAPIClient.Stack, config), getGlobalFields(config)])
