@@ -47,11 +47,9 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
     }),
 
     branch: flags.string({
-      char: 'b',
       description: 'branch',
       hidden: false,
       multiple: false,
-      required: true,
     }),
   };
 
@@ -78,7 +76,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
         token: token.token,
         region: (this.region.name === 'NA') ? 'us' : this.region.name.toLowerCase(),
         environment: token.environment || '',
-        branch: branch,
+        branch: branch || null,
       }
 
       const [client, globalFields] = await Promise.all([stackConnect(this.deliveryAPIClient.Stack, config), getGlobalFields(config)])
