@@ -18,7 +18,7 @@ export type StackConnectionConfig = {
   token: string;
   region: any;
   environment: string;
-  branch: string;
+  branch?: string|null;
 }
 
 const limit = 100
