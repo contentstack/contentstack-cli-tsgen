@@ -30,14 +30,23 @@ const queryParams = {
 
 export async function stackConnect(client: any, config: StackConnectionConfig) {
   try {
-    // eslint-disable-next-line new-cap
-    const stack = client({
+    const clientParams: { 
+      api_key: string,
+      delivery_token: string,
+      environment: string,
+      region: string,
+      branch?: string
+    } = {
       api_key: config.apiKey,
       delivery_token: config.token,
       environment: config.environment,
       region: config.region,
-      branch: config.branch,
-    })
+    }
+    if (config.branch) {
+      clientParams.branch = config.branch
+    }
+    // eslint-disable-next-line new-cap
+    const stack = client(clientParams)
 
     const results = (await stack.getContentTypes({
       ...queryParams,
@@ -96,9 +105,11 @@ export async function getGlobalFields(config: StackConnectionConfig) {
         headers: {
           api_key: config.apiKey,
           access_token: config.token,
-          branch: config.branch,
           environment: config.environment,
         },
+      }
+      if (config.branch) {
+        options.headers.branch = config.branch
       }
       const req = http.request(options, res => {
         res.setEncoding('utf8')
