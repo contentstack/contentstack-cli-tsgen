@@ -121,7 +121,7 @@ export async function getGlobalFields(config: StackConnectionConfig) {
           if (res.statusCode === 200) {
             resolve(JSON.parse(body))
           } else {
-            reject(body)
+            reject(new Error('Could not connect to the stack. Please check your credentials.'))
           }
         })
       })
