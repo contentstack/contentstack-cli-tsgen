@@ -1,5 +1,5 @@
 import {Command} from '@contentstack/cli-command'
-import {flags} from '@contentstack/cli-utilities'
+import {FlagInput, flags} from '@contentstack/cli-utilities'
 import {getGlobalFields, stackConnect, StackConnectionConfig} from '../lib/stack/client'
 import {ContentType} from '../lib/stack/schema'
 import tsgenRunner from '../lib/tsgen/runner'
@@ -13,7 +13,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --no-doc',
   ];
 
-  static flags = {
+  static flags: FlagInput = {
     'token-alias': flags.string({
       char: 'a',
       description: 'delivery token alias',
