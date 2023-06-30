@@ -28,11 +28,20 @@ export async function stackConnect(client: any, config: StackConnectionConfig) {
       config.region
     )
 
-    const results = await stack.getContentTypes({
-      include_global_field_schema: true,
-    })
+    let count = 0
+    const types = []
 
-    const types = results.content_types
+    do {
+      // eslint-disable-next-line no-await-in-loop
+      const result: {content_types: any[]; count: number} = await stack.getContentTypes({
+        include_global_field_schema: true,
+        include_count: true,
+        skip: types.length,
+      })
+
+      count = result.count
+      types.push(...result.content_types)
+    } while (types.length < count)
 
     if (stack) {
       return {
