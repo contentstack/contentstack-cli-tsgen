@@ -291,6 +291,8 @@ export default function (userOptions: TSGenOptions) {
       field.reference_to.forEach(v => {
         references.push(name_type(v))
       })
+    } else {
+      references.push(field.reference_to)
     }
 
     return ['(', references.join(' | '), ')', '[]'].join('')
