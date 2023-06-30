@@ -292,7 +292,7 @@ export default function (userOptions: TSGenOptions) {
         references.push(name_type(v))
       })
     } else {
-      references.push(field.reference_to)
+      references.push(name_type(field.reference_to))
     }
 
     return ['(', references.join(' | '), ')', '[]'].join('')
