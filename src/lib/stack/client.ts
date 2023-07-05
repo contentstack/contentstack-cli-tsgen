@@ -1,4 +1,6 @@
 import * as http from 'https'
+import * as async from 'async'
+import {ContentTypeCollection} from 'contentstack'
 
 type RegionUrlMap = {
   [prop: string]: string;
@@ -16,32 +18,66 @@ export type StackConnectionConfig = {
   token: string;
   region: any;
   environment: string;
+  branch?: string|null;
+}
+
+const limit = 100
+
+const queryParams = {
+  limit,
+  include_global_field_schema: true,
 }
 
 export async function stackConnect(client: any, config: StackConnectionConfig) {
   try {
+    const clientParams: { 
+      api_key: string,
+      delivery_token: string,
+      environment: string,
+      region: string,
+      branch?: string
+    } = {
+      api_key: config.apiKey,
+      delivery_token: config.token,
+      environment: config.environment,
+      region: config.region,
+    }
+    if (config.branch) {
+      clientParams.branch = config.branch
+    }
     // eslint-disable-next-line new-cap
-    const stack = client(
-      config.apiKey,
-      config.token,
-      config.environment,
-      config.region
-    )
+    const stack = client(clientParams)
 
-    let count = 0
-    const types = []
+    const results = (await stack.getContentTypes({
+      ...queryParams,
+      include_count: true,
+    })) as Omit<ContentTypeCollection, 'count'> & { count: number }
 
-    do {
-      // eslint-disable-next-line no-await-in-loop
-      const result: {content_types: any[]; count: number} = await stack.getContentTypes({
-        include_global_field_schema: true,
-        include_count: true,
-        skip: types.length,
-      })
+    if (results.count > limit) {
+      const additionalQueries = Array.from(
+        {length: Math.ceil(results.count / limit) - 1},
+        (_, i) => {
+          return async.reflect(async () => {
+            return stack.getContentTypes({
+              ...queryParams,
+              skip: (i + 1) * limit,
+            })
+          })
+        }
+      )
+      const additionalResults = (await async.parallel(additionalQueries)) as {
+        value: ContentTypeCollection;
+      }[]
 
-      count = result.count
-      types.push(...result.content_types)
-    } while (types.length < count)
+      for (const r of additionalResults) {
+        results.content_types = [
+          ...results.content_types,
+          ...r.value.content_types,
+        ]
+      }
+    }
+
+    const types = results.content_types
 
     if (stack) {
       return {
@@ -69,7 +105,11 @@ export async function getGlobalFields(config: StackConnectionConfig) {
         headers: {
           api_key: config.apiKey,
           access_token: config.token,
+          environment: config.environment,
         },
+      }
+      if (config.branch) {
+        options.headers.branch = config.branch
       }
       const req = http.request(options, res => {
         res.setEncoding('utf8')
@@ -81,7 +121,7 @@ export async function getGlobalFields(config: StackConnectionConfig) {
           if (res.statusCode === 200) {
             resolve(JSON.parse(body))
           } else {
-            reject(body)
+            reject(new Error('Could not connect to the stack. Please check your credentials.'))
           }
         })
       })
