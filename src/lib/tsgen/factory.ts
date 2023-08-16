@@ -199,7 +199,12 @@ export default function (userOptions: TSGenOptions) {
     let fieldType = ''
     if (field.data_type === 'global_field' && cachedGlobalFields[name_type(field.reference_to)]) {
       fieldType = name_type(field.reference_to)
+
+      if (field.multiple) {
+        fieldType += "[]";
+      }
     }
+
     return [
       field.uid + op_required(field.mandatory) + ':',
       fieldType || visit_field_type(field) + ';',
