@@ -2,7 +2,7 @@ name: Release
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   build:
     name: Build and upload
@@ -48,12 +48,20 @@ jobs:
           path: lib
       - name: Display dirs
         run: ls -R
+      - uses: Klemensas/action-autotag@1.2.3
+        id: update_tag
+        with:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          tag_prefix: "v"
       - name: Release
+        if: steps.update_tag.outputs.tagname
         id: release-plugin
         uses: JS-DevTools/npm-publish@v2.2.0
         with:
           token: ${{ secrets.NPM_TOKEN }}
+          strategy: upgrade
       - name: github-release
+        if: steps.update_tag.outputs.tagname
         id: github-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
