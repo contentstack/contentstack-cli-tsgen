@@ -11,6 +11,7 @@ const REGION_URL_MAPPING: RegionUrlMap = {
   us: 'cdn.contentstack.io',
   eu: 'eu-cdn.contentstack.com',
   'azure-na': 'azure-na-cdn.contentstack.com',
+  'azure-eu': 'azure-eu-cdn.contentstack.com',
 }
 
 export type StackConnectionConfig = {
@@ -30,7 +31,7 @@ const queryParams = {
 
 export async function stackConnect(client: any, config: StackConnectionConfig) {
   try {
-    const clientParams: { 
+    const clientParams: {
       api_key: string,
       delivery_token: string,
       environment: string,
