@@ -229,7 +229,7 @@ export default function (userOptions: TSGenOptions) {
       define_interface(contentType),
       '{',
       ['/**', "Version", '*/'].join(' '),
-      [`version: `,contentType._version].join(' '),
+      [`version: `,contentType._version,';'].join(' '),
       visit_fields(contentType.schema),
       '}',
     ]
