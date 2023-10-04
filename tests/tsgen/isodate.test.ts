@@ -24,6 +24,8 @@ describe('builtin isodate field', () => {
     expect(result.definition).toMatchInlineSnapshot(`
       "export interface Isodate
       {
+      /** Version */
+      version:  2 ;
       title: string;
       date?: string;
       date_required: string;

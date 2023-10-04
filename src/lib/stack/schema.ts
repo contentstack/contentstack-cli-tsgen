@@ -27,6 +27,7 @@ export type Block = {
 export type GlobalField = {
   reference_to: string;
   schema: Schema;
+  _version?: number
 } & FieldOptions;
 
 export type ReferenceField = {

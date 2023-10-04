@@ -21,6 +21,8 @@ describe('builtin number field', () => {
     expect(result.definition).toMatchInlineSnapshot(`
       "export interface Number
       {
+      /** Version */
+      version:  2 ;
       title: string;
       url: string;
       number?: number;

@@ -24,6 +24,8 @@ describe('global fields', () => {
     expect(globalField.definition).toMatchInlineSnapshot(`
       "export interface ISeo
       {
+      /** Version */
+      version:   ;
       keywords?: string;
       description?: string;
       }"
@@ -34,6 +36,8 @@ describe('global fields', () => {
     expect(result.definition).toMatchInlineSnapshot(`
       "export interface IGlobalFields
       {
+      /** Version */
+      version:  2 ;
       title: string;
       seo?: ISeo;
       }"
