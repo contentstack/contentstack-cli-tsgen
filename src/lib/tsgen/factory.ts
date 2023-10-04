@@ -228,6 +228,8 @@ export default function (userOptions: TSGenOptions) {
       options.docgen.interface(contentType.description),
       define_interface(contentType),
       '{',
+      ['/**', "Version", '*/'].join(' '),
+      [`version: `,contentType._version,';'].join(' '),
       visit_fields(contentType.schema),
       '}',
     ]
