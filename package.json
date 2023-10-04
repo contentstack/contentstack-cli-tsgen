@@ -58,5 +58,10 @@
     "prepack": "rm -rf lib && tsc -b && oclif manifest && oclif readme",
     "test": "jest",
     "version": "oclif readme && git add README.md"
+  },
+  "csdxConfig": {
+    "shortCommandName": {
+      "tsgen": "TSGEN"
+    }
   }
 }
