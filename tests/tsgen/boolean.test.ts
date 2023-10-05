@@ -24,6 +24,8 @@ describe('builtin boolean field', () => {
     expect(result.definition).toMatchInlineSnapshot(`
       "export interface IBoolean
       {
+      /** Version */
+      version:  2 ;
       title: string;
       boolean?: boolean;
       }"
