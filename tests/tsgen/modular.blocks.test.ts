@@ -20,6 +20,8 @@ describe('modular blocks', () => {
     expect(result.definition).toMatchInlineSnapshot(`
       "export interface ModularBlocks
       {
+      /** Version */
+      version:  2 ;
       title: string;
       url: string;
       modular_blocks?: ({string_block: {single_line?: string;

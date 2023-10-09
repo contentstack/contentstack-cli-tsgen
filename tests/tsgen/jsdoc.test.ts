@@ -15,6 +15,8 @@ describe('jsdoc', () => {
       "/** Content Type Description */
       export interface Jsdoc
       {
+      /** Version */
+      version:  3 ;
       /** Name */
       title: string;
       /** Age */
