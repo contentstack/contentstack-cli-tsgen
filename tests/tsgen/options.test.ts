@@ -14,6 +14,8 @@ describe('all options', () => {
     expect(result.definition).toMatchInlineSnapshot(`
       "export interface Options
       {
+      /** Version */
+      version:  4 ;
       title: string;
       url: string;
       single_line_textbox_not_required?: string;

@@ -23,6 +23,8 @@ describe('group', () => {
     expect(result.definition).toMatchInlineSnapshot(`
       "export interface Group
       {
+      /** Version */
+      version:  3 ;
       title: string;
       multiple_group_max_limit?: [{
       number?: number;
