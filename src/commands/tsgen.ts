@@ -54,8 +54,8 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
     'include-system-fields': flags.boolean({
       description: 'include system fields in generated types',
-      default: false
-    })
+      default: false,
+    }),
   };
 
   async run() {
