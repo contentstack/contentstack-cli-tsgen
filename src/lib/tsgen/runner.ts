@@ -26,7 +26,7 @@ function createOutputPath(outputFile: string) {
   return outputPath
 }
 
-export default async function tsgenRunner(outputFile: string, contentTypes: any[], prefix = '', includeDocumentation = true, systemFields: boolean = false) {
+export default async function tsgenRunner(outputFile: string, contentTypes: any[], prefix = '', includeDocumentation = true, systemFields = false) {
   const docgen: DocumentationGenerator = includeDocumentation ? new JSDocumentationGenerator() : new NullDocumentationGenerator()
 
   const outputPath = createOutputPath(outputFile)

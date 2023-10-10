@@ -118,7 +118,7 @@ export default function (userOptions: TSGenOptions) {
 
   function define_interface(
     contentType: ContentstackTypes.ContentType | ContentstackTypes.GlobalField,
-    systemFields: boolean = false
+    systemFields = false
   ) {
     const interface_declaration = ['export interface', name_type(contentType.data_type === 'global_field' ? (contentType.reference_to as string) : contentType.uid)]
     if (systemFields && contentType.schema_type !== "global_field") {
