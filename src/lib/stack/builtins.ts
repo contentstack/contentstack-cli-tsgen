@@ -1,5 +1,5 @@
 // File and Link fields are additional, non-scalar, data types within a stack.
-export const defaultInterfaces = (prefix = '', systemFields: boolean = false) => {
+export const defaultInterfaces = (prefix = '', systemFields = false) => {
     const defaultInterfaces = [
         `export interface ${prefix}PublishDetails {
             environment: string;
