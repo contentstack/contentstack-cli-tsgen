@@ -49,7 +49,8 @@ export type Field = GlobalField &
   ReferenceField &
   GroupField &
   EnumField &
-  BlockField;
+  BlockField &
+  { field_metadata: FieldMetaData };
 export type Schema = Array<Field>;
 
 export type ContentType = {
@@ -60,3 +61,7 @@ export type ContentType = {
   data_type?: string;
   schema_type?: string;
 } & Identifier;
+
+export type FieldMetaData = {
+  ref_multiple?: boolean; 
+}
