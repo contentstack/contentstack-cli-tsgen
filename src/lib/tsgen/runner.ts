@@ -26,7 +26,7 @@ function createOutputPath(outputFile: string) {
   return outputPath
 }
 
-export default async function tsgenRunner(outputFile: string, contentTypes: any[], prefix = '', includeDocumentation = true) {
+export default async function tsgenRunner(outputFile: string, contentTypes: any[], prefix = '', includeDocumentation = true, systemFields = false) {
   const docgen: DocumentationGenerator = includeDocumentation ? new JSDocumentationGenerator() : new NullDocumentationGenerator()
 
   const outputPath = createOutputPath(outputFile)
@@ -38,6 +38,7 @@ export default async function tsgenRunner(outputFile: string, contentTypes: any[
     naming: {
       prefix,
     },
+    systemFields
   })
 
   for (const contentType of contentTypes) {
@@ -56,7 +57,7 @@ export default async function tsgenRunner(outputFile: string, contentTypes: any[
 
   const output = await format(
     [
-      defaultInterfaces(prefix).join('\n\n'),
+      defaultInterfaces(prefix, systemFields).join('\n\n'),
       [...globalFields].join('\n\n'),
       definitions.join('\n\n'),
     ].join('\n\n')

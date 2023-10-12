@@ -51,6 +51,11 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       hidden: false,
       multiple: false,
     }),
+
+    'include-system-fields': flags.boolean({
+      description: 'include system fields in generated types',
+      default: false,
+    }),
   };
 
   async run() {
@@ -62,6 +67,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       const includeDocumentation = flags.doc
       const outputPath = flags.output
       const branch = flags.branch
+      const includeSystemFields = flags['include-system-fields']
 
       if (token.type !== 'delivery') {
         this.warn('Possibly using a management token. You may not be able to connect to your Stack. Please use a delivery token.')
@@ -91,7 +97,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
           }))
         }
         schemas = schemas.concat(client.types)
-        const result = await tsgenRunner(outputPath, schemas, prefix, includeDocumentation)
+        const result = await tsgenRunner(outputPath, schemas, prefix, includeDocumentation, includeSystemFields)
         this.log(`Wrote ${result.definitions} Content Types to '${result.outputPath}'.`)
       } else {
         this.log('No Content Types exist in the Stack.')
