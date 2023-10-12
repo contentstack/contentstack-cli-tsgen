@@ -302,7 +302,7 @@ export default function (userOptions: TSGenOptions) {
       references.push(name_type(field.reference_to))
     }
 
-    return ['(', references.join(' | '), ')', '[]'].join('')
+    return ['(', references.join(' | '), ')', field.field_metadata?.ref_multiple ? '[]' : ''].join('')
   }
 
   return function (contentType: ContentstackTypes.ContentType): TSGenResult|any {
