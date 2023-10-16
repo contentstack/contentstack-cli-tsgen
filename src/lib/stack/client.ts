@@ -12,6 +12,7 @@ const REGION_URL_MAPPING: RegionUrlMap = {
   eu: 'eu-cdn.contentstack.com',
   'azure-na': 'azure-na-cdn.contentstack.com',
   'azure-eu': 'azure-eu-cdn.contentstack.com',
+  dev18: 'dev18-cdn.csnonprod.com',
 }
 
 export type StackConnectionConfig = {
@@ -48,6 +49,10 @@ export async function stackConnect(client: any, config: StackConnectionConfig) {
     }
     // eslint-disable-next-line new-cap
     const stack = client(clientParams)
+    // Temporary code to set custom host
+    if (REGION_URL_MAPPING[clientParams.region]) {
+      stack.setHost(REGION_URL_MAPPING[clientParams.region])
+    }
 
     const results = (await stack.getContentTypes({
       ...queryParams,
