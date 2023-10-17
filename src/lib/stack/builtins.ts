@@ -31,7 +31,7 @@ export const defaultInterfaces = (prefix = '', systemFields = false) => {
           }`,
         `export interface ${prefix}Taxonomy { 
             taxonomy_uid: string;
-            max_terms: number;
+            max_terms?: number;
             mandatory: boolean;
             non_localizable: boolean;
         }`
