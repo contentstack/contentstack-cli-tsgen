@@ -8,6 +8,7 @@ export type TSGenOptions = {
   naming?: {
     prefix: string;
   };
+  systemFields?: boolean;
 };
 
 export type TSGenResult = {
@@ -54,6 +55,7 @@ const defaultOptions: TSGenOptions = {
   naming: {
     prefix: '',
   },
+  systemFields: false
 }
 
 export default function (userOptions: TSGenOptions) {
@@ -115,9 +117,14 @@ export default function (userOptions: TSGenOptions) {
   }
 
   function define_interface(
-    contentType: ContentstackTypes.ContentType | ContentstackTypes.GlobalField
+    contentType: ContentstackTypes.ContentType | ContentstackTypes.GlobalField,
+    systemFields = false
   ) {
-    return ['export interface', name_type(contentType.data_type === 'global_field' ? (contentType.reference_to as string) : contentType.uid)].join(' ')
+    const interface_declaration = ['export interface', name_type(contentType.data_type === 'global_field' ? (contentType.reference_to as string) : contentType.uid)]
+    if (systemFields && contentType.schema_type !== "global_field") {
+      interface_declaration.push('extends', name_type('SystemFields'))
+    }
+    return interface_declaration.join(' ')
   }
 
   function op_array(type: string, field: ContentstackTypes.Field) {
@@ -226,7 +233,7 @@ export default function (userOptions: TSGenOptions) {
   ) {
     return [
       options.docgen.interface(contentType.description),
-      define_interface(contentType),
+      define_interface(contentType, options.systemFields),
       '{',
       ['/**', "Version", '*/'].join(' '),
       [`version: `,contentType._version,';'].join(' '),
@@ -302,7 +309,7 @@ export default function (userOptions: TSGenOptions) {
       references.push(name_type(field.reference_to))
     }
 
-    return ['(', references.join(' | '), ')', '[]'].join('')
+    return ['(', references.join(' | '), ')', field.field_metadata?.ref_multiple ? '[]' : ''].join('')
   }
 
   return function (contentType: ContentstackTypes.ContentType): TSGenResult|any {
