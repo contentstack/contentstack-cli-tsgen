@@ -1,27 +1,27 @@
-const testData = require('./references.ct')
+const testData = require("./references.ct");
 
-import NullDocumentationGenerator from '../../src/lib/tsgen/docgen/nulldoc'
-import tsgenFactory from '../../src/lib/tsgen/factory'
+import NullDocumentationGenerator from "../../src/lib/tsgen/docgen/nulldoc";
+import tsgenFactory from "../../src/lib/tsgen/factory";
 
 const tsgen = tsgenFactory({
   docgen: new NullDocumentationGenerator(),
   naming: {
-    prefix: 'I',
+    prefix: "I",
   },
-})
+});
 
-describe('references', () => {
-  const result = tsgen(testData.references)
+describe("references", () => {
+  const result = tsgen(testData.references);
 
-  test('metadata', () => {
-    const contentTypes = [...result.metadata.dependencies.contentTypes]
+  test("metadata", () => {
+    const contentTypes = [...result.metadata.dependencies.contentTypes];
 
     expect(contentTypes).toEqual(
-      expect.arrayContaining(['IReferenceChild', 'IBoolean', 'IBuiltinExample'])
-    )
-  })
+      expect.arrayContaining(["IReferenceChild", "IBoolean", "IBuiltinExample"])
+    );
+  });
 
-  test('definition', () => {
+  test("definition", () => {
     expect(result.definition).toMatchInlineSnapshot(`
       "export interface IReferenceParent
       {
@@ -29,9 +29,9 @@ describe('references', () => {
       version:  5 ;
       title: string;
       url: string;
-      single_reference: (IReferenceChild)[];
+      single_reference: (IReferenceChild);
       multiple_reference?: (IReferenceChild | IBoolean | IBuiltinExample)[];
       }"
-    `)
-  })
-})
+    `);
+  });
+});
