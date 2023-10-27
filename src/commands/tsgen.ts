@@ -85,7 +85,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
         branch: branch || null,
       }
 
-      const [client, globalFields] = await Promise.all([stackConnect(this.deliveryAPIClient.Stack, config), getGlobalFields(config)])
+      const [client, globalFields] = await Promise.all([stackConnect(this.deliveryAPIClient.Stack, config, this.cdaHost), getGlobalFields(config, this.cdaHost)])
 
       let schemas: ContentType[] = []
       if (client.types?.length) {

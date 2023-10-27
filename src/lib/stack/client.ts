@@ -11,7 +11,7 @@ const REGION_URL_MAPPING: RegionUrlMap = {
   us: 'cdn.contentstack.io',
   eu: 'eu-cdn.contentstack.com',
   'azure-na': 'azure-na-cdn.contentstack.com',
-  'azure-eu': 'azure-eu-cdn.contentstack.com',
+  'azure-eu': 'azure-eu-cdn.contentstack.com'
 }
 
 export type StackConnectionConfig = {
@@ -29,7 +29,7 @@ const queryParams = {
   include_global_field_schema: true,
 }
 
-export async function stackConnect(client: any, config: StackConnectionConfig) {
+export async function stackConnect(client: any, config: StackConnectionConfig, cdaHost: string) {
   try {
     const clientParams: {
       api_key: string,
@@ -48,6 +48,10 @@ export async function stackConnect(client: any, config: StackConnectionConfig) {
     }
     // eslint-disable-next-line new-cap
     const stack = client(clientParams)
+    // check and update host if doesn't exists in REGION_URL_MAPPING
+    if (!REGION_URL_MAPPING[clientParams.region]) {
+      stack.setHost(cdaHost)
+    }
 
     const results = (await stack.getContentTypes({
       ...queryParams,
@@ -95,11 +99,11 @@ export async function stackConnect(client: any, config: StackConnectionConfig) {
 }
 
 // Currently delivery sdk does not support querying global fields on a stack. Hence direct call is required.
-export async function getGlobalFields(config: StackConnectionConfig) {
+export async function getGlobalFields(config: StackConnectionConfig, cdaHost: string) {
   try {
     return new Promise((resolve, reject) => {
       const options: any = {
-        host: (REGION_URL_MAPPING as any)[config.region],
+        host: (REGION_URL_MAPPING as any)[config.region] || cdaHost,
         path: 'v3/global_fields?include_branch=false',
         port: 443,
         method: 'GET',

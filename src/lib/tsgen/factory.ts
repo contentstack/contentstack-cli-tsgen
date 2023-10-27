@@ -85,6 +85,11 @@ export default function (userOptions: TSGenOptions) {
       track: true,
       flag: TypeFlags.UserReference,
     },
+    taxonomy: {
+      func: type_taxonomy,
+      track: true,
+      flag: TypeFlags.BuiltinCS,
+    },
   }
 
   function track_dependency(field: ContentstackTypes.Field, type: string, flag: TypeFlags) {
@@ -340,5 +345,9 @@ export default function (userOptions: TSGenOptions) {
         },
       },
     }
+  }
+
+  function type_taxonomy() {
+    return `${options?.naming?.prefix}Taxonomy`
   }
 }
