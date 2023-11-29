@@ -216,10 +216,11 @@ export default function (userOptions: TSGenOptions) {
         fieldType += "[]";
       }
     }
-
+    console.log(field.data_type)
+    console.log(['isodate','file','number'].includes(field.data_type))
     return [
       field.uid + op_required(field.mandatory) + ':',
-      fieldType || visit_field_type(field), field.mandatory?'':'| null', ';'
+      fieldType || visit_field_type(field), (['isodate','file','number'].includes(field.data_type) || ['radio','dropdown'].includes(field.display_type))?field.mandatory?'':'| null':'', ';'
     ].join(' ')
   }
 
