@@ -219,7 +219,7 @@ export default function (userOptions: TSGenOptions) {
 
     return [
       field.uid + op_required(field.mandatory) + ':',
-      fieldType || visit_field_type(field) + ';',
+      fieldType || visit_field_type(field), field.mandatory?'':'| null', ';'
     ].join(' ')
   }
 
@@ -272,7 +272,7 @@ export default function (userOptions: TSGenOptions) {
   }
 
   function type_text() {
-    return 'string'
+      return 'string'
   }
 
   function type_number() {
