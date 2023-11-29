@@ -18,10 +18,10 @@ describe("all options", () => {
       version:  4 ;
       title: string  ;
       url: string  ;
-      single_line_textbox_not_required?: string | null ;
+      single_line_textbox_not_required?: string  ;
       single_line_textbox_required: string  ;
-      single_line_textbox_multiple?: string[] | null ;
-      single_line_textbox_multiple_max_limit?: [string, string, string, string, string] | null ;
+      single_line_textbox_multiple?: string[]  ;
+      single_line_textbox_multiple_max_limit?: [string, string, string, string, string]  ;
       }"
     `);
   });

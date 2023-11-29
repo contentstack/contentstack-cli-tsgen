@@ -26,8 +26,8 @@ describe("global fields", () => {
       {
       /** Version */
       version:   ;
-      keywords?: string | null ;
-      description?: string | null ;
+      keywords?: string  ;
+      description?: string  ;
       }"
     `);
   });
@@ -39,7 +39,7 @@ describe("global fields", () => {
       /** Version */
       version:  2 ;
       title: string  ;
-      seo?: ISeo | null ;
+      seo?: ISeo  ;
       }"
     `);
   });
