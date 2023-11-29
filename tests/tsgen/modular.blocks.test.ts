@@ -24,14 +24,14 @@ describe("modular blocks", () => {
       version:  2 ;
       title: string  ;
       url: string  ;
-      modular_blocks?: ({string_block: {single_line?: string | null ;
-      multi_line?: string | null ;
-      markdown?: string | null ;
-      rich_text_editor?: string | null ;};string_block_with_options: undefined;
+      modular_blocks?: ({string_block: {single_line?: string  ;
+      multi_line?: string  ;
+      markdown?: string  ;
+      rich_text_editor?: string  ;};string_block_with_options: undefined;
       boolean_block: undefined;} | {string_block_with_options: {single_line_textbox_required: string  ;
-      single_line_textbox_multiple?: string[] | null ;};string_block: undefined;
-      boolean_block: undefined;} | {boolean_block: {boolean?: boolean | null ;};string_block: undefined;
-      string_block_with_options: undefined;})[] | null ;
+      single_line_textbox_multiple?: string[]  ;};string_block: undefined;
+      boolean_block: undefined;} | {boolean_block: {boolean?: boolean  ;};string_block: undefined;
+      string_block_with_options: undefined;})[]  ;
       }"
     `);
   });

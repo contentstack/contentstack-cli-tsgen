@@ -24,10 +24,10 @@ describe("builtin string fields", () => {
       /** Version */
       version:  4 ;
       title: string  ;
-      single_line?: string | null ;
-      multi_line?: string | null ;
-      rich_text_editor?: string | null ;
-      markdown?: string | null ;
+      single_line?: string  ;
+      multi_line?: string  ;
+      rich_text_editor?: string  ;
+      markdown?: string  ;
       }"
     `);
   });

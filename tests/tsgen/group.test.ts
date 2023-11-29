@@ -36,20 +36,20 @@ describe("group", () => {
       number?: number | null ;
       }, {
       number?: number | null ;
-      }] | null ;
+      }]  ;
       multiple_group?: {
-      single_line?: string | null ;
-      }[] | null ;
+      single_line?: string  ;
+      }[]  ;
       parent_group?: {
-      rich_text_editor?: string | null ;
-      multi_line?: string | null ;
-      single_line?: string | null ;
+      rich_text_editor?: string  ;
+      multi_line?: string  ;
+      single_line?: string  ;
       child_group?: {
       number?: number | null ;
-      boolean?: boolean | null ;
+      boolean?: boolean  ;
       date?: string | null ;
-      } | null ;
-      } | null ;
+      }  ;
+      }  ;
       }"
     `);
   });

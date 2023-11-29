@@ -22,9 +22,9 @@ describe("jsdoc", () => {
       /** Age */
       current_age?: number | null ;
       /** City */
-      current_city?: string | null ;
+      current_city?: string  ;
       /** State */
-      current_state?: string | null ;
+      current_state?: string  ;
       }"
     `);
   });
