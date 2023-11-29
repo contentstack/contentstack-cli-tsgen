@@ -1,16 +1,16 @@
-const testData = require('./jsdoc.ct')
+const testData = require("./jsdoc.ct");
 
-import JSDocumentationGenerator from '../../src/lib/tsgen/docgen/jsdoc'
-import tsgenFactory from '../../src/lib/tsgen/factory'
+import JSDocumentationGenerator from "../../src/lib/tsgen/docgen/jsdoc";
+import tsgenFactory from "../../src/lib/tsgen/factory";
 
 const tsgen = tsgenFactory({
   docgen: new JSDocumentationGenerator(),
-})
+});
 
-describe('jsdoc', () => {
-  const result = tsgen(testData.jsdoc)
+describe("jsdoc", () => {
+  const result = tsgen(testData.jsdoc);
 
-  test('definition', () => {
+  test("definition", () => {
     expect(result.definition).toMatchInlineSnapshot(`
       "/** Content Type Description */
       export interface Jsdoc
@@ -18,14 +18,14 @@ describe('jsdoc', () => {
       /** Version */
       version:  3 ;
       /** Name */
-      title: string;
+      title: string  ;
       /** Age */
-      current_age?: number;
+      current_age?: number | null ;
       /** City */
-      current_city?: string;
+      current_city?: string | null ;
       /** State */
-      current_state?: string;
+      current_state?: string | null ;
       }"
-    `)
-  })
-})
+    `);
+  });
+});

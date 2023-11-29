@@ -1,34 +1,34 @@
-const testData = require('./boolean.ct')
+const testData = require("./boolean.ct");
 
-import NullDocumentationGenerator from '../../src/lib/tsgen/docgen/nulldoc'
-import tsgenFactory from '../../src/lib/tsgen/factory'
+import NullDocumentationGenerator from "../../src/lib/tsgen/docgen/nulldoc";
+import tsgenFactory from "../../src/lib/tsgen/factory";
 
 const tsgen = tsgenFactory({
   docgen: new NullDocumentationGenerator(),
   naming: {
-    prefix: 'I',
+    prefix: "I",
   },
-})
+});
 
-describe('builtin boolean field', () => {
-  const result = tsgen(testData.builtinBoolean)
+describe("builtin boolean field", () => {
+  const result = tsgen(testData.builtinBoolean);
 
-  test('metadata', () => {
-    const types = result.metadata.types
-    expect([...types.contentstack]).toHaveLength(0)
-    expect([...types.globalFields]).toHaveLength(0)
-    expect(types.javascript).toContain('boolean')
-  })
+  test("metadata", () => {
+    const types = result.metadata.types;
+    expect([...types.contentstack]).toHaveLength(0);
+    expect([...types.globalFields]).toHaveLength(0);
+    expect(types.javascript).toContain("boolean");
+  });
 
-  test('definition', () => {
+  test("definition", () => {
     expect(result.definition).toMatchInlineSnapshot(`
       "export interface IBoolean
       {
       /** Version */
       version:  2 ;
-      title: string;
-      boolean?: boolean;
+      title: string  ;
+      boolean?: boolean | null ;
       }"
-    `)
-  })
-})
+    `);
+  });
+});
