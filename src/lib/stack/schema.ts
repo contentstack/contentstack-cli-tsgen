@@ -16,6 +16,7 @@ export type FieldOptions = {
   multiple: boolean;
   non_localizable: boolean;
   max_instance: boolean | undefined;
+  display_type: string;
 } & Identifier;
 
 export type Block = {
