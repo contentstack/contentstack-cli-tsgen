@@ -216,10 +216,9 @@ export default function (userOptions: TSGenOptions) {
         fieldType += "[]";
       }
     }
-
     return [
       field.uid + op_required(field.mandatory) + ':',
-      fieldType || visit_field_type(field) + ';',
+      fieldType || visit_field_type(field), (['isodate','file','number'].includes(field.data_type) || ['radio','dropdown'].includes(field.display_type))?field.mandatory?'':'| null':'', ';'
     ].join(' ')
   }
 
@@ -272,7 +271,7 @@ export default function (userOptions: TSGenOptions) {
   }
 
   function type_text() {
-    return 'string'
+      return 'string'
   }
 
   function type_number() {
