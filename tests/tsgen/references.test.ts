@@ -29,7 +29,7 @@ describe("references", () => {
       version:  5 ;
       title: string  ;
       url: string  ;
-      single_reference: (IReferenceChild)  ;
+      single_reference: (IReferenceChild)[]  ;
       multiple_reference?: (IReferenceChild | IBoolean | IBuiltinExample)[]  ;
       }"
     `);
