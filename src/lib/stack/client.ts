@@ -1,6 +1,12 @@
+import * as fs from 'fs'
 import * as http from 'https'
 import * as async from 'async'
 import {ContentTypeCollection} from 'contentstack'
+import {HttpClient, cliux} from '@contentstack/cli-utilities'
+import {generate, CodegenConfig} from '@graphql-codegen/cli'
+
+import {introspectionQuery} from '../../graphQL'
+import {ConfigAPIReference} from './schema'
 
 type RegionUrlMap = {
   [prop: string]: string;
@@ -11,7 +17,15 @@ const REGION_URL_MAPPING: RegionUrlMap = {
   us: 'cdn.contentstack.io',
   eu: 'eu-cdn.contentstack.com',
   'azure-na': 'azure-na-cdn.contentstack.com',
-  'azure-eu': 'azure-eu-cdn.contentstack.com'
+  'azure-eu': 'azure-eu-cdn.contentstack.com',
+}
+
+const GRAPHQL_REGION_URL_MAPPING: RegionUrlMap = {
+  na: 'https://graphql.contentstack.com/stacks',
+  us: 'https://graphql.contentstack.com/stacks',
+  eu: 'https://eu-graphql.contentstack.com/stacks',
+  'azure-na': 'https://azure-na-graphql.contentstack.com/stacks',
+  'azure-eu': 'https://azure-eu-graphql.contentstack.com',
 }
 
 export type StackConnectionConfig = {
@@ -32,11 +46,11 @@ const queryParams = {
 export async function stackConnect(client: any, config: StackConnectionConfig, cdaHost: string) {
   try {
     const clientParams: {
-      api_key: string,
-      delivery_token: string,
-      environment: string,
-      region: string,
-      branch?: string
+      api_key: string;
+      delivery_token: string;
+      environment: string;
+      region: string;
+      branch?: string;
     } = {
       api_key: config.apiKey,
       delivery_token: config.token,
@@ -138,4 +152,80 @@ export async function getGlobalFields(config: StackConnectionConfig, cdaHost: st
   } catch (error) {
     throw new Error('Could not connect to the stack. Please check your credentials.')
   }
+}
+
+export async function generateGraphQLTypeDef(config: StackConnectionConfig, outPath: string, prefix: string) {
+  const spinner = cliux.loaderV2('Fetching graphql schema...')
+  try {
+    if (!GRAPHQL_REGION_URL_MAPPING[config.region]) {
+      throw new Error(`GraphQL content delivery api not available for '${config.region}' region`)
+    }
+
+    const query = {
+      environment: config.environment,
+    }
+    const headers: any = {
+      access_token: config.token,
+    }
+    if (config.branch) {
+      headers.branch = config.branch
+    }
+
+    // Generate graphql schema with introspection query
+    const url = `${GRAPHQL_REGION_URL_MAPPING[config.region]}/${config.apiKey}`
+    const result = await new HttpClient()
+    .headers(headers)
+    .queryParams(query)
+    .post(url, {query: introspectionQuery})
+
+    cliux.loaderV2('', spinner)
+
+    // Save schema locally
+    const graphQLJsonFilePath = './graphql.json'
+    fs.writeFileSync(graphQLJsonFilePath, JSON.stringify(result?.data))
+
+    // set types Prefix
+    if (prefix) configAPIRef.typesPrefix = prefix
+
+    // From graphQL schema to typescript
+    const graphConfig: CodegenConfig = {
+      overwrite: true,
+      watch: false,
+      schema: [graphQLJsonFilePath],
+      generates: {
+        [outPath]: {
+          plugins: [
+            'typescript',
+            'typescript-operations',
+          ],
+          config: configAPIRef,
+        },
+      },
+    }
+    await generate(graphConfig)
+    // remove json file from local device
+    fs.unlinkSync(graphQLJsonFilePath)
+    return {
+      outputPath: outPath,
+    }
+  } catch (error: any) {
+    cliux.loaderV2('', spinner)
+    throw error
+  }
+}
+
+// Custom config https://the-guild.dev/graphql/codegen/plugins/typescript/typescript
+const configAPIRef: ConfigAPIReference = {
+  namingConvention: 'keep',
+  avoidOptionals: {
+    field: true,
+    inputValue: true,
+    object: true,
+    defaultValue: true,
+  },
+  constEnums: true,
+  enumPrefix: false,
+  onlyOperationTypes: true,
+  declarationKind: 'interface',
+  skipTypename: true,
 }

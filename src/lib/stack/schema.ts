@@ -29,7 +29,7 @@ export type GlobalField = {
   reference_to: string;
   schema: Schema;
   schema_type?: string;
-  _version?: number
+  _version?: number;
 } & FieldOptions;
 
 export type ReferenceField = {
@@ -63,3 +63,20 @@ export type ContentType = {
   data_type?: string;
   schema_type?: string;
 } & Identifier;
+
+export type ConfigAPIReference = {
+  namingConvention: string;
+  avoidOptionals: {
+      field: boolean;
+      inputValue: boolean;
+      object: boolean;
+      defaultValue: boolean;
+  };
+  constEnums: boolean;
+  enumPrefix: boolean;
+  onlyOperationTypes: boolean;
+  noExport?: boolean;
+  declarationKind: string;
+  typesPrefix?: string;
+  skipTypename: boolean;
+}

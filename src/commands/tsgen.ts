@@ -1,6 +1,6 @@
 import {Command} from '@contentstack/cli-command'
 import {FlagInput, flags} from '@contentstack/cli-utilities'
-import {getGlobalFields, stackConnect, StackConnectionConfig} from '../lib/stack/client'
+import {getGlobalFields, stackConnect, StackConnectionConfig, generateGraphQLTypeDef} from '../lib/stack/client'
 import {ContentType} from '../lib/stack/schema'
 import tsgenRunner from '../lib/tsgen/runner'
 
@@ -56,6 +56,13 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       description: 'include system fields in generated types',
       default: false,
     }),
+
+    'api-type': flags.string({
+      default: 'rest',
+      multiple: false,
+      options: ['rest', 'graphql'],
+      description: '[Optional] Please enter api type to generate type definitions',
+    }),
   };
 
   async run() {
@@ -85,24 +92,33 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
         branch: branch || null,
       }
 
-      const [client, globalFields] = await Promise.all([stackConnect(this.deliveryAPIClient.Stack, config, this.cdaHost), getGlobalFields(config, this.cdaHost)])
-
-      let schemas: ContentType[] = []
-      if (client.types?.length) {
-        if ((globalFields as any)?.global_fields?.length) {
-          schemas = schemas.concat((globalFields as any).global_fields as ContentType)
-          schemas = schemas.map(schema => ({
-            ...schema,
-            schema_type: 'global_field',
-          }))
+      if (flags['api-type'] === 'graphql') {
+        const result = await generateGraphQLTypeDef(config, outputPath, prefix)
+        if (result) {
+          this.log(`Wrote graphql schema type definitions to '${result.outputPath}'.`)
+        } else {
+          this.log('No schema exist in the Stack.')
         }
-        schemas = schemas.concat(client.types)
-        const result = await tsgenRunner(outputPath, schemas, prefix, includeDocumentation, includeSystemFields)
-        this.log(`Wrote ${result.definitions} Content Types to '${result.outputPath}'.`)
       } else {
-        this.log('No Content Types exist in the Stack.')
+        const [client, globalFields] = await Promise.all([stackConnect(this.deliveryAPIClient.Stack, config, this.cdaHost), getGlobalFields(config, this.cdaHost)])
+
+        let schemas: ContentType[] = []
+        if (client.types?.length) {
+          if ((globalFields as any)?.global_fields?.length) {
+            schemas = schemas.concat((globalFields as any).global_fields as ContentType)
+            schemas = schemas.map(schema => ({
+              ...schema,
+              schema_type: 'global_field',
+            }))
+          }
+          schemas = schemas.concat(client.types)
+          const result = await tsgenRunner(outputPath, schemas, prefix, includeDocumentation, includeSystemFields)
+          this.log(`Wrote ${result.definitions} Content Types to '${result.outputPath}'.`)
+        } else {
+          this.log('No Content Types exist in the Stack.')
+        }
       }
-    } catch (error) {
+    } catch (error: any) {
       this.error(error as any, {exit: 1})
     }
   }

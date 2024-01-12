@@ -7,6 +7,9 @@
   "dependencies": {
     "@contentstack/cli-command": "^1.2.13",
     "@contentstack/cli-utilities": "^1.5.2",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-operations": "^4.0.1",
     "lodash": "^4.17.20",
     "prettier": "^2.0.5",
     "tslib": "^1.13.0"
