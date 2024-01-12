@@ -3,10 +3,9 @@ import * as http from 'https'
 import * as async from 'async'
 import {ContentTypeCollection} from 'contentstack'
 import {HttpClient, cliux} from '@contentstack/cli-utilities'
-import {generate, CodegenConfig} from '@graphql-codegen/cli'
+import {schemaToInterfaces, generateNamespace} from '@gql2ts/from-schema'
 
 import {introspectionQuery} from '../../graphQL'
-import {ConfigAPIReference} from './schema'
 
 type RegionUrlMap = {
   [prop: string]: string;
@@ -26,6 +25,7 @@ const GRAPHQL_REGION_URL_MAPPING: RegionUrlMap = {
   eu: 'https://eu-graphql.contentstack.com/stacks',
   'azure-na': 'https://azure-na-graphql.contentstack.com/stacks',
   'azure-eu': 'https://azure-eu-graphql.contentstack.com',
+  stage: 'https://stag-graphql.csnonprod.com/stacks',
 }
 
 export type StackConnectionConfig = {
@@ -154,7 +154,7 @@ export async function getGlobalFields(config: StackConnectionConfig, cdaHost: st
   }
 }
 
-export async function generateGraphQLTypeDef(config: StackConnectionConfig, outPath: string, prefix: string) {
+export async function generateGraphQLTypeDef(config: StackConnectionConfig, outPath: string, namespace: string) {
   const spinner = cliux.loaderV2('Fetching graphql schema...')
   try {
     if (!GRAPHQL_REGION_URL_MAPPING[config.region]) {
@@ -180,31 +180,14 @@ export async function generateGraphQLTypeDef(config: StackConnectionConfig, outP
 
     cliux.loaderV2('', spinner)
 
-    // Save schema locally
-    const graphQLJsonFilePath = './graphql.json'
-    fs.writeFileSync(graphQLJsonFilePath, JSON.stringify(result?.data))
-
-    // set types Prefix
-    if (prefix) configAPIRef.typesPrefix = prefix
-
-    // From graphQL schema to typescript
-    const graphConfig: CodegenConfig = {
-      overwrite: true,
-      watch: false,
-      schema: [graphQLJsonFilePath],
-      generates: {
-        [outPath]: {
-          plugins: [
-            'typescript',
-            'typescript-operations',
-          ],
-          config: configAPIRef,
-        },
-      },
+    let schema: string;
+    if(namespace){
+      schema = generateNamespace(namespace, result?.data)
+    }else{
+      schema = schemaToInterfaces(result?.data) 
     }
-    await generate(graphConfig)
-    // remove json file from local device
-    fs.unlinkSync(graphQLJsonFilePath)
+    fs.writeFileSync(outPath, schema)
+
     return {
       outputPath: outPath,
     }
@@ -212,20 +195,4 @@ export async function generateGraphQLTypeDef(config: StackConnectionConfig, outP
     cliux.loaderV2('', spinner)
     throw error
   }
-}
-
-// Custom config https://the-guild.dev/graphql/codegen/plugins/typescript/typescript
-const configAPIRef: ConfigAPIReference = {
-  namingConvention: 'keep',
-  avoidOptionals: {
-    field: true,
-    inputValue: true,
-    object: true,
-    defaultValue: true,
-  },
-  constEnums: true,
-  enumPrefix: false,
-  onlyOperationTypes: true,
-  declarationKind: 'interface',
-  skipTypename: true,
 }
