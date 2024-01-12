@@ -11,6 +11,8 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts"',
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" -p "I"',
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --no-doc',
+    '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --api-type graphql',
+    '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --api-type graphql -p "I" ',
   ];
 
   static flags: FlagInput = {
