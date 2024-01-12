@@ -12,7 +12,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" -p "I"',
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --no-doc',
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --api-type graphql',
-    '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --api-type graphql -p "I" ',
+    '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --api-type graphql --namespace "GraphQL" ',
   ];
 
   static flags: FlagInput = {
@@ -65,6 +65,10 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       options: ['rest', 'graphql'],
       description: '[Optional] Please enter api type to generate type definitions',
     }),
+
+    namespace: flags.string({
+      description: 'Please provide namespace to organize generated types',
+    }),
   };
 
   async run() {
@@ -77,6 +81,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       const outputPath = flags.output
       const branch = flags.branch
       const includeSystemFields = flags['include-system-fields']
+      const namespace = flags.namespace
 
       if (token.type !== 'delivery') {
         this.warn('Possibly using a management token. You may not be able to connect to your Stack. Please use a delivery token.')
@@ -95,7 +100,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       }
 
       if (flags['api-type'] === 'graphql') {
-        const result = await generateGraphQLTypeDef(config, outputPath, prefix)
+        const result = await generateGraphQLTypeDef(config, outputPath, namespace)
         if (result) {
           this.log(`Wrote graphql schema type definitions to '${result.outputPath}'.`)
         } else {
