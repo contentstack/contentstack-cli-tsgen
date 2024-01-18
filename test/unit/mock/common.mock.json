@@ -6,64 +6,66 @@
       "api_key": "stack_api_key_1"
     }
   ],
-  "output":{
+  "output": {
     "data": {
       "__schema": {
         "queryType": { "name": "Query" },
         "mutationType": null,
         "subscriptionType": null,
-        "types": [      {
-          "kind": "OBJECT",
-          "name": "SysAsset",
-          "description": null,
-          "fields": [
-            {
-              "name": "title",
-              "description": null,
-              "args": [],
-              "type": [],
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "url",
-              "description": null,
-              "args": [],
-              "type": [],
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "content_type",
-              "description": null,
-              "args": [],
-              "type": [],
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        }],
+        "types": [
+          {
+            "kind": "OBJECT",
+            "name": "SysAsset",
+            "description": null,
+            "fields": [
+              {
+                "name": "title",
+                "description": null,
+                "args": [],
+                "type": [],
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "url",
+                "description": null,
+                "args": [],
+                "type": [],
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "content_type",
+                "description": null,
+                "args": [],
+                "type": [],
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+          }
+        ],
         "directives": [
           {
             "name": "include",
             "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
-            "locations": [ "FIELD", "FRAGMENT_SPREAD", "INLINE_FRAGMENT" ],
-            "args": [ [] ]
+            "locations": ["FIELD", "FRAGMENT_SPREAD", "INLINE_FRAGMENT"],
+            "args": [[]]
           }
         ]
       }
     }
   },
   "tokens": {
-		"token1": {
+    "token1": {
       "token": "test_token",
       "apiKey": "stack_api_key_1",
       "environment": "development",
       "type": "delivery"
-		}
-	}
+    }
+  }
 }
