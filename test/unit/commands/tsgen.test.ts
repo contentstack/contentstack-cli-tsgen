@@ -21,10 +21,10 @@ const filePath = './generate1.d.ts'
 describe('Tsgen command', () => {
   describe('Graphql type generator', () => {
     test
-    .stdout({print: true})
+    .stdout({print: process.env.PRINT === 'true' || false})
     .nock(graphqlUrl, api =>
       api
-      .post(`/stacks/${mock.tokens[alias].apiKey}`, {query: introspectionQuery})
+      .post(`/stacks/${mock.tokens[alias].apiKey}`)
       .reply(200, {
         data: mock.output,
       })
@@ -35,10 +35,10 @@ describe('Tsgen command', () => {
 
   describe('Graphql type generator with namespace', () => {
     test
-    .stdout({print: true})
+    .stdout({print: process.env.PRINT === 'true' || false})
     .nock(graphqlUrl, api =>
       api
-      .post(`/stacks/${mock.tokens[alias].apiKey}`, {query: introspectionQuery})
+      .post(`/stacks/${mock.tokens[alias].apiKey}`)
       .reply(200, {
         data: mock.output,
       })
