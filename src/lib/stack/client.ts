@@ -24,8 +24,7 @@ const GRAPHQL_REGION_URL_MAPPING: RegionUrlMap = {
   us: 'https://graphql.contentstack.com/stacks',
   eu: 'https://eu-graphql.contentstack.com/stacks',
   'azure-na': 'https://azure-na-graphql.contentstack.com/stacks',
-  'azure-eu': 'https://azure-eu-graphql.contentstack.com',
-  stage: 'https://stag-graphql.csnonprod.com/stacks',
+  'azure-eu': 'https://azure-eu-graphql.contentstack.com/stacks',
 }
 
 export type StackConnectionConfig = {
@@ -158,7 +157,7 @@ export async function generateGraphQLTypeDef(config: StackConnectionConfig, outP
   const spinner = cliux.loaderV2('Fetching graphql schema...')
   try {
     if (!GRAPHQL_REGION_URL_MAPPING[config.region]) {
-      throw new Error(`GraphQL content delivery api not available for '${config.region}' region`)
+      throw new Error(`GraphQL content delivery api unavailable for '${config.region}' region`)
     }
 
     const query = {
@@ -180,11 +179,11 @@ export async function generateGraphQLTypeDef(config: StackConnectionConfig, outP
 
     cliux.loaderV2('', spinner)
 
-    let schema: string;
-    if(namespace){
+    let schema: string
+    if (namespace) {
       schema = generateNamespace(namespace, result?.data)
-    }else{
-      schema = schemaToInterfaces(result?.data) 
+    } else {
+      schema = schemaToInterfaces(result?.data)
     }
     fs.writeFileSync(outPath, schema)
 

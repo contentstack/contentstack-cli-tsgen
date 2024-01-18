@@ -63,11 +63,11 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       default: 'rest',
       multiple: false,
       options: ['rest', 'graphql'],
-      description: '[Optional] Please enter api type to generate type definitions',
+      description: '[Optional] Please enter an API type to generate the type definitions.',
     }),
 
     namespace: flags.string({
-      description: 'Please provide namespace to organize generated types',
+      description: '[Optional]Please enter a namespace for the GraphQL API type to organize the generated types.',
     }),
   };
 
@@ -102,9 +102,9 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       if (flags['api-type'] === 'graphql') {
         const result = await generateGraphQLTypeDef(config, outputPath, namespace)
         if (result) {
-          this.log(`Wrote graphql schema type definitions to '${result.outputPath}'.`)
+          this.log(`Successfully added the GraphQL schema type definitions to '${result.outputPath}'.`)
         } else {
-          this.log('No schema exist in the Stack.')
+          this.log('No schema found in the stack! Please use a valid stack.')
         }
       } else {
         const [client, globalFields] = await Promise.all([stackConnect(this.deliveryAPIClient.Stack, config, this.cdaHost), getGlobalFields(config, this.cdaHost)])
