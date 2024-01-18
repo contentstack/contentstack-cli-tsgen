@@ -1,8 +1,8 @@
 import * as fs from 'fs'
 import * as http from 'https'
 import * as async from 'async'
-import {ContentTypeCollection} from 'contentstack'
-import {HttpClient, cliux} from '@contentstack/cli-utilities'
+import { ContentTypeCollection } from 'contentstack'
+import {HttpClient, cliux, configHandler} from '@contentstack/cli-utilities'
 import {schemaToInterfaces, generateNamespace} from '@gql2ts/from-schema'
 
 import {introspectionQuery} from '../../graphQL'
@@ -51,6 +51,7 @@ export async function stackConnect(client: any, config: StackConnectionConfig, c
       environment: string;
       region: string;
       branch?: string;
+      early_access?: string[];
     } = {
       api_key: config.apiKey,
       delivery_token: config.token,
@@ -60,6 +61,12 @@ export async function stackConnect(client: any, config: StackConnectionConfig, c
     if (config.branch) {
       clientParams.branch = config.branch
     }
+
+    const earlyAccessHeaders = configHandler.get(`earlyAccessHeaders`);
+    if (earlyAccessHeaders && Object.keys(earlyAccessHeaders).length > 0) {
+      clientParams.early_access = Object.values(earlyAccessHeaders);
+    }
+
     // eslint-disable-next-line new-cap
     const stack = client(clientParams)
     // check and update host if doesn't exists in REGION_URL_MAPPING
