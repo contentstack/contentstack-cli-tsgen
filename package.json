@@ -2,7 +2,6 @@
   "name": "contentstack-cli-tsgen",
   "description": "Generate TypeScript typings from a Stack.",
   "version": "2.3.0",
-  "version": "2.3.0",
   "author": "Michael Davis",
   "bugs": "https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/issues",
   "dependencies": {
