@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import * as http from 'https'
 import * as async from 'async'
 import * as path from 'path'
-import { ContentTypeCollection } from 'contentstack'
+import {  ContentTypeCollection  } from 'contentstack'
 import {HttpClient, cliux, configHandler} from '@contentstack/cli-utilities'
 import {schemaToInterfaces, generateNamespace} from '@gql2ts/from-schema'
 
