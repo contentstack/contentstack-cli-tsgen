@@ -2,7 +2,6 @@ import {test} from '@oclif/test'
 import {configHandler} from '@contentstack/cli-utilities'
 
 import * as mock from '../mock/common.mock.json'
-import {introspectionQuery} from '../../../src/graphQL'
 
 const GRAPHQL_REGION_URL_MAPPING = {
   na: 'https://graphql.contentstack.com',
