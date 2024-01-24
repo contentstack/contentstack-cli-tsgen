@@ -18,6 +18,7 @@ const REGION_URL_MAPPING: RegionUrlMap = {
   eu: 'eu-cdn.contentstack.com',
   'azure-na': 'azure-na-cdn.contentstack.com',
   'azure-eu': 'azure-eu-cdn.contentstack.com',
+  'gcp-na': 'gcp-na-cdn.contentstack.com'
 }
 
 const GRAPHQL_REGION_URL_MAPPING: RegionUrlMap = {
@@ -26,6 +27,7 @@ const GRAPHQL_REGION_URL_MAPPING: RegionUrlMap = {
   eu: 'https://eu-graphql.contentstack.com/stacks',
   'azure-na': 'https://azure-na-graphql.contentstack.com/stacks',
   'azure-eu': 'https://azure-eu-graphql.contentstack.com/stacks',
+  'gcp-na': 'https://gcp-na-graphql.contentstack.com/stacks'
 }
 
 export type StackConnectionConfig = {
