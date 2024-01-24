@@ -7,22 +7,28 @@
   "dependencies": {
     "@contentstack/cli-command": "^1.2.17",
     "@contentstack/cli-utilities": "^1.5.10",
+    "@gql2ts/from-schema": "^2.0.0-4",
     "lodash": "^4.17.20",
     "prettier": "^2.0.5",
     "tslib": "^1.13.0"
   },
   "devDependencies": {
     "@oclif/plugin-help": "^3.2.0",
+    "@oclif/test": "^3.1.12",
     "@types/async": "^3.2.18",
+    "@types/chai": "^4.3.11",
     "@types/jest": "^26.0.14",
     "@types/lodash": "^4.14.162",
+    "@types/mocha": "^10.0.6",
     "@types/node": "^10.17.28",
     "async": "^3.2.4",
+    "chai": "^5.0.0",
     "eslint": "^5.16.0",
     "eslint-config-oclif": "^3.1.0",
     "eslint-config-oclif-typescript": "^0.1.0",
     "globby": "^10.0.2",
     "jest": "^26.5.3",
+    "mocha": "^10.2.0",
     "oclif": "^3.7.0",
     "ts-jest": "^26.4.1",
     "ts-node": "^10.9.1",
@@ -56,8 +62,9 @@
     "postpack": "rm -f oclif.manifest.json",
     "posttest": "eslint . --ext .ts --config .eslintrc",
     "prepack": "rm -rf lib && tsc -b && oclif manifest && oclif readme",
-    "test": "jest",
-    "version": "oclif readme && git add README.md"
+    "test": "jest --testPathPattern=tests",
+    "version": "oclif readme && git add README.md",
+    "test:unit": "mocha --forbid-only -r ts-node/register \"test/**/*.test.ts\""
   },
   "csdxConfig": {
     "shortCommandName": {
