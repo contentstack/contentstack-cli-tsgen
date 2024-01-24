@@ -1,6 +1,7 @@
 import * as fs from 'fs'
 import * as http from 'https'
 import * as async from 'async'
+import * as path from 'path'
 import { ContentTypeCollection } from 'contentstack'
 import {HttpClient, cliux, configHandler} from '@contentstack/cli-utilities'
 import {schemaToInterfaces, generateNamespace} from '@gql2ts/from-schema'
@@ -160,7 +161,7 @@ export async function getGlobalFields(config: StackConnectionConfig, cdaHost: st
   }
 }
 
-export async function generateGraphQLTypeDef(config: StackConnectionConfig, outPath: string, namespace: string) {
+export async function generateGraphQLTypeDef(config: StackConnectionConfig, outputFile: string, namespace: string) {
   const spinner = cliux.loaderV2('Fetching graphql schema...')
   try {
     if (!GRAPHQL_REGION_URL_MAPPING[config.region]) {
@@ -192,10 +193,15 @@ export async function generateGraphQLTypeDef(config: StackConnectionConfig, outP
     } else {
       schema = schemaToInterfaces(result?.data)
     }
-    fs.writeFileSync(outPath, schema)
+
+    //Create and write type def in file
+    const outputPath = path.resolve(process.cwd(), outputFile)
+    const dirName = path.dirname(outputPath)
+    fs.mkdirSync(dirName, {recursive: true})
+    fs.writeFileSync(outputPath, schema)
 
     return {
-      outputPath: outPath,
+      outputPath: outputPath,
     }
   } catch (error: any) {
     cliux.loaderV2('', spinner)
