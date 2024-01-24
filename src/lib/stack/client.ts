@@ -1,7 +1,12 @@
+import * as fs from 'fs'
 import * as http from 'https'
 import * as async from 'async'
-import { ContentTypeCollection } from 'contentstack'
-import { configHandler } from "@contentstack/cli-utilities"
+import * as path from 'path'
+import {  ContentTypeCollection  } from 'contentstack'
+import {HttpClient, cliux, configHandler} from '@contentstack/cli-utilities'
+import {schemaToInterfaces, generateNamespace} from '@gql2ts/from-schema'
+
+import {introspectionQuery} from '../../graphQL'
 
 type RegionUrlMap = {
   [prop: string]: string;
@@ -12,7 +17,15 @@ const REGION_URL_MAPPING: RegionUrlMap = {
   us: 'cdn.contentstack.io',
   eu: 'eu-cdn.contentstack.com',
   'azure-na': 'azure-na-cdn.contentstack.com',
-  'azure-eu': 'azure-eu-cdn.contentstack.com'
+  'azure-eu': 'azure-eu-cdn.contentstack.com',
+}
+
+const GRAPHQL_REGION_URL_MAPPING: RegionUrlMap = {
+  na: 'https://graphql.contentstack.com/stacks',
+  us: 'https://graphql.contentstack.com/stacks',
+  eu: 'https://eu-graphql.contentstack.com/stacks',
+  'azure-na': 'https://azure-na-graphql.contentstack.com/stacks',
+  'azure-eu': 'https://azure-eu-graphql.contentstack.com/stacks',
 }
 
 export type StackConnectionConfig = {
@@ -33,12 +46,12 @@ const queryParams = {
 export async function stackConnect(client: any, config: StackConnectionConfig, cdaHost: string) {
   try {
     const clientParams: {
-      api_key: string,
-      delivery_token: string,
-      environment: string,
-      region: string,
-      branch?: string
-      early_access?: string[]
+      api_key: string;
+      delivery_token: string;
+      environment: string;
+      region: string;
+      branch?: string;
+      early_access?: string[];
     } = {
       api_key: config.apiKey,
       delivery_token: config.token,
@@ -145,5 +158,53 @@ export async function getGlobalFields(config: StackConnectionConfig, cdaHost: st
     })
   } catch (error) {
     throw new Error('Could not connect to the stack. Please check your credentials.')
+  }
+}
+
+export async function generateGraphQLTypeDef(config: StackConnectionConfig, outputFile: string, namespace: string) {
+  const spinner = cliux.loaderV2('Fetching graphql schema...')
+  try {
+    if (!GRAPHQL_REGION_URL_MAPPING[config.region]) {
+      throw new Error(`GraphQL content delivery api unavailable for '${config.region}' region`)
+    }
+
+    const query = {
+      environment: config.environment,
+    }
+    const headers: any = {
+      access_token: config.token,
+    }
+    if (config.branch) {
+      headers.branch = config.branch
+    }
+
+    // Generate graphql schema with introspection query
+    const url = `${GRAPHQL_REGION_URL_MAPPING[config.region]}/${config.apiKey}`
+    const result = await new HttpClient()
+    .headers(headers)
+    .queryParams(query)
+    .post(url, {query: introspectionQuery})
+
+    cliux.loaderV2('', spinner)
+
+    let schema: string
+    if (namespace) {
+      schema = generateNamespace(namespace, result?.data)
+    } else {
+      schema = schemaToInterfaces(result?.data)
+    }
+
+    //Create and write type def in file
+    const outputPath = path.resolve(process.cwd(), outputFile)
+    const dirName = path.dirname(outputPath)
+    fs.mkdirSync(dirName, {recursive: true})
+    fs.writeFileSync(outputPath, schema)
+
+    return {
+      outputPath: outputPath,
+    }
+  } catch (error: any) {
+    cliux.loaderV2('', spinner)
+    throw error
   }
 }
