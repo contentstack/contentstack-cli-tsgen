@@ -29,7 +29,7 @@ export type GlobalField = {
   reference_to: string;
   schema: Schema;
   schema_type?: string;
-  _version?: number
+  _version?: number;
 } & FieldOptions;
 
 export type ReferenceField = {
