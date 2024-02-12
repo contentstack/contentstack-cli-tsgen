@@ -21,7 +21,7 @@ describe("modular blocks", () => {
       "export interface ModularBlocks
       {
       /** Version */
-      version:  2 ;
+      _version:  2 ;
       title: string  ;
       url: string  ;
       modular_blocks?: ({string_block: {single_line?: string  ;
