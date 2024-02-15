@@ -25,7 +25,7 @@ describe("builtin boolean field", () => {
       "export interface IBoolean
       {
       /** Version */
-      version:  2 ;
+      _version:  2 ;
       title: string  ;
       boolean?: boolean  ;
       }"
