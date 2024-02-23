@@ -27,7 +27,7 @@ describe("builtin taxonomies field", () => {
       "export interface ITaxonomy
       {
       /** Version */
-      version:  2 ;
+      _version:  2 ;
       title: string  ;
       boolean?: boolean  ;
       taxonomies?: ITaxonomy[]  ;
