@@ -21,7 +21,7 @@ describe("select (dropdown)", () => {
       "export interface Select
       {
       /** Version */
-      version:  5 ;
+      _version:  5 ;
       title: string  ;
       select_single_value?: (\\"Option 1\\" | \\"Option 2\\" | \\"Option 3\\") | null ;
       select_single_value_required: (\\"Test 1\\" | \\"Test 2\\" | \\"Test 3\\")  ;
