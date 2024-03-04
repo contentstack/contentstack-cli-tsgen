@@ -9,7 +9,7 @@
     "@contentstack/cli-utilities": "^1.5.10",
     "@gql2ts/from-schema": "^2.0.0-4",
     "async": "^3.2.5",
-    "graphql": "^14.7.0",
+    "graphql": "^16.8.1",
     "lodash": "^4.17.20",
     "prettier": "^2.0.5",
     "tslib": "^1.13.0"
