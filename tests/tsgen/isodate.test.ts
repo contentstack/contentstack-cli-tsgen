@@ -25,7 +25,7 @@ describe("builtin isodate field", () => {
       "export interface Isodate
       {
       /** Version */
-      _version:  2 ;
+      _version?:  2 ;
       title: string  ;
       date?: string | null ;
       date_required: string  ;
