@@ -15,7 +15,7 @@ describe("all options", () => {
       "export interface Options
       {
       /** Version */
-      _version:  4 ;
+      _version?:  4 ;
       title: string  ;
       url: string  ;
       single_line_textbox_not_required?: string  ;
