@@ -2,11 +2,12 @@ import * as fs from 'fs'
 import * as http from 'https'
 import * as async from 'async'
 import * as path from 'path'
-import {  ContentTypeCollection  } from 'contentstack'
-import {HttpClient, cliux, configHandler} from '@contentstack/cli-utilities'
-import {schemaToInterfaces, generateNamespace} from '@gql2ts/from-schema'
+import { ContentTypeCollection } from 'contentstack'
+import { HttpClient, cliux, configHandler } from '@contentstack/cli-utilities'
+import { schemaToInterfaces, generateNamespace } from '@gql2ts/from-schema'
 
-import {introspectionQuery} from '../../graphQL'
+import { introspectionQuery } from '../../graphQL'
+import { sanitizePath } from '../helper'
 
 type RegionUrlMap = {
   [prop: string]: string;
@@ -35,7 +36,7 @@ export type StackConnectionConfig = {
   token: string;
   region: any;
   environment: string;
-  branch?: string|null;
+  branch?: string | null;
 }
 
 const limit = 100
@@ -83,7 +84,7 @@ export async function stackConnect(client: any, config: StackConnectionConfig, c
 
     if (results.count > limit) {
       const additionalQueries = Array.from(
-        {length: Math.ceil(results.count / limit) - 1},
+        { length: Math.ceil(results.count / limit) - 1 },
         (_, i) => {
           return async.reflect(async () => {
             return stack.getContentTypes({
@@ -183,9 +184,9 @@ export async function generateGraphQLTypeDef(config: StackConnectionConfig, outp
     // Generate graphql schema with introspection query
     const url = `${GRAPHQL_REGION_URL_MAPPING[config.region]}/${config.apiKey}`
     const result = await new HttpClient()
-    .headers(headers)
-    .queryParams(query)
-    .post(url, {query: introspectionQuery})
+      .headers(headers)
+      .queryParams(query)
+      .post(url, { query: introspectionQuery })
 
     cliux.loaderV2('', spinner)
 
@@ -197,9 +198,9 @@ export async function generateGraphQLTypeDef(config: StackConnectionConfig, outp
     }
 
     //Create and write type def in file
-    const outputPath = path.resolve(process.cwd(), outputFile)
+    const outputPath = path.resolve(sanitizePath(process.cwd()), sanitizePath(outputFile))
     const dirName = path.dirname(outputPath)
-    fs.mkdirSync(dirName, {recursive: true})
+    fs.mkdirSync(dirName, { recursive: true })
     fs.writeFileSync(outputPath, schema)
 
     return {
