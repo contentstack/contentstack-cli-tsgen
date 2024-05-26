@@ -11,7 +11,7 @@
     "async": "^3.2.5",
     "graphql": "^14.7.0",
     "lodash": "^4.17.20",
-    "prettier": "^2.0.5",
+    "prettier": "^3.2.4",
     "tslib": "^1.13.0"
   },
   "devDependencies": {
