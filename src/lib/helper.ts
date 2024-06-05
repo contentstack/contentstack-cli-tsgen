@@ -1,0 +1,1 @@
+export const sanitizePath = (str: string) => str?.replace(/^(\.\.(\/|\\|$))+/, '');

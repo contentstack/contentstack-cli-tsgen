@@ -2,11 +2,12 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as prettier from 'prettier'
 
-import {defaultInterfaces} from '../stack/builtins'
-import {DocumentationGenerator} from './docgen/doc'
+import { defaultInterfaces } from '../stack/builtins'
+import { DocumentationGenerator } from './docgen/doc'
 import JSDocumentationGenerator from './docgen/jsdoc'
 import NullDocumentationGenerator from './docgen/nulldoc'
 import tsgenFactory from './factory'
+import { sanitizePath } from '../helper'
 
 async function format(definition: string) {
   const prettierConfig = await prettier.resolveConfig(process.cwd())
@@ -18,10 +19,10 @@ async function format(definition: string) {
 }
 
 function createOutputPath(outputFile: string) {
-  const outputPath = path.resolve(process.cwd(), outputFile)
+  const outputPath = path.resolve(sanitizePath(process.cwd()), sanitizePath(outputFile))
   const dirName = path.dirname(outputPath)
 
-  fs.mkdirSync(dirName, {recursive: true})
+  fs.mkdirSync(dirName, { recursive: true })
 
   return outputPath
 }
