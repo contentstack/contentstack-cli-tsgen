@@ -18,20 +18,26 @@ describe("modular blocks", () => {
 
   test("definition", () => {
     expect(result.definition).toMatchInlineSnapshot(`
-      "export interface ModularBlocks
+      "export interface ModularBlocks {
+      string_block: {
+       single_line?: string  ;
+      multi_line?: string  ;
+      markdown?: string  ;
+      rich_text_editor?: string  ; }
+      string_block_with_options: {
+       single_line_textbox_required: string  ;
+      single_line_textbox_multiple?: string[]  ; }
+      boolean_block: {
+       boolean?: boolean  ; }
+      }
+
+      export interface ModularBlocks
       {
       /** Version */
       _version:  2 ;
       title: string  ;
       url: string  ;
-      modular_blocks?: ({string_block: {single_line?: string  ;
-      multi_line?: string  ;
-      markdown?: string  ;
-      rich_text_editor?: string  ;};string_block_with_options: undefined;
-      boolean_block: undefined;} | {string_block_with_options: {single_line_textbox_required: string  ;
-      single_line_textbox_multiple?: string[]  ;};string_block: undefined;
-      boolean_block: undefined;} | {boolean_block: {boolean?: boolean  ;};string_block: undefined;
-      string_block_with_options: undefined;})[]  ;
+      modular_blocks?: ModularBlocks[]  ;
       }"
     `);
   });
