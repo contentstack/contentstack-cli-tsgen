@@ -24,7 +24,7 @@ describe("group", () => {
       "export interface Group
       {
       /** Version */
-      _version:  3 ;
+      _version?:  3 ;
       title: string  ;
       multiple_group_max_limit?: [{
       number?: number | null ;

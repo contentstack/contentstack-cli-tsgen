@@ -243,7 +243,7 @@ export default function (userOptions: TSGenOptions) {
       define_interface(contentType, options.systemFields),
       '{',
       ['/**', "Version", '*/'].join(' '),
-      [`_version: `,contentType._version,';'].join(' '),
+      [`_version?: `,contentType._version,';'].join(' '),
       visit_fields(contentType.schema),
       '}',
     ]
