@@ -1,7 +1,8 @@
 ## Migrating from v2 to v3
 This migration document details the changes needed to separate nested modular blocks into distinct interfaces. This update will impact how modular blocks are represented and utilized throughout the codebase.
 
-## Before Example
+## Before 
+```typescript
 export interface Test {
   /** Version */
   _version?: 2;
@@ -24,9 +25,11 @@ export interface Test {
     };
   }[];
 }
+```
 
 
 ## After
+```typescript
 export interface Test {
   /** Version */
   _version: 2;
@@ -35,6 +38,7 @@ export interface Test {
   /** Modular Blocks */
   modular_blocks?: ModularBlocks[];
 }
+
 
 export interface ModularBlocks {
   /** Multi Line Textbox */
@@ -49,3 +53,4 @@ export interface ModularBlocks1 {
   /** Multi Line Textbox */
   multi_line?: string;
 }
+```
