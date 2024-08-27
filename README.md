@@ -12,7 +12,7 @@ $ csdx plugins:install contentstack-cli-tsgen
 ```
 
 ## Migration
-See the V3 [Migration Guide](https://github.com/contentstack/contentstack-cli-tsgen/blob/master/MIGRATION.md) if you are migrating from v2 or older.
+See the v3 [Migration Guide](https://github.com/contentstack/contentstack-cli-tsgen/blob/master/MIGRATION.md) if you are migrating from v2 or older.
 
 ## How to use this plugin
 
