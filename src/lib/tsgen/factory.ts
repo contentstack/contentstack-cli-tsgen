@@ -65,6 +65,7 @@ export default function (userOptions: TSGenOptions) {
   const visitedGlobalFields = new Set<string>()
   const visitedContentTypes = new Set<string>()
   const cachedGlobalFields: GlobalFieldCache = {}
+  const modularBlockInterfaces = new Set<string>()
 
   const typeMap: TypeMap = {
     text: {func: type_text, track: true, flag: TypeFlags.BuiltinJS},
@@ -215,6 +216,8 @@ export default function (userOptions: TSGenOptions) {
       if (field.multiple) {
         fieldType += "[]";
       }
+    }else if (field.data_type === 'blocks') {
+      fieldType = type_modular_blocks(field);
     }
     return [
       field.uid + op_required(field.mandatory) + ':',
@@ -235,7 +238,7 @@ export default function (userOptions: TSGenOptions) {
   function visit_content_type(
     contentType: ContentstackTypes.ContentType | ContentstackTypes.GlobalField
   ) {
-    return [
+    const contentTypeInterface = [
       options.docgen.interface(contentType.description),
       define_interface(contentType, options.systemFields),
       '{',
@@ -246,8 +249,10 @@ export default function (userOptions: TSGenOptions) {
     ]
     .filter(v => v)
     .join('\n')
-  }
 
+    return [...modularBlockInterfaces, contentTypeInterface].join('\n\n');
+  }
+  
   function visit_modular_block(
     field: ContentstackTypes.Field,
     block: ContentstackTypes.Block
@@ -260,11 +265,29 @@ export default function (userOptions: TSGenOptions) {
     )
   }
 
-  function type_modular_blocks(field: ContentstackTypes.Field) {
-    return op_paren(
-      field.blocks.map(block => visit_modular_block(field, block)).join(' | ')
-    )
+  function type_modular_blocks(field: ContentstackTypes.Field): string {
+      const blockInterfaceName = name_type(field.uid);
+      const blockInterfaces = field.blocks.map((block) => {
+        const fieldType = block.reference_to && cachedGlobalFields[name_type(block.reference_to)]
+          ? name_type(block.reference_to)
+          : visit_fields(block.schema || []);
+          
+        const schema = block.reference_to ? `${fieldType};` : `{\n ${fieldType} }`;
+        return `${block.uid}: ${schema}`;
+      });
+    
+      const modularInterface = [
+        `export interface ${blockInterfaceName} {`,
+        blockInterfaces.join('\n'),
+        '}',
+      ].join('\n');
+    
+      // Store or track the generated block interface for later use
+      modularBlockInterfaces.add(modularInterface);
+      
+      return field.multiple ? `${blockInterfaceName}[]` : blockInterfaceName;
   }
+  
 
   function type_group(field: ContentstackTypes.Field) {
     return ['{', visit_fields(field.schema), '}'].filter(v => v).join('\n')
