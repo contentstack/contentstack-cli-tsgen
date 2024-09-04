@@ -31,6 +31,10 @@ type GlobalFieldCache = {
   [prop: string]: { definition: string };
 };
 
+type ModularBlockCache = {
+  [prop: string]: string;
+};
+
 enum TypeFlags {
   BuiltinJS = 1 << 0,
   BuiltinCS = 1 << 1,
@@ -65,6 +69,7 @@ export default function (userOptions: TSGenOptions) {
   const visitedGlobalFields = new Set<string>()
   const visitedContentTypes = new Set<string>()
   const cachedGlobalFields: GlobalFieldCache = {}
+  const cachedModularBlocks: ModularBlockCache = {}
   const modularBlockInterfaces = new Set<string>()
 
   const typeMap: TypeMap = {
@@ -256,23 +261,26 @@ export default function (userOptions: TSGenOptions) {
 
   function type_modular_blocks(field: ContentstackTypes.Field): string {
       const blockInterfaceName = name_type(field.uid);
-      const blockInterfaces = field.blocks.map((block) => {
-        const fieldType = block.reference_to && cachedGlobalFields[name_type(block.reference_to)]
-          ? name_type(block.reference_to)
-          : visit_fields(block.schema || []);
-          
-        const schema = block.reference_to ? `${fieldType};` : `{\n ${fieldType} }`;
-        return `${block.uid}: ${schema}`;
-      });
-    
-      const modularInterface = [
-        `export interface ${blockInterfaceName} {`,
-        blockInterfaces.join('\n'),
-        '}',
-      ].join('\n');
-    
-      // Store or track the generated block interface for later use
-      modularBlockInterfaces.add(modularInterface);
+      if(!cachedModularBlocks[blockInterfaceName]){
+        const blockInterfaces = field.blocks.map((block) => {
+          const fieldType = block.reference_to && cachedGlobalFields[name_type(block.reference_to)]
+            ? name_type(block.reference_to)
+            : visit_fields(block.schema || []);
+            
+          const schema = block.reference_to ? `${fieldType};` : `{\n ${fieldType} }`;
+          return `${block.uid}: ${schema}`;
+        });
+      
+        const modularInterface = [
+          `export interface ${blockInterfaceName} {`,
+          blockInterfaces.join('\n'),
+          '}',
+        ].join('\n');
+      
+        // Store or track the generated block interface for later use
+        modularBlockInterfaces.add(modularInterface);
+        cachedModularBlocks[blockInterfaceName] = blockInterfaceName;
+      }
       
       return field.multiple ? `${blockInterfaceName}[]` : blockInterfaceName;
   }
