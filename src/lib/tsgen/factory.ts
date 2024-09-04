@@ -243,6 +243,7 @@ export default function (userOptions: TSGenOptions) {
   function visit_content_type(
     contentType: ContentstackTypes.ContentType | ContentstackTypes.GlobalField
   ) {
+    modularBlockInterfaces.clear();
     const contentTypeInterface = [
       options.docgen.interface(contentType.description),
       define_interface(contentType, options.systemFields),
@@ -256,18 +257,6 @@ export default function (userOptions: TSGenOptions) {
     .join('\n')
 
     return [...modularBlockInterfaces, contentTypeInterface].join('\n\n');
-  }
-  
-  function visit_modular_block(
-    field: ContentstackTypes.Field,
-    block: ContentstackTypes.Block
-  ) {
-    return (
-      '{' +
-      [block.uid + ':', block.reference_to ? name_type(block.reference_to as string) + ';' : '{' + visit_fields(block.schema || []) + '};'].join(' ') +
-      visit_block_names(field, block) +
-      '}'
-    )
   }
 
   function type_modular_blocks(field: ContentstackTypes.Field): string {
