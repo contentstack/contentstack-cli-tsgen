@@ -1,4 +1,4 @@
-![Node.js CI](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/workflows/Node.js%20CI/badge.svg)
+![Node.js CI](https://github.com/contentstack/contentstack-cli-tsgen/workflows/Node.js%20CI/badge.svg)
 ![npm](https://img.shields.io/npm/v/contentstack-cli-tsgen)
 
 ## Description
@@ -36,7 +36,7 @@ EXAMPLES
   $ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --no-doc
 ```
 
-_See code: [src/commands/tsgen.ts](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/blob/v1.0.6/src/commands/tsgen.ts)_
+_See code: [src/commands/tsgen.ts](https://github.com/contentstack/contentstack-cli-tsgen/blob/v2.3.4/src/commands/tsgen.ts)_
 <!-- commandsstop -->
 
 ## Supported Fields
