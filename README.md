@@ -1,4 +1,4 @@
-![Node.js CI](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/workflows/Node.js%20CI/badge.svg)
+![Node.js CI](https://github.com/contentstack/contentstack-cli-tsgen/workflows/Node.js%20CI/badge.svg)
 ![npm](https://img.shields.io/npm/v/contentstack-cli-tsgen)
 
 ## Description
@@ -10,6 +10,9 @@ This plugin generates TypeScript typings from Content Types. Interfaces and fiel
 ```shell
 $ csdx plugins:install contentstack-cli-tsgen
 ```
+
+## Migration
+Refer to the [Migration Guide](https://github.com/contentstack/contentstack-cli-tsgen/blob/master/MIGRATION.md) version 3 if you are migrating from version 2 or older.
 
 ## How to use this plugin
 
@@ -33,7 +36,7 @@ EXAMPLES
   $ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --no-doc
 ```
 
-_See code: [src/commands/tsgen.ts](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/blob/v1.0.6/src/commands/tsgen.ts)_
+_See code: [src/commands/tsgen.ts](https://github.com/contentstack/contentstack-cli-tsgen/blob/v2.3.4/src/commands/tsgen.ts)_
 <!-- commandsstop -->
 
 ## Supported Fields
@@ -92,38 +95,7 @@ interface BuiltinExample {
   /** Single Choice */
   single_choice: "Choice 1" | "Choice 2" | "Choice 3";
   /** Modular Blocks */
-  modular_blocks?: (
-    | {
-        block_1: {
-          /** Number */ 
-          number?: number;
-          /** Single line textbox */
-          single_line?: string;
-        };
-        block_2: undefined;
-        seo_gf: undefined;
-      }
-    | {
-        block_2: {
-          /** Boolean */ 
-          boolean?: boolean;
-          /** Date */
-          date?: string;
-        };
-        block_1: undefined;
-        seo_gf: undefined;
-      }
-    | {
-        seo_gf: {
-          /** Keywords */ 
-          keywords?: string;
-          /** Description */
-          description?: string;
-        };
-        block_1: undefined;
-        block_2: undefined;
-      }
-  )[];
+  modular_blocks?:ModularBlocks[];
   /** Number */
   number?: number;
   /** Link */
@@ -134,5 +106,26 @@ interface BuiltinExample {
   boolean?: boolean;
   /** Date */
   date?: string;
+}
+
+interface ModularBlocks {
+  block_1: {
+    /** Number */
+    number?: number;
+    /** Single line textbox */
+    single_line?: string;
+  };
+  block_2: {
+    /** Boolean */
+    boolean?: boolean;
+    /** Date */
+    date?: string;
+  };
+  seo_gf: {
+    /** Keywords */
+    keywords?: string;
+    /** Description */
+    description?: string;
+  };
 }
 ```
