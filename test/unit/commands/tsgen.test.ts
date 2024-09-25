@@ -1,4 +1,3 @@
-import {expect} from 'chai'
 import {configHandler} from '@contentstack/cli-utilities'
 import fancy from 'fancy-test'
 import {runCommand} from '@oclif/test'
@@ -31,7 +30,7 @@ describe('Tsgen command', () => {
       })
     )
     .it('should generate a type def for graphql query', async () => {
-      await runCommand(['tsgen', '--token-alias', alias, '--output', filePath, '--api-type', 'graphql'], { root: process.cwd() });
+      await runCommand(['tsgen', '--token-alias', alias, '--output', filePath, '--api-type', 'graphql'], {root: process.cwd()})
     })
   })
 
@@ -46,7 +45,7 @@ describe('Tsgen command', () => {
       })
     )
     .it('should generate a type def for graphql query with namespace', async () => {
-      await runCommand(['tsgen', '--api-type', 'graphql', '-a', alias, '--output', filePath, '--namespace', 'GraphQL'], { root: process.cwd() });
+      await runCommand(['tsgen', '--api-type', 'graphql', '-a', alias, '--output', filePath, '--namespace', 'GraphQL'], {root: process.cwd()})
     })
   })
 })
