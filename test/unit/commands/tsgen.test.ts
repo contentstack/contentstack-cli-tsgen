@@ -23,9 +23,9 @@ describe('Tsgen command', () => {
     .stdout({print: process.env.PRINT === 'true' || false})
     .nock(graphqlUrl, api =>
       api
-      .post(`/stacks/${mock.tokens[alias].apiKey}`)
+      .post(`/stacks/${mock.tokens[alias].apiKey}?environment=development`)
       .reply(200, {
-        data: mock.output,
+        data: mock.mock_data,
       })
     )
     .command(['tsgen', '--token-alias', alias, '--output', filePath, '--api-type', 'graphql'])
@@ -37,9 +37,9 @@ describe('Tsgen command', () => {
     .stdout({print: process.env.PRINT === 'true' || false})
     .nock(graphqlUrl, api =>
       api
-      .post(`/stacks/${mock.tokens[alias].apiKey}`)
+      .post(`/stacks/${mock.tokens[alias].apiKey}?environment=development`)
       .reply(200, {
-        data: mock.output,
+        data: mock.mock_data,
       })
     )
     .command(['tsgen', '--api-type', 'graphql', '-a', alias, '--output', filePath, '--namespace', 'GraphQL'])
