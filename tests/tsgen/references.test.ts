@@ -29,8 +29,8 @@ describe("references", () => {
       _version?:  5 ;
       title: string  ;
       url: string  ;
-      single_reference: (IReferenceChild)[]  ;
-      multiple_reference?: (IReferenceChild | IBoolean | IBuiltinExample)[]  ;
+      single_reference: (IReference | IReferenceChild)[]  ;
+      multiple_reference?: (IReference | IReferenceChild | IBoolean | IBuiltinExample)[]  ;
       }"
     `);
   });

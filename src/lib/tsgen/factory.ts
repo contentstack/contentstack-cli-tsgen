@@ -315,8 +315,12 @@ export default function (userOptions: TSGenOptions) {
     return name
   }
 
+  function type_reference_id() {
+    return `${options.naming?.prefix}Reference`
+  }
+
   function type_reference(field: ContentstackTypes.Field) {
-    const references: string[] = []
+    const references: string[] = [type_reference_id()]
 
     if (Array.isArray(field.reference_to)) {
       field.reference_to.forEach(v => {

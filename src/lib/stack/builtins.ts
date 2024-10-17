@@ -7,7 +7,7 @@ export const defaultInterfaces = (prefix = '', systemFields = false) => {
             time: string;
             user: string;
         }`,
-        `export interface ${prefix}File { 
+        `export interface ${prefix}File {
               uid: string;
               created_at: string;
               updated_at: string;
@@ -25,11 +25,15 @@ export const defaultInterfaces = (prefix = '', systemFields = false) => {
               title: string;
               publish_details: ${prefix}PublishDetails;
           }`,
-        `export interface ${prefix}Link { 
+        `export interface ${prefix}Link {
               title: string;
               href: string;
           }`,
-        `export interface ${prefix}Taxonomy { 
+        `export interface ${prefix}Reference {
+              uid: string;
+              _content_type_uid: string;
+          }`,
+        `export interface ${prefix}Taxonomy {
             taxonomy_uid: string;
             max_terms?: number;
             mandatory: boolean;
