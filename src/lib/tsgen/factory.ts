@@ -71,6 +71,8 @@ export default function (userOptions: TSGenOptions) {
   const cachedGlobalFields: GlobalFieldCache = {}
   const cachedModularBlocks: ModularBlockCache = {}
   const modularBlockInterfaces = new Set<string>()
+  const uniqueBlockInterfaces = new Set<string>()
+  let counter = 1
 
   const typeMap: TypeMap = {
     text: {func: type_text, track: true, flag: TypeFlags.BuiltinJS},
@@ -178,21 +180,6 @@ export default function (userOptions: TSGenOptions) {
     return op_paren(choices.map(v => get_value(v)).join(' | '))
   }
 
-  function visit_block_names(
-    field: ContentstackTypes.Field,
-    except: ContentstackTypes.Block
-  ) {
-    const uids: string[] = []
-
-    field.blocks.forEach(block => {
-      if (block.uid !== except.uid) {
-        uids.push(`${block.uid}: undefined;`)
-      }
-    })
-
-    return uids.join('\n')
-  }
-
   function visit_field_type(field: ContentstackTypes.Field) {
     let type = 'any'
 
@@ -260,28 +247,34 @@ export default function (userOptions: TSGenOptions) {
   }
 
   function type_modular_blocks(field: ContentstackTypes.Field): string {
-      const blockInterfaceName = name_type(field.uid);
-      if(!cachedModularBlocks[blockInterfaceName]){
-        const blockInterfaces = field.blocks.map((block) => {
-          const fieldType = block.reference_to && cachedGlobalFields[name_type(block.reference_to)]
-            ? name_type(block.reference_to)
-            : visit_fields(block.schema || []);
-            
-          const schema = block.reference_to ? `${fieldType};` : `{\n ${fieldType} }`;
-          return `${block.uid}: ${schema}`;
-        });
-      
+      let blockInterfaceName = name_type(field.uid);
+    
+      const blockInterfaces = field.blocks.map((block) => {
+        const fieldType = block.reference_to && cachedGlobalFields[name_type(block.reference_to)]
+          ? name_type(block.reference_to)
+          : visit_fields(block.schema || []);
+          
+        const schema = block.reference_to ? `${fieldType};` : `{\n ${fieldType} }`;
+        return `${block.uid}: ${schema}`;
+      });
+      const blockInterfacesKey = blockInterfaces.join(';');
+
+      if(!uniqueBlockInterfaces.has(blockInterfacesKey)) {
+        uniqueBlockInterfaces.add(blockInterfacesKey);
+        // Keep appending a counter until a unique name is found
+        while (cachedModularBlocks[blockInterfaceName]) {
+          blockInterfaceName = `${blockInterfaceName}${counter}`;
+          counter++;
+        }
         const modularInterface = [
           `export interface ${blockInterfaceName} {`,
           blockInterfaces.join('\n'),
           '}',
         ].join('\n');
-      
-        // Store or track the generated block interface for later use
         modularBlockInterfaces.add(modularInterface);
         cachedModularBlocks[blockInterfaceName] = blockInterfaceName;
       }
-      
+            
       return field.multiple ? `${blockInterfaceName}[]` : blockInterfaceName;
   }
   
