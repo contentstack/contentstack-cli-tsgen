@@ -1,11 +1,22 @@
 import {Command} from '@contentstack/cli-command'
 import {flags} from '@contentstack/cli-utilities'
-import {getGlobalFields, stackConnect, StackConnectionConfig, generateGraphQLTypeDef} from '../lib/stack/client'
-import {ContentType} from '../lib/stack/schema'
-import tsgenRunner from '../lib/tsgen/runner'
+import * as path from 'path'
+import * as fs from 'fs'
+import {sanitizePath} from '../lib/helper'
+import {generateTS, graphqlTS} from '@contentstack/types-generator'
+import {StackConnectionConfig} from '../types'
+
+function createOutputPath(outputFile: string) {
+  const outputPath = path.resolve(sanitizePath(process.cwd()), sanitizePath(outputFile))
+  const dirName = path.dirname(outputPath)
+
+  fs.mkdirSync(dirName, {recursive: true})
+
+  return outputPath
+}
 
 export default class TypeScriptCodeGeneratorCommand extends Command {
-  static description = 'generate TypeScript typings from a Stack';
+  static description = 'Generate TypeScript typings from a Stack';
 
   static examples = [
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts"',
@@ -78,10 +89,12 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       const token = this.getToken(flags['token-alias'])
       const prefix = flags.prefix
       const includeDocumentation = flags.doc
-      const outputPath = flags.output
+      const filePath = flags.output
       const branch = flags.branch
       const includeSystemFields = flags['include-system-fields']
       const namespace = flags.namespace
+
+      const outputPath = createOutputPath(filePath)
 
       if (token.type !== 'delivery') {
         this.warn('Possibly using a management token. You may not be able to connect to your Stack. Please use a delivery token.')
@@ -91,38 +104,61 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
         this.error('Please provide an output path.', {exit: 2})
       }
 
+      let region = ''
+      switch (this.region.name) {
+      case 'NA':
+        region = 'US'
+        break
+      case 'AZURE-NA':
+        region = 'AZURE_NA'
+        break
+      case 'AZURE-EU':
+        region = 'AZURE_EU'
+        break
+      case 'GCP-NA':
+        region = 'GCP_NA'
+        break
+      default:
+        region = this.region.name.toUpperCase()
+      }
+
       const config: StackConnectionConfig = {
         apiKey: token.apiKey,
         token: token.token,
-        region: (this.region.name === 'NA') ? 'us' : this.region.name.toLowerCase(),
+        region: region,
         environment: token.environment || '',
-        branch: branch || null,
+        branch: branch || undefined,
       }
 
+      // Generate the GraphQL schema TypeScript definitions
       if (flags['api-type'] === 'graphql') {
-        const result = await generateGraphQLTypeDef(config, outputPath, namespace)
-        if (result) {
-          this.log(`Successfully added the GraphQL schema type definitions to '${result.outputPath}'.`)
-        } else {
-          this.log('No schema found in the stack! Please use a valid stack.')
+        try {
+          const result = await graphqlTS({...config, namespace: namespace})
+
+          fs.writeFileSync(outputPath, result)
+          this.log(`Successfully added the GraphQL schema type definitions to '${outputPath}'.`)
+        } catch (error: any) {
+          this.error(error.error_message, {exit: 1})
         }
       } else {
-        const [client, globalFields] = await Promise.all([stackConnect(this.deliveryAPIClient.Stack, config, this.cdaHost), getGlobalFields(config, this.cdaHost)])
+        // Generate the Content Types TypeScript definitions
+        try {
+          const result = await generateTS({
+            ...config,
+            tokenType: 'delivery',
+            includeDocumentation: includeDocumentation,
+            prefix,
+            systemFields: includeSystemFields,
+          })
 
-        let schemas: ContentType[] = []
-        if (client.types?.length) {
-          if ((globalFields as any)?.global_fields?.length) {
-            schemas = schemas.concat((globalFields as any).global_fields as ContentType)
-            schemas = schemas.map(schema => ({
-              ...schema,
-              schema_type: 'global_field',
-            }))
-          }
-          schemas = schemas.concat(client.types)
-          const result = await tsgenRunner(outputPath, schemas, prefix, includeDocumentation, includeSystemFields)
-          this.log(`Wrote ${result.definitions} Content Types to '${result.outputPath}'.`)
-        } else {
-          this.log('No Content Types exist in the Stack.')
+          fs.writeFileSync(outputPath, result)
+
+          // -- TODO : Add count support for the number of Content Types generated
+          this.log(`Successfully added the Content Types to '${outputPath}'.`)
+
+          // this.log(`Wrote ${outputPath} Content Types to '${result.outputPath}'.`)
+        } catch (error: any) {
+          this.error(error.error_message, {exit: 1})
         }
       }
     } catch (error: any) {
