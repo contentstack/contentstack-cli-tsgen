@@ -9,6 +9,7 @@
     "target": "es2017",
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "composite": true,
   },
   "include": [
     "src/**/*"

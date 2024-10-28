@@ -9,6 +9,7 @@
     "@contentstack/cli-utilities": "^1.7.3",
     "@contentstack/types-generator": "^2.0.2",
     "async": "^3.2.6",
+    "dotenv": "^16.4.5",
     "fancy-test": "^3.0.16",
     "graphql": "^14.7.0",
     "lodash": "^4.17.21",
@@ -66,7 +67,8 @@
     "prepack": "rm -rf lib && tsc -b && oclif manifest && oclif readme",
     "test": "jest --testPathPattern=tests",
     "version": "oclif readme && git add README.md",
-    "test:unit": "mocha --forbid-only -r ts-node/register \"test/**/*.test.ts\""
+    "test:unit": "mocha --forbid-only -r ts-node/register \"test/**/*.test.ts\"",
+    "test:integration": "jest --testPathPattern=tests/integration"
   },
   "csdxConfig": {
     "shortCommandName": {
