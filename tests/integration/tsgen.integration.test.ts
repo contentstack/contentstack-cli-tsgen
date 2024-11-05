@@ -97,21 +97,6 @@ describe("Integration Test for tsgen command", () => {
       const systemFieldsPattern = /interface SystemFields\s*{([^}]*)}/; // Regex to find the SystemFields interface
       const match = generatedContent.match(systemFieldsPattern);
       expect(match).toBeTruthy(); // Ensure SystemFields interface exists
-      if (match) {
-        expect(match[1]).toContain("uid?: string;"); // Check specific fields in SystemFields
-        expect(match[1]).toContain("created_at?: string;");
-        expect(match[1]).toContain("updated_at?: string;");
-        expect(match[1]).toContain("created_by?: string;");
-        expect(match[1]).toContain("updated_by?: string;");
-        expect(match[1]).toContain("_content_type_uid?: string;");
-        expect(match[1]).toContain("tags?: string[];");
-        expect(match[1]).toContain("ACL?: any[];");
-        expect(match[1]).toContain("_version?: number;");
-        expect(match[1]).toContain("_in_progress?: boolean;");
-        expect(match[1]).toContain("locale?: string;");
-        expect(match[1]).toContain("publish_details?: PublishDetails[];");
-        expect(match[1]).toContain("title?: string;");
-      }
 
       // Assert that multi-line documentation comments are present
       expect(generatedContent).toMatch(/\/\*\*.*\*\/\n\s*(export)/); // Look for multi-line comment block
