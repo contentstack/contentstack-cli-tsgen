@@ -29,7 +29,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
   static flags: any = {
     'token-alias': flags.string({
       char: 'a',
-      description: 'delivery token alias',
+      description: '(mandatory) Delivery token alias.',
       hidden: false,
       multiple: false,
       required: true,
@@ -37,7 +37,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
     output: flags.string({
       char: 'o',
-      description: 'full path to output',
+      description: '(mandatory) The full path to output.',
       hidden: false,
       multiple: false,
       required: true,
@@ -45,7 +45,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
     prefix: flags.string({
       char: 'p',
-      description: 'interface prefix, e.g. "I"',
+      description: '(optional) Interface prefix, e.g., "I".',
       hidden: false,
       multiple: false,
       default: '',
@@ -54,19 +54,19 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
     doc: flags.boolean({
       char: 'd',
-      description: 'include documentation comments',
+      description: '(optional) Include documentation comments. By default, this flag is enabled.',
       default: true,
       allowNo: true,
     }),
 
     branch: flags.string({
-      description: 'branch',
+      description: '(optional) The name of the branch to be used.',
       hidden: false,
       multiple: false,
     }),
 
     'include-system-fields': flags.boolean({
-      description: 'include system fields in generated types',
+      description: '(optional) Include system fields in generated types.',
       default: false,
     }),
 
@@ -74,11 +74,11 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       default: 'rest',
       multiple: false,
       options: ['rest', 'graphql'],
-      description: '[Optional] Please enter an API type to generate the type definitions.',
+      description: '[optional] The API type to generate type definitions. Supported options: rest, graphql.',
     }),
 
     namespace: flags.string({
-      description: '[Optional]Please enter a namespace for the GraphQL API type to organize the generated types.',
+      description: '[optional] The namespace for the GraphQL API type to organize the generated types.',
     }),
   };
 
