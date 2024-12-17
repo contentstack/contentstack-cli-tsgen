@@ -11,10 +11,10 @@
     "async": "^3.2.6",
     "dotenv": "^16.4.5",
     "fancy-test": "^3.0.16",
-    "graphql": "^14.7.0",
+    "graphql": "^16.8.1",
     "lodash": "^4.17.21",
-    "prettier": "^2.8.8",
-    "tslib": "^1.14.1"
+    "prettier": "^3.2.4",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@oclif/plugin-help": "^3.3.1",
