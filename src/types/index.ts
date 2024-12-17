@@ -4,4 +4,5 @@ export type StackConnectionConfig = {
   region: any;
   environment: string;
   branch?: string | undefined;
+  host?: string;
 };
