@@ -5,6 +5,8 @@
 /dist
 /tmp
 /yarn.lock
+/logs
 node_modules
 .vscode/
 oclif.manifest.json
+.env

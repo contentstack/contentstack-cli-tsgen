@@ -4,6 +4,7 @@
       "oclif-typescript"
     ],
     "rules": {
+      "unicorn/prefer-module": "off",
       "unicorn/no-abusive-eslint-disable": "off",
       "@typescript-eslint/no-use-before-define": "off"
     }
