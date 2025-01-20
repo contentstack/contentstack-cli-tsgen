@@ -124,6 +124,9 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       // Generate the GraphQL schema TypeScript definitions
       if (flags["api-type"] === "graphql") {
         try {
+          if (config.region === "us") {
+            config.region = "US";
+          }
           const result = await graphqlTS({ ...config, namespace: namespace });
 
           fs.writeFileSync(outputPath, result);
