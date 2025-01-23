@@ -34,3 +34,4 @@ jobs:
       - run: npm test
         env:
           TOKEN_ALIAS: ${{ secrets.TOKEN_ALIAS }}
+      - run: csdx plugins:unlink
