@@ -29,6 +29,8 @@ jobs:
       - run: csdx plugins:install contentstack-cli-tsgen
       - run: csdx config:set:region ${{secrets.REGION}}
       - run: csdx auth:tokens:add -a ${{ secrets.TOKEN_ALIAS }} --delivery -k ${{ secrets.APIKEY }} --token ${{ secrets.DELIVERYKEY }} -e ${{ secrets.ENVIRONMENT }}
+      - run: npm run prepack
+      - run: csdx plugins:link
       - run: npm test
         env:
           TOKEN_ALIAS: ${{ secrets.TOKEN_ALIAS }}
