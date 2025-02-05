@@ -8,10 +8,11 @@ import {StackConnectionConfig} from '../types'
 
 function createOutputPath(outputFile: string) {
   const outputPath = path.resolve(
-    __dirname,
+    sanitizePath(process.cwd()),
     sanitizePath(outputFile),
   )
   console.log(outputPath,"Output Path is showed");
+  console.log("Output File", outputFile)
   const dirName = path.dirname(outputPath)
 
   fs.mkdirSync(dirName, {recursive: true})
