@@ -8,7 +8,7 @@ import {StackConnectionConfig} from '../types'
 
 function createOutputPath(outputFile: string) {
   const outputPath = path.resolve(
-    sanitizePath(process.cwd()),
+    __dirname,
     sanitizePath(outputFile),
   )
   console.log(outputPath,"Output Path is showed");
