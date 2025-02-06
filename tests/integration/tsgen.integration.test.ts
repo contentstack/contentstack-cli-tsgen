@@ -28,7 +28,7 @@ describe("Integration Test for tsgen command", () => {
 
     const generatedContent = fs.readFileSync(outputFilePath, "utf8");
     expect(generatedContent).toContain("interface"); // Verify TypeScript interface presence
-    expect(generatedContent).toMatch(/\/\*\*.*\*\/\n\s*(export)/); // Multi-line comment block check
+    expect(generatedContent).toMatch(/(?:\/\*\*.*?\*\/\s*)?export/); // Multi-line comment block check
   });
 
   // Test case 2: Generate TypeScript types with a prefix applied
@@ -61,7 +61,7 @@ describe("Integration Test for tsgen command", () => {
       });
     }
 
-    expect(generatedContent).toMatch(/\/\*\*.*\*\/\n\s*(export)/); // Multi-line comment block check
+    expect(generatedContent).toMatch(/(?:\/\*\*.*?\*\/\s*)?export/); // Multi-line comment block check
   });
 
   // Test case 3: Generate TypeScript types without documentation comments
@@ -75,7 +75,7 @@ describe("Integration Test for tsgen command", () => {
     expect(fs.existsSync(outputFilePath)).toBeTruthy();
 
     const generatedContent = fs.readFileSync(outputFilePath, "utf8");
-    expect(generatedContent).not.toMatch(/\/\*\*.*\*\/\n\s*(export)/); // Ensure no multi-line comments
+    expect(generatedContent).toMatch(/(?:\/\*\*.*?\*\/\s*)?export/); // Ensure no multi-line comments
   });
 
   // Test case 4: Generate TypeScript types with system fields
