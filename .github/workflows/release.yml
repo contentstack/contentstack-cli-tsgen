@@ -9,19 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup Node.js
-        uses: actions/setup-node@v3.7.0
+        uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: "22.x"
       - name: Install dependencies
         run: npm install
       - name: Build
         run: npm run prepack
       - name: Upload dist
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4
         with:
           name: lib
           path: lib
@@ -32,17 +32,17 @@ jobs:
     needs: build
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup Node.js
-        uses: actions/setup-node@v3.7.0
+        uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: "22.x"
       - name: Install dependencies
         run: npm install
       - name: Download dist
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: lib
           path: lib
@@ -56,7 +56,7 @@ jobs:
       - name: Release
         if: steps.update_tag.outputs.tagname
         id: release-plugin
-        uses: JS-DevTools/npm-publish@v2.2.0
+        uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_TOKEN }}
           strategy: upgrade
@@ -65,4 +65,4 @@ jobs:
         id: github-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run:  gh release create v${{ steps.release-plugin.outputs.version }} --title "Release ${{ steps.release-plugin.outputs.version }}" --generate-notes
+        run: gh release create v${{ steps.release-plugin.outputs.version }} --title "Release ${{ steps.release-plugin.outputs.version }}" --generate-notes
