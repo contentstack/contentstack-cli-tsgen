@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@oclif/plugin-help": "^3.3.1",
-    "@oclif/test": "^4.0.9",
+    "@oclif/test": "^4.1.9",
     "@types/jest": "^26.0.24",
     "@types/node": "^10.17.60",
     "eslint": "^5.16.0",
