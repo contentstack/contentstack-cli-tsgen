@@ -6,6 +6,7 @@
     "rules": {
       "unicorn/prefer-module": "off",
       "unicorn/no-abusive-eslint-disable": "off",
-      "@typescript-eslint/no-use-before-define": "off"
+      "@typescript-eslint/no-use-before-define": "off",
+      "node/no-missing-import": "off"
     }
   }
