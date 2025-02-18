@@ -11,8 +11,6 @@ function createOutputPath(outputFile: string) {
     sanitizePath(process.cwd()),
     sanitizePath(outputFile),
   )
-  console.log(outputPath,"Output Path is showed");
-  console.log("Output File", outputFile)
   const dirName = path.dirname(outputPath)
 
   fs.mkdirSync(dirName, {recursive: true})
