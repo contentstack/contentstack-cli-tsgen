@@ -58,11 +58,12 @@ jobs:
         id: release-plugin
         uses: JS-DevTools/npm-publish@v3
         with:
-          token: ${{ secrets.NPM_TOKEN }}
+          token: "${{ secrets.NPM_TOKEN }}"
           strategy: upgrade
       - name: github-release
         if: steps.update_tag.outputs.tagname
         id: github-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.release-plugin.outputs.version }}
         run: gh release create v${{ steps.release-plugin.outputs.version }} --title "Release ${{ steps.release-plugin.outputs.version }}" --generate-notes
