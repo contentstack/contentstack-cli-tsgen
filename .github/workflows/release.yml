@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22.x"
+          node-version: '22.x'
       - name: Install dependencies
         run: npm install
       - name: Build
@@ -38,7 +38,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22.x"
+          node-version: '22.x'
       - name: Install dependencies
         run: npm install
       - name: Download dist
@@ -58,11 +58,12 @@ jobs:
         id: release-plugin
         uses: JS-DevTools/npm-publish@v3
         with:
-          token: ${{ secrets.NPM_TOKEN }}
+          token: "${{ secrets.NPM_TOKEN }}"
           strategy: upgrade
       - name: github-release
         if: steps.update_tag.outputs.tagname
         id: github-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create v${{ steps.release-plugin.outputs.version }} --title "Release ${{ steps.release-plugin.outputs.version }}" --generate-notes
+          VERSION: ${{ steps.release-plugin.outputs.version }}
+        run: gh release create v"$VERSION" --title "Release $VERSION" --generate-notes
