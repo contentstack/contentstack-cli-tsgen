@@ -12,4 +12,5 @@ module.exports = {
     "@typescript-eslint/no-use-before-define": "off",
     "node/no-missing-import": "off",
   },
+  ignores: ["tests/", "node_modules/", "lib/"],
 };
