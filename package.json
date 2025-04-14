@@ -17,7 +17,7 @@
     "@types/node": "^22.14.0",
     "@typescript-eslint/eslint-plugin": "^8.29.1",
     "@typescript-eslint/parser": "^8.29.1",
-    "eslint": "^9.24.0",
+    "eslint": "^8.57.0",
     "eslint-config-oclif": "^6.0.42",
     "eslint-config-oclif-typescript": "^3.1.14",
     "jest": "^29.7.0",
