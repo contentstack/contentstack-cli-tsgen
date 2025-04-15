@@ -1,5 +1,5 @@
 import { Command } from "@contentstack/cli-command";
-import { flags } from "@contentstack/cli-utilities";
+import { flags, FlagInput } from "@contentstack/cli-utilities";
 import * as path from "path";
 import * as fs from "fs";
 import { generateTS, graphqlTS } from "@contentstack/types-generator";
@@ -29,7 +29,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --api-type graphql --namespace "GraphQL" ',
   ];
 
-  static flags: any = {
+  static flags: FlagInput = {
     "token-alias": flags.string({
       char: "a",
       description: "delivery token alias",
