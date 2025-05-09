@@ -1,13 +1,14 @@
 ## Migrating from v3 to v4
 
-This document outlines the necessary change made to the `ISystemFields` interface.  
-The `publish_details` field is no longer an array of objects — it is now a single object.
+This changelog documents a breaking change to the `ISystemFields` interface, specifically related to the `publish_details` field.
 
-This update aligns the generated types with the actual Contentstack API response.
+## What Changed
 
+The `publish_details` field is no longer an array of objects. It is now represented as a single `IPublishDetails` object.
 
+This update aligns the generated types with the actual [Contentstack API](https://www.contentstack.com/docs/developers/apis/content-delivery-api) response.
 
-## Before 
+## Before
 
 ```typescript
 export interface ISystemFields {
@@ -27,8 +28,8 @@ export interface ISystemFields {
 }
 ```
 
+## After
 
-## After 
 ```typescript
 export interface ISystemFields {
   uid?: string;
@@ -46,12 +47,15 @@ export interface ISystemFields {
   title?: string;
 }
 ```
+
 ---
 
 ## Migrating from v2 to v3
+
 This document outlines the necessary changes to separate nested modular blocks into distinct interfaces. This update will affect how modular blocks are structured and used throughout the codebase.
 
-## Before 
+## Before
+
 ```typescript
 export interface Test {
   /** Version */
@@ -77,8 +81,8 @@ export interface Test {
 }
 ```
 
-
 ## After
+
 ```typescript
 export interface Test {
   /** Version */
@@ -88,7 +92,6 @@ export interface Test {
   /** Modular Blocks */
   modular_blocks?: ModularBlocks[];
 }
-
 
 export interface ModularBlocks {
   /** Multi Line Textbox */
