@@ -1,6 +1,9 @@
 fileignoreconfig:
-- filename: lib/commands/tsgen.js
-  checksum: 02bab20fef5508565dbf38b5c12192c48ec27249b89d48c70303abaae17984ce
-- filename: package-lock.json
-  checksum: f69fb633369ac69c08b707b17c96fffb89198944fae8d6f6bcf590bda960f26a
+  - filename: .github/workflows/secrets-scan.yml
+    ignore_detectors:
+      - filecontent
+  - filename: lib/commands/tsgen.js
+    checksum: 02bab20fef5508565dbf38b5c12192c48ec27249b89d48c70303abaae17984ce
+  - filename: package-lock.json
+    checksum: e7ea94799c4afab6e55935c79ac40d3cac38e2ce6e9882dbd4c2e5a3c551e087
 version: "1.0"
