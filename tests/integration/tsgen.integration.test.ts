@@ -70,7 +70,7 @@ describe("Integration Test for tsgen command", () => {
     const args = ["tsgen", "-a", tokenAlias, "-o", outputFilePath, "--no-doc"];
 
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
-   
+
     expect(result.status).toBe(0);
     expect(fs.existsSync(outputFilePath)).toBeTruthy();
 
@@ -94,7 +94,7 @@ describe("Integration Test for tsgen command", () => {
 
     expect(result.status).toBe(0);
     expect(fs.existsSync(outputFilePath)).toBeTruthy();
-   
+
     const generatedContent = fs.readFileSync(outputFilePath, "utf8");
     expect(generatedContent).toContain("export interface SystemFields");
     expect(generatedContent).toContain("extends SystemFields");
@@ -126,6 +126,9 @@ describe("Integration Test for tsgen command", () => {
 
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
 
+    if (result.error) {
+      console.error("Spawn Error:", result.error);
+    }
     expect(result.status).toBe(0);
     expect(fs.existsSync(outputFilePath)).toBeTruthy();
 
@@ -152,6 +155,9 @@ describe("Integration Test for tsgen command", () => {
 
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
 
+    if (result.error) {
+      console.error("Spawn Error:", result.error);
+    }
     expect(result.status).toBe(0);
     expect(fs.existsSync(outputFilePath)).toBeTruthy();
 
