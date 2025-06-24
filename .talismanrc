@@ -5,5 +5,5 @@ fileignoreconfig:
   - filename: lib/commands/tsgen.js
     checksum: 02bab20fef5508565dbf38b5c12192c48ec27249b89d48c70303abaae17984ce
   - filename: package-lock.json
-    checksum: 39789a0ef944f18f236ff83ed75bea7c3a6c06b6ae81156f34fe16854616a907
+    checksum: d99d95bb9b24149e825447acc3a1bb1469a79a23b6276825780198b4a5d427c7
 version: "1.0"
