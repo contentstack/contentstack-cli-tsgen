@@ -1,4 +1,4 @@
-const { spawnSync } = require("child_process");
+import { spawnSync } from "child_process";
 import * as path from "path";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
@@ -16,10 +16,15 @@ describe("Integration Test for tsgen command", () => {
     }
   });
 
+  // Check if tokenAlias is defined before running tests
+  if (!tokenAlias) {
+    throw new Error("TOKEN_ALIAS environment variable is not set");
+  }
+
   // Test case 1: Generate TypeScript types with default flags
   it("should generate TypeScript types with the default flags", () => {
     const cmd = "csdx";
-    const args = ["tsgen", "-a", tokenAlias, "-o", outputFilePath];
+    const args = ["tsgen", "-a", tokenAlias!, "-o", outputFilePath];
 
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
 
@@ -38,7 +43,7 @@ describe("Integration Test for tsgen command", () => {
     const args = [
       "tsgen",
       "-a",
-      tokenAlias,
+      tokenAlias!,
       "-o",
       outputFilePath,
       "-p",
@@ -67,7 +72,7 @@ describe("Integration Test for tsgen command", () => {
   // Test case 3: Generate TypeScript types without documentation comments
   it("should generate TypeScript types without documentation", () => {
     const cmd = "csdx";
-    const args = ["tsgen", "-a", tokenAlias, "-o", outputFilePath, "--no-doc"];
+    const args = ["tsgen", "-a", tokenAlias!, "-o", outputFilePath, "--no-doc"];
 
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
 
@@ -84,7 +89,7 @@ describe("Integration Test for tsgen command", () => {
     const args = [
       "tsgen",
       "-a",
-      tokenAlias,
+      tokenAlias!,
       "-o",
       outputFilePath,
       "--include-system-fields",
@@ -117,7 +122,7 @@ describe("Integration Test for tsgen command", () => {
     const args = [
       "tsgen",
       "-a",
-      tokenAlias,
+      tokenAlias!,
       "-o",
       outputFilePath,
       "--api-type",
@@ -125,8 +130,6 @@ describe("Integration Test for tsgen command", () => {
     ];
 
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
-
-    console.error("Spawn Error:", result);
 
     expect(result.status).toBe(0);
     expect(fs.existsSync(outputFilePath)).toBeTruthy();
@@ -143,7 +146,7 @@ describe("Integration Test for tsgen command", () => {
     const args = [
       "tsgen",
       "-a",
-      tokenAlias,
+      tokenAlias!,
       "-o",
       outputFilePath,
       "--api-type",
@@ -153,8 +156,6 @@ describe("Integration Test for tsgen command", () => {
     ];
 
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
-
-    console.error("Spawn Error:", result);
 
     expect(result.status).toBe(0);
     expect(fs.existsSync(outputFilePath)).toBeTruthy();
