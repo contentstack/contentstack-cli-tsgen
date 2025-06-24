@@ -130,7 +130,7 @@ describe("Integration Test for tsgen command", () => {
     ];
 
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
-
+    console.error(result);
     expect(result.status).toBe(0);
     expect(fs.existsSync(outputFilePath)).toBeTruthy();
 
@@ -156,6 +156,7 @@ describe("Integration Test for tsgen command", () => {
     ];
 
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
+    console.error(result);
 
     expect(result.status).toBe(0);
     expect(fs.existsSync(outputFilePath)).toBeTruthy();
