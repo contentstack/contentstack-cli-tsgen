@@ -155,8 +155,14 @@ describe("Integration Test for tsgen command", () => {
       namespace,
     ];
 
+    console.log("Running GraphQL namespace test with args:", args);
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
-    console.error(result);
+    console.error("GraphQL Namespace Test Result:", {
+      status: result.status,
+      stdout: result.stdout,
+      stderr: result.stderr,
+      error: result.error,
+    });
 
     expect(result.status).toBe(0);
     expect(fs.existsSync(outputFilePath)).toBeTruthy();

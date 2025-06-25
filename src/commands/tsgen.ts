@@ -134,7 +134,11 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
             `Successfully added the GraphQL schema type definitions to '${outputPath}'.`,
           );
         } catch (error: any) {
-          this.error(error.error_message, { exit: 1 });
+          const errorMessage =
+            error?.error_message ||
+            error?.message ||
+            "An error occurred while generating GraphQL types";
+          this.error(errorMessage, { exit: 1 });
         }
       } else {
         // Generate the Content Types TypeScript definitions
@@ -154,11 +158,19 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
           // this.log(`Wrote ${outputPath} Content Types to '${result.outputPath}'.`)
         } catch (error: any) {
-          this.error(error.error_message, { exit: 1 });
+          const errorMessage =
+            error?.error_message ||
+            error?.message ||
+            "An error occurred while generating TypeScript types";
+          this.error(errorMessage, { exit: 1 });
         }
       }
     } catch (error: any) {
-      this.error(error as any, { exit: 1 });
+      const errorMessage =
+        error?.error_message ||
+        error?.message ||
+        "An unexpected error occurred";
+      this.error(errorMessage, { exit: 1 });
     }
   }
 }
