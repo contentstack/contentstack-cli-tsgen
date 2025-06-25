@@ -29,6 +29,19 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --api-type graphql --namespace "GraphQL" ',
   ];
 
+  // Check if a region is a default Contentstack region
+  private isDefaultRegion(region: string): boolean {
+    const defaultRegions = [
+      "US",
+      "EU",
+      "AZURE_NA",
+      "AZURE_EU",
+      "GCP_NA",
+      "GCP_EU",
+    ];
+    return defaultRegions.includes(region.toUpperCase());
+  }
+
   static flags: FlagInput = {
     "token-alias": flags.string({
       char: "a",
@@ -127,7 +140,37 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
           if (config.region === "us") {
             config.region = "US";
           }
-          const result = await graphqlTS({ ...config, namespace: namespace });
+
+          // Check if token has delivery type (required for GraphQL)
+          if (token.type !== "delivery") {
+            throw new Error(
+              "GraphQL API requires a delivery token. Management tokens are not supported for GraphQL operations.",
+            );
+          }
+
+          // Prepare GraphQL config - only include host for custom regions
+          const graphqlConfig: any = {
+            apiKey: config.apiKey,
+            token: config.token,
+            environment: config.environment,
+            namespace: namespace,
+          };
+
+          // Add region or host based on whether it's a custom region
+          if (config.host && !this.isDefaultRegion(config.region)) {
+            // Custom region - include both region and host
+            graphqlConfig.region = config.region;
+            graphqlConfig.host = config.host;
+          } else {
+            // Default region - only include region
+            graphqlConfig.region = config.region;
+          }
+
+          const result = await graphqlTS(graphqlConfig);
+
+          if (!result) {
+            throw new Error("GraphQL API returned no result");
+          }
 
           fs.writeFileSync(outputPath, result);
           this.log(
