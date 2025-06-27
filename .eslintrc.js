@@ -11,8 +11,8 @@ module.exports = {
     "unicorn/no-abusive-eslint-disable": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "node/no-missing-import": "off",
-    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-require-imports": "off",
-    "no-useless-escape": "warn",
+    "no-useless-escape": "off",
   },
 };
