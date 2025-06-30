@@ -34,6 +34,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
     const defaultRegions = [
       "US",
       "EU",
+      "AU",
       "AZURE_NA",
       "AZURE_EU",
       "GCP_NA",
