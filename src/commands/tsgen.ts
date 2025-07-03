@@ -87,6 +87,11 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       default: false,
     }),
 
+    "include-editable-tags": flags.boolean({
+      description: "include editable tags in generated types",
+      default: false,
+    }),
+
     "api-type": flags.string({
       default: "rest",
       multiple: false,
@@ -111,6 +116,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       const filePath = flags.output;
       const branch = flags.branch;
       const includeSystemFields = flags["include-system-fields"];
+      const includeEditableTags = flags["include-editable-tags"];
       const namespace = flags.namespace;
 
       const outputPath = createOutputPath(filePath);
@@ -193,6 +199,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
             includeDocumentation: includeDocumentation,
             prefix,
             systemFields: includeSystemFields,
+            isEditableTags: includeEditableTags,
           });
 
           fs.writeFileSync(outputPath, result || "");
