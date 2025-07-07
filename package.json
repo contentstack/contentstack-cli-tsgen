@@ -7,7 +7,7 @@
   "dependencies": {
     "@contentstack/cli-command": "^1.5.0",
     "@contentstack/cli-utilities": "^1.11.0",
-    "@contentstack/types-generator": "^3.2.0",
+    "@contentstack/types-generator": "^3.3.0",
     "dotenv": "^16.4.7"
   },
   "devDependencies": {
