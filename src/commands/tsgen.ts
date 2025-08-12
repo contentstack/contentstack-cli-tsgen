@@ -218,7 +218,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
             bold: true,
           });
           if (hint) {
-            cliux.print(`Hint: ${hint}`, { color: "yellow" });
+            cliux.print(`Tip: ${hint}`, { color: "yellow" });
           }
           cliux.print(`Error context: ${error?.context || "graphql"}`, {
             color: "cyan",
@@ -289,12 +289,12 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
             switch (errorCode) {
               case "INVALID_INTERFACE_NAME":
               case "INVALID_CONTENT_TYPE_UID":
-                errorMessage = `TypeScript syntax error detected in generated types`;
-                hint = `Content type "${error?.details?.uid || "unknown"}" starts with a number, which creates invalid TypeScript interface names. Since UIDs cannot be changed, use the --prefix flag to add a valid prefix to all interface names (e.g., --prefix "ContentType").`;
+                errorMessage = `TypeScript syntax error detected in the generated types.`;
+                hint = `Use a prefix to ensure all interface names are valid TypeScript identifiers.`;
                 break;
               case "INVALID_GLOBAL_FIELD_REFERENCE":
-                errorMessage = `TypeScript syntax error detected in generated types`;
-                hint = `Global field "${error?.details?.uid || "unknown"}" references content type "${error?.details?.reference_to || "unknown"}" which starts with a number. Since UIDs cannot be changed, use the --prefix flag to add a valid prefix to all interface names (e.g., --prefix "ContentType").`;
+                errorMessage = `TypeScript syntax error detected in the generated types.`;
+                hint = `Use a prefix to ensure all interface names are valid TypeScript identifiers.`;
                 break;
               case "VALIDATION_ERROR":
                 errorMessage = `TypeScript syntax error detected in generated types`;
@@ -328,7 +328,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
               error?.message ||
               "An error occurred while generating TypeScript types";
             hint =
-              "Since UIDs cannot be changed, use the --prefix flag to add a valid prefix to all interface names (e.g., --prefix 'ContentType').";
+              "Use a prefix to ensure all interface names are valid TypeScript identifiers.";
           }
 
           // Display our formatted error first
@@ -337,7 +337,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
             bold: true,
           });
           if (hint) {
-            cliux.print(`Hint: ${hint}`, { color: "yellow" });
+            cliux.print(`Tip: ${hint}`, { color: "yellow" });
           }
           cliux.print(`Error context: ${error?.context || "tsgen"}`, {
             color: "cyan",
@@ -369,11 +369,8 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
           case "INVALID_INTERFACE_NAME":
           case "INVALID_CONTENT_TYPE_UID":
           case "INVALID_GLOBAL_FIELD_REFERENCE":
-            errorMessage = `TypeScript syntax error detected in generated types`;
-            hint = error?.error_message || "A validation error occurred";
-            if (error?.details?.suggestion) {
-              hint += `. ${error.details.suggestion}`;
-            }
+            errorMessage = `TypeScript syntax error detected in the generated types.`;
+            hint = `Use a prefix to ensure all interface names are valid TypeScript identifiers.`;
             break;
           default:
             errorMessage =
@@ -395,7 +392,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
         bold: true,
       });
       if (hint) {
-        cliux.print(`Hint: ${hint}`, { color: "yellow" });
+        cliux.print(`Tip: ${hint}`, { color: "yellow" });
       }
       cliux.print(`Error context: ${error?.context || "tsgen"}`, {
         color: "cyan",
