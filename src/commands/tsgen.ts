@@ -4,7 +4,7 @@ import * as path from "path";
 import * as fs from "fs";
 import { cliux } from "@contentstack/cli-utilities";
 import { generateTS, graphqlTS } from "@contentstack/types-generator";
-import { sanitizePath } from "../lib/helper";
+import { sanitizePath, printFormattedError } from "../lib/helper";
 import { StackConnectionConfig } from "../types";
 
 function createOutputPath(outputFile: string) {
@@ -185,54 +185,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
             `Successfully added the GraphQL schema type definitions to '${outputPath}'.`,
           );
         } catch (error: any) {
-          const errorCode = error?.error_code || "UNKNOWN_ERROR";
-          let errorMessage = "An error occurred while generating GraphQL types";
-          let hint = "";
-
-          // If we have a new error format with error_code, use it for better messaging
-          if (error?.error_code) {
-            switch (errorCode) {
-              case "AUTHENTICATION_FAILED":
-                errorMessage = `Authentication failed`;
-                hint = "Please check your API key, token, and region.";
-                break;
-              case "INVALID_CREDENTIALS":
-                errorMessage = `Invalid credentials provided`;
-                hint = "Please verify your API key, token, and region.";
-                break;
-              default:
-                errorMessage =
-                  error?.error_message || "An unexpected error occurred";
-                hint = "Please check the error details and try again.";
-            }
-          } else {
-            // Fallback to old error format
-            errorMessage =
-              error?.error_message ||
-              error?.message ||
-              "An error occurred while generating GraphQL types";
-            hint = "Please check your API credentials and try again.";
-          }
-          cliux.print(`Type generation failed: ${errorMessage}`, {
-            color: "red",
-            bold: true,
-          });
-          if (hint) {
-            cliux.print(`Tip: ${hint}`, { color: "yellow" });
-          }
-          cliux.print(`Error context: ${error?.context || "graphql"}`, {
-            color: "cyan",
-          });
-          cliux.print(
-            `Timestamp: ${error?.timestamp || new Date().toISOString()}`,
-            { color: "gray" },
-          );
-
-          if (error?.error_message && error.error_message !== errorMessage) {
-            cliux.print("", {});
-            cliux.print("Raw error details:", { color: "magenta", bold: true });
-            cliux.print(error.error_message, { color: "red" });
-          }
+          printFormattedError(error, error?.context || "graphql");
           process.exit(1);
         }
       } else {
@@ -279,135 +232,12 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
           // this.log(`Wrote ${outputPath} Content Types to '${result.outputPath}'.`)
         } catch (error: any) {
-          const errorCode = error?.error_code || "UNKNOWN_ERROR";
-          let errorMessage =
-            "An error occurred while generating TypeScript types";
-          let hint = "";
-
-          // If we have a new error format with error_code, use it for better messaging
-          if (error?.error_code) {
-            switch (errorCode) {
-              case "INVALID_INTERFACE_NAME":
-              case "INVALID_CONTENT_TYPE_UID":
-                errorMessage = `TypeScript syntax error detected in the generated types.`;
-                hint = `Use a prefix to ensure all interface names are valid TypeScript identifiers.`;
-                break;
-              case "INVALID_GLOBAL_FIELD_REFERENCE":
-                errorMessage = `TypeScript syntax error detected in the generated types.`;
-                hint = `Use a prefix to ensure all interface names are valid TypeScript identifiers.`;
-                break;
-              case "VALIDATION_ERROR":
-                errorMessage = `TypeScript syntax error detected in generated types`;
-                hint =
-                  error?.error_message ||
-                  "Validation error occurred during type generation";
-                break;
-              case "TYPE_GENERATION_FAILED":
-                errorMessage = `Type generation failed due to an internal error`;
-                hint =
-                  error?.error_message ||
-                  "An unexpected error occurred during type generation";
-                break;
-              case "AUTHENTICATION_FAILED":
-                errorMessage = `Authentication failed`;
-                hint = "Please check your API key, token, and region.";
-                break;
-              case "INVALID_CREDENTIALS":
-                errorMessage = `Invalid credentials provided`;
-                hint = "Please verify your API key, token, and region.";
-                break;
-              default:
-                errorMessage =
-                  error?.error_message || "An unexpected error occurred";
-                hint = "Please check the error details and try again.";
-            }
-          } else {
-            // Fallback to old error format
-            errorMessage =
-              error?.error_message ||
-              error?.message ||
-              "An error occurred while generating TypeScript types";
-            hint =
-              "Use a prefix to ensure all interface names are valid TypeScript identifiers.";
-          }
-
-          // Display our formatted error first
-          cliux.print(`Type generation failed: ${errorMessage}`, {
-            color: "red",
-            bold: true,
-          });
-          if (hint) {
-            cliux.print(`Tip: ${hint}`, { color: "yellow" });
-          }
-          cliux.print(`Error context: ${error?.context || "tsgen"}`, {
-            color: "cyan",
-          });
-          cliux.print(
-            `Timestamp: ${error?.timestamp || new Date().toISOString()}`,
-            { color: "gray" },
-          );
+          printFormattedError(error, error?.context || "tsgen");
           process.exit(1);
         }
       }
     } catch (error: any) {
-      // Handle both old and new error formats
-      const errorCode = error?.error_code || "UNKNOWN_ERROR";
-      let errorMessage = "An unexpected error occurred";
-      let hint = "";
-
-      // If we have a new error format with error_code, use it for better messaging
-      if (error?.error_code) {
-        switch (errorCode) {
-          case "AUTHENTICATION_FAILED":
-            errorMessage = `Authentication failed`;
-            hint = "Please check your API key, token, and region.";
-            break;
-          case "INVALID_CREDENTIALS":
-            errorMessage = `Invalid credentials provided`;
-            hint = "Please verify your API key, token, and region.";
-            break;
-          case "INVALID_INTERFACE_NAME":
-          case "INVALID_CONTENT_TYPE_UID":
-          case "INVALID_GLOBAL_FIELD_REFERENCE":
-            errorMessage = `TypeScript syntax error detected in the generated types.`;
-            hint = `Use a prefix to ensure all interface names are valid TypeScript identifiers.`;
-            break;
-          default:
-            errorMessage =
-              error?.error_message || "An unexpected error occurred";
-            hint = "Please check the error details and try again.";
-        }
-      } else {
-        // Fallback to old error format
-        errorMessage =
-          error?.error_message ||
-          error?.message ||
-          "An unexpected error occurred";
-        hint = "Please check your configuration and try again.";
-      }
-
-      // Display our formatted error first
-      cliux.print(`Type generation failed: ${errorMessage}`, {
-        color: "red",
-        bold: true,
-      });
-      if (hint) {
-        cliux.print(`Tip: ${hint}`, { color: "yellow" });
-      }
-      cliux.print(`Error context: ${error?.context || "tsgen"}`, {
-        color: "cyan",
-      });
-      cliux.print(
-        `Timestamp: ${error?.timestamp || new Date().toISOString()}`,
-        { color: "gray" },
-      );
-
-      // Show the raw error details from types-generator
-      if (error?.error_message && error.error_message !== errorMessage) {
-        cliux.print("", {});
-        cliux.print("Raw error details:", { color: "magenta", bold: true });
-        cliux.print(error.error_message, { color: "red" });
-      }
+      printFormattedError(error, error?.context || "tsgen");
       process.exit(1);
     }
   }
