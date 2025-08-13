@@ -85,11 +85,4 @@ export const printFormattedError = (error: FormattedError, context: string) => {
   cliux.print(`Timestamp: ${error?.timestamp || new Date().toISOString()}`, {
     color: "gray",
   });
-
-  // Show the raw error details from types-generator if different from our formatted message
-  if (error?.error_message && error.error_message !== errorMessage) {
-    cliux.print("", {});
-    cliux.print("Raw error details:", { color: "magenta", bold: true });
-    cliux.print(error.error_message, { color: "red" });
-  }
 };
