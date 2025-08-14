@@ -3,14 +3,16 @@
     "declaration": true,
     "importHelpers": true,
     "module": "commonjs",
+    "moduleResolution": "node",
     "outDir": "lib",
-    "rootDir": "src",
     "strict": true,
     "target": "es2017",
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "types": ["node", "jest"]
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "tests/**/*"
   ]
 }

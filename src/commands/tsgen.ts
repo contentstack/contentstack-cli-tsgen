@@ -94,7 +94,8 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
     }),
 
     "include-referenced-entry": flags.boolean({
-      description: "include ReferencedEntry interface in generated types",
+      description:
+        "Includes the ReferencedEntry interface in generated types. Use this option to add a generic interface for handling referenced entries when the exact content type is unknown or when you need a flexible reference type",
       default: false,
       allowNo: true,
     }),
