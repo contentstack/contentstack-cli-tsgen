@@ -25,6 +25,20 @@ export interface FormattedError {
  */
 export const printFormattedError = (error: FormattedError, context: string) => {
   const errorCode = error?.error_code || "UNKNOWN_ERROR";
+  // Special handling for our numeric identifier validation errors
+  if (
+    errorCode === "VALIDATION_ERROR" &&
+    error?.error_message &&
+    error.error_message.includes("numeric identifiers")
+  ) {
+    // Just print our detailed message as-is, no extra formatting
+    cliux.print(error.error_message, {
+      color: "red",
+      bold: true,
+    });
+    return;
+  }
+
   let errorMessage = "An unexpected error occurred";
   let hint = "";
 
