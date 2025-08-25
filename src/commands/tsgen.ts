@@ -26,6 +26,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts"',
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" -p "I"',
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --no-doc',
+    '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --include-referenced-entry',
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --api-type graphql',
     '$ csdx tsgen -a "delivery token alias" -o "contentstack/generated.d.ts" --api-type graphql --namespace "GraphQL" ',
   ];
@@ -93,6 +94,12 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       default: false,
     }),
 
+    "include-referenced-entry": flags.boolean({
+      description:
+        "Includes the ReferencedEntry interface in generated types. Use this option to add a generic interface for handling referenced entries when the exact content type is unknown or when you need a flexible reference type",
+      default: false,
+    }),
+
     "api-type": flags.string({
       default: "rest",
       multiple: false,
@@ -118,6 +125,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
       const branch = flags.branch;
       const includeSystemFields = flags["include-system-fields"];
       const includeEditableTags = flags["include-editable-tags"];
+      const includeReferencedEntry = flags["include-referenced-entry"];
       const namespace = flags.namespace;
 
       const outputPath = createOutputPath(filePath);
@@ -198,6 +206,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
             prefix,
             systemFields: includeSystemFields,
             isEditableTags: includeEditableTags,
+            includeReferencedEntry,
           });
 
           fs.writeFileSync(outputPath, result || "");
