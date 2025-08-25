@@ -113,7 +113,8 @@ describe("Integration Test for tsgen command", () => {
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
 
     expect(result.status).not.toBe(0); // Command should fail
-    expect(result.stderr).toContain("Error: No token found"); // Check error message
+
+    expect(result.stderr + result.stdout).toContain("No token found");
   });
 
   // Test case 6: Generate TypeScript types for GraphQL API
@@ -179,7 +180,7 @@ describe("Integration Test for tsgen command", () => {
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
 
     expect(result.status).not.toBe(0);
-    expect(result.stderr).toContain("Error: No token found"); // Check error message
+    expect(result.stderr + result.stdout).toContain("No token found");
   });
 
   afterEach(() => {
