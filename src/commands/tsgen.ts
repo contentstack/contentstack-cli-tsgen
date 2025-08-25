@@ -2,8 +2,9 @@ import { Command } from "@contentstack/cli-command";
 import { flags, FlagInput } from "@contentstack/cli-utilities";
 import * as path from "path";
 import * as fs from "fs";
+import { cliux } from "@contentstack/cli-utilities";
 import { generateTS, graphqlTS } from "@contentstack/types-generator";
-import { sanitizePath } from "../lib/helper";
+import { sanitizePath, printFormattedError } from "../lib/helper";
 import { StackConnectionConfig } from "../types";
 
 function createOutputPath(outputFile: string) {
@@ -192,11 +193,8 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
             `Successfully added the GraphQL schema type definitions to '${outputPath}'.`,
           );
         } catch (error: any) {
-          const errorMessage =
-            error?.error_message ||
-            error?.message ||
-            "An error occurred while generating GraphQL types";
-          this.error(errorMessage, { exit: 1 });
+          printFormattedError(error, error?.context || "graphql");
+          process.exit(1);
         }
       } else {
         // Generate the Content Types TypeScript definitions
@@ -213,24 +211,43 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
           fs.writeFileSync(outputPath, result || "");
 
-          // -- TODO : Add count support for the number of Content Types generated
-          this.log(`Successfully added the Content Types to '${outputPath}'.`);
+          // Check if we have any skipped content types and show summary
+          if (
+            result &&
+            typeof result === "string" &&
+            result.includes(
+              "Generation completed successfully with partial schema",
+            )
+          ) {
+            cliux.print("", {});
+            cliux.print(
+              "Type generation completed successfully with partial schema!",
+              { color: "green", bold: true },
+            );
+            cliux.print(
+              "Some content types were skipped due to validation issues, but types were generated for valid content types.",
+              { color: "yellow" },
+            );
+            cliux.print(
+              "Check the output above for details on what was skipped and suggestions for fixing issues.",
+              { color: "cyan" },
+            );
+          } else {
+            cliux.print(
+              `Successfully added the Content Types to '${outputPath}'.`,
+              { color: "green" },
+            );
+          }
 
           // this.log(`Wrote ${outputPath} Content Types to '${result.outputPath}'.`)
         } catch (error: any) {
-          const errorMessage =
-            error?.error_message ||
-            error?.message ||
-            "An error occurred while generating TypeScript types";
-          this.error(errorMessage, { exit: 1 });
+          printFormattedError(error, error?.context || "tsgen");
+          process.exit(1);
         }
       }
     } catch (error: any) {
-      const errorMessage =
-        error?.error_message ||
-        error?.message ||
-        "An unexpected error occurred";
-      this.error(errorMessage, { exit: 1 });
+      printFormattedError(error, error?.context || "tsgen");
+      process.exit(1);
     }
   }
 }
