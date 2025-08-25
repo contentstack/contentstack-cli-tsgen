@@ -114,15 +114,6 @@ describe("Integration Test for tsgen command", () => {
 
     expect(result.status).not.toBe(0); // Command should fail
 
-    // Log the actual error output to debug GitHub Actions issue
-    if (process.env.CI) {
-      console.log(
-        "CI Environment - stderr content:",
-        JSON.stringify(result.stderr),
-      );
-    }
-
-    // Check both stdout and stderr for the error message (CI vs local environment difference)
     expect(result.stderr + result.stdout).toContain("No token found");
   });
 
@@ -189,20 +180,6 @@ describe("Integration Test for tsgen command", () => {
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
 
     expect(result.status).not.toBe(0);
-
-    // Log the actual error output to debug GitHub Actions issue
-    if (process.env.Ci) {
-      console.log(
-        "CI Environment - stderr content:",
-        JSON.stringify(result.stderr),
-      );
-      console.log(
-        "CI Environment - stdout content:",
-        JSON.stringify(result.stdout),
-      );
-    }
-
-    // Check both stdout and stderr for the error message (CI vs local environment difference)
     expect(result.stderr + result.stdout).toContain("No token found");
   });
 
