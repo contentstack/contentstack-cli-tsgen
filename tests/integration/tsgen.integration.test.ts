@@ -113,6 +113,15 @@ describe("Integration Test for tsgen command", () => {
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
 
     expect(result.status).not.toBe(0); // Command should fail
+
+    // Log the actual error output to debug GitHub Actions issue
+    if (process.env.CI) {
+      console.log(
+        "CI Environment - stderr content:",
+        JSON.stringify(result.stderr),
+      );
+    }
+
     expect(result.stderr).toContain("Error: No token found"); // Check error message
   });
 
@@ -179,6 +188,15 @@ describe("Integration Test for tsgen command", () => {
     const result = spawnSync(cmd, args, { encoding: "utf-8" });
 
     expect(result.status).not.toBe(0);
+
+    // Log the actual error output to debug GitHub Actions issue
+    if (process.env.CI) {
+      console.log(
+        "CI Environment - stderr content:",
+        JSON.stringify(result.stderr),
+      );
+    }
+
     expect(result.stderr).toContain("Error: No token found"); // Check error message
   });
 
