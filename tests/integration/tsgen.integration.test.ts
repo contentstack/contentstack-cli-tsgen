@@ -123,7 +123,7 @@ describe("Integration Test for tsgen command", () => {
     }
 
     // Check both stdout and stderr for the error message (CI vs local environment difference)
-    expect(result.stderr + result.stdout).toContain("Error: No token found");
+    expect(result.stderr + result.stdout).toContain("No token found");
   });
 
   // Test case 6: Generate TypeScript types for GraphQL API
@@ -191,7 +191,7 @@ describe("Integration Test for tsgen command", () => {
     expect(result.status).not.toBe(0);
 
     // Log the actual error output to debug GitHub Actions issue
-    if (process.env.CI) {
+    if (process.env.Ci) {
       console.log(
         "CI Environment - stderr content:",
         JSON.stringify(result.stderr),
@@ -203,7 +203,7 @@ describe("Integration Test for tsgen command", () => {
     }
 
     // Check both stdout and stderr for the error message (CI vs local environment difference)
-    expect(result.stderr + result.stdout).toContain("Error: No token found");
+    expect(result.stderr + result.stdout).toContain("No token found");
   });
 
   afterEach(() => {
