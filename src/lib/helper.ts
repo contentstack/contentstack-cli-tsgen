@@ -1,4 +1,4 @@
-import { cliux } from "@contentstack/cli-utilities";
+import { log } from "@contentstack/cli-utilities";
 
 export const sanitizePath = (str: string) => {
   return str
@@ -32,10 +32,7 @@ export const printFormattedError = (error: FormattedError, context: string) => {
     error.error_message.includes("numeric identifiers")
   ) {
     // Just print our detailed message as-is, no extra formatting
-    cliux.print(error.error_message, {
-      color: "red",
-      bold: true,
-    });
+    log.error(error.error_message);
     return;
   }
 
@@ -83,20 +80,12 @@ export const printFormattedError = (error: FormattedError, context: string) => {
   }
 
   // Print formatted error output
-  cliux.print(`Type generation failed: ${errorMessage}`, {
-    color: "red",
-    bold: true,
-  });
+  log.error(`Type generation failed: ${errorMessage}`);
 
   if (hint) {
-    cliux.print(`Tip: ${hint}`, { color: "yellow" });
+    log.warn(`Tip: ${hint}`);
   }
 
-  cliux.print(`Error context: ${context}`, {
-    color: "cyan",
-  });
-
-  cliux.print(`Timestamp: ${error?.timestamp || new Date().toISOString()}`, {
-    color: "gray",
-  });
+  log.info(`Error context: ${context}`);
+  log.info(`Timestamp: ${error?.timestamp || new Date().toISOString()}`);
 };
