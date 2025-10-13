@@ -132,12 +132,12 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
       if (token.type !== "delivery") {
         this.warn(
-          "Possibly using a management token. You may not be able to connect to your Stack. Please use a delivery token.",
+          "You might be using a management token. Connection may fail. Use a delivery token instead.",
         );
       }
 
       if (!outputPath || !outputPath.trim()) {
-        this.error("Please provide an output path.", { exit: 2 });
+        this.error("Output path is required.", { exit: 2 });
       }
 
       const config: StackConnectionConfig = {
@@ -160,7 +160,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
           // Check if token has delivery type (required for GraphQL)
           if (token.type !== "delivery") {
             throw new Error(
-              "GraphQL API requires a delivery token. Management tokens are not supported for GraphQL operations.",
+              "GraphQL API requires a delivery token. Management tokens aren't supported.",
             );
           }
 
@@ -185,7 +185,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
           const result = await graphqlTS(graphqlConfig);
 
           if (!result) {
-            throw new Error("GraphQL API returned no result");
+            throw new Error("No result returned by the GraphQL API.");
           }
 
           fs.writeFileSync(outputPath, result);
