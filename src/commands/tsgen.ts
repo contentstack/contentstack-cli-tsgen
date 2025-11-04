@@ -1,5 +1,5 @@
 import { Command } from "@contentstack/cli-command";
-import { flags, FlagInput } from "@contentstack/cli-utilities";
+import { flags, FlagInput, log } from "@contentstack/cli-utilities";
 import * as path from "path";
 import * as fs from "fs";
 import { cliux } from "@contentstack/cli-utilities";
@@ -170,6 +170,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
             token: config.token,
             environment: config.environment,
             namespace: namespace,
+            logger: log,
           };
 
           // Add region or host based on whether it's a custom region
@@ -207,6 +208,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
             systemFields: includeSystemFields,
             isEditableTags: includeEditableTags,
             includeReferencedEntry,
+            logger: log,
           });
 
           fs.writeFileSync(outputPath, result || "");
@@ -219,24 +221,16 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
               "Generation completed successfully with partial schema",
             )
           ) {
-            cliux.print("", {});
-            cliux.print(
-              "Type generation completed successfully with partial schema!",
-              { color: "green", bold: true },
+            cliux.print("");
+            log.success("Type generation completed successfully with partial schema!");
+            log.warn(
+              "Some content types were skipped due to validation issues, but types were generated for valid content types."
             );
-            cliux.print(
-              "Some content types were skipped due to validation issues, but types were generated for valid content types.",
-              { color: "yellow" },
-            );
-            cliux.print(
-              "Check the output above for details on what was skipped and suggestions for fixing issues.",
-              { color: "cyan" },
+            log.info(
+              "Check the output above for details on what was skipped and suggestions for fixing issues."
             );
           } else {
-            cliux.print(
-              `Successfully added the Content Types to '${outputPath}'.`,
-              { color: "green" },
-            );
+            log.success(`Successfully added the Content Types to '${outputPath}'.`);
           }
 
           // this.log(`Wrote ${outputPath} Content Types to '${result.outputPath}'.`)
