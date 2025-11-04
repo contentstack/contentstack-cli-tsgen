@@ -1,4 +1,4 @@
-import { cliux } from "@contentstack/cli-utilities";
+import { log } from "@contentstack/cli-utilities";
 
 export const sanitizePath = (str: string) => {
   return str
@@ -32,71 +32,60 @@ export const printFormattedError = (error: FormattedError, context: string) => {
     error.error_message.includes("numeric identifiers")
   ) {
     // Just print our detailed message as-is, no extra formatting
-    cliux.print(error.error_message, {
-      color: "red",
-      bold: true,
-    });
+    log.error(error.error_message);
     return;
   }
 
-  let errorMessage = "An unexpected error occurred";
+  let errorMessage = "An unexpected error occurred. Try again.";
   let hint = "";
 
   switch (errorCode) {
     case "AUTHENTICATION_FAILED":
-      errorMessage = "Authentication failed";
+      errorMessage = "Authentication failed. Check your credentials and try again.";
       hint = "Please check your API key, token, and region.";
       break;
     case "INVALID_CREDENTIALS":
-      errorMessage = "Invalid credentials provided";
+      errorMessage = "Invalid credentials. Please verify and re-enter your login details.";
       hint = "Please verify your API key, token, and region.";
       break;
     case "INVALID_INTERFACE_NAME":
     case "INVALID_CONTENT_TYPE_UID":
-      errorMessage = "TypeScript syntax error detected in the generated types.";
+      errorMessage = "Generated types contain a TypeScript syntax error.";
       hint =
         "Use a prefix to ensure all interface names are valid TypeScript identifiers.";
       break;
     case "INVALID_GLOBAL_FIELD_REFERENCE":
-      errorMessage = "TypeScript syntax error detected in the generated types.";
+      errorMessage = "Generated types contain a TypeScript syntax error.";
       hint =
         "Use a prefix to ensure all interface names are valid TypeScript identifiers.";
       break;
     case "VALIDATION_ERROR":
-      errorMessage = "TypeScript syntax error detected in generated types";
+      errorMessage = "Type generation failed due to a validation error.";
       hint =
         error?.error_message ||
-        "Validation error occurred during type generation";
+        "Type generation failed due to a validation error.";
       break;
     case "TYPE_GENERATION_FAILED":
-      errorMessage = "Type generation failed due to an internal error";
+      errorMessage = "Type generation failed due to a system error. Try again.";
       hint =
         error?.error_message ||
-        "An unexpected error occurred during type generation";
+        "Unexpected error during type generation. Try again.";
       break;
     default:
       errorMessage =
         error?.error_message ||
         error?.message ||
-        "An unexpected error occurred";
-      hint = "Please check the error details and try again.";
+        "An unexpected error occurred. Try again.";
+      hint = "Check the error details and try again.";
   }
 
   // Print formatted error output
-  cliux.print(`Type generation failed: ${errorMessage}`, {
-    color: "red",
-    bold: true,
-  });
+  log.error(`Type generation failed: ${errorMessage}`);
 
   if (hint) {
-    cliux.print(`Tip: ${hint}`, { color: "yellow" });
+    log.warn(`Tip: ${hint}`);
   }
 
-  cliux.print(`Error context: ${context}`, {
-    color: "cyan",
-  });
-
-  cliux.print(`Timestamp: ${error?.timestamp || new Date().toISOString()}`, {
-    color: "gray",
-  });
+  log.info(`Error context: ${context}`);
+  log.info(`Timestamp: ${error?.timestamp || new Date().toISOString()}`);
 };

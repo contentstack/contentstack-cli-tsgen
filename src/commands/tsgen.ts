@@ -1,5 +1,5 @@
 import { Command } from "@contentstack/cli-command";
-import { flags, FlagInput } from "@contentstack/cli-utilities";
+import { flags, FlagInput, log } from "@contentstack/cli-utilities";
 import * as path from "path";
 import * as fs from "fs";
 import { cliux } from "@contentstack/cli-utilities";
@@ -132,12 +132,12 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
 
       if (token.type !== "delivery") {
         this.warn(
-          "Possibly using a management token. You may not be able to connect to your Stack. Please use a delivery token.",
+          "You might be using a management token. Connection may fail. Use a delivery token instead.",
         );
       }
 
       if (!outputPath || !outputPath.trim()) {
-        this.error("Please provide an output path.", { exit: 2 });
+        this.error("Output path is required.", { exit: 2 });
       }
 
       const config: StackConnectionConfig = {
@@ -160,7 +160,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
           // Check if token has delivery type (required for GraphQL)
           if (token.type !== "delivery") {
             throw new Error(
-              "GraphQL API requires a delivery token. Management tokens are not supported for GraphQL operations.",
+              "GraphQL API requires a delivery token. Management tokens aren't supported.",
             );
           }
 
@@ -170,6 +170,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
             token: config.token,
             environment: config.environment,
             namespace: namespace,
+            logger: log,
           };
 
           // Add region or host based on whether it's a custom region
@@ -185,7 +186,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
           const result = await graphqlTS(graphqlConfig);
 
           if (!result) {
-            throw new Error("GraphQL API returned no result");
+            throw new Error("No result returned by the GraphQL API.");
           }
 
           fs.writeFileSync(outputPath, result);
@@ -207,6 +208,7 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
             systemFields: includeSystemFields,
             isEditableTags: includeEditableTags,
             includeReferencedEntry,
+            logger: log,
           });
 
           fs.writeFileSync(outputPath, result || "");
@@ -219,24 +221,16 @@ export default class TypeScriptCodeGeneratorCommand extends Command {
               "Generation completed successfully with partial schema",
             )
           ) {
-            cliux.print("", {});
-            cliux.print(
-              "Type generation completed successfully with partial schema!",
-              { color: "green", bold: true },
+            cliux.print("");
+            log.success("Type generation completed successfully with partial schema!");
+            log.warn(
+              "Some content types were skipped due to validation issues, but types were generated for valid content types."
             );
-            cliux.print(
-              "Some content types were skipped due to validation issues, but types were generated for valid content types.",
-              { color: "yellow" },
-            );
-            cliux.print(
-              "Check the output above for details on what was skipped and suggestions for fixing issues.",
-              { color: "cyan" },
+            log.info(
+              "Check the output above for details on what was skipped and suggestions for fixing issues."
             );
           } else {
-            cliux.print(
-              `Successfully added the Content Types to '${outputPath}'.`,
-              { color: "green" },
-            );
+            log.success(`Successfully added the Content Types to '${outputPath}'.`);
           }
 
           // this.log(`Wrote ${outputPath} Content Types to '${result.outputPath}'.`)
