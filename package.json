@@ -6,7 +6,7 @@
   "bugs": "https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/issues",
   "dependencies": {
     "@contentstack/cli-command": "^1.6.1",
-    "@contentstack/cli-utilities": "^1.14.4",
+    "@contentstack/cli-utilities": "^1.15.0",
     "@contentstack/types-generator": "^3.9.0",
     "dotenv": "^16.6.1"
   },
