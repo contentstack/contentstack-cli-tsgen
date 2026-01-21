@@ -5,8 +5,8 @@
   "author": "Michael Davis",
   "bugs": "https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/issues",
   "dependencies": {
-    "@contentstack/cli-command": "^1.7.0",
-    "@contentstack/cli-utilities": "^1.14.4",
+    "@contentstack/cli-command": "^1.7.1",
+    "@contentstack/cli-utilities": "^1.16.0",
     "@contentstack/types-generator": "^3.9.1",
     "dotenv": "^16.6.1"
   },
