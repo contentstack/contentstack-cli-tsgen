@@ -2,12 +2,6 @@ fileignoreconfig:
   - filename: .github/workflows/secrets-scan.yml
     ignore_detectors:
       - filecontent
-  - filename: lib/commands/tsgen.js
-    checksum: 02bab20fef5508565dbf38b5c12192c48ec27249b89d48c70303abaae17984ce
-  - filename: src/commands/tsgen.ts
-    checksum: 5817a6320d368fb82354709962cdb9d357c6dcba870ba53bf21eade9708505ba
   - filename: package-lock.json
-    checksum: ff39b8c5dbf34d827a164b3bcc408dd8a16688307019de5f04b59195557641fb
-  - filename: src/lib/helper.ts
-    checksum: f71633c99463fdf8da3708f4fe8736bcb9ad32595e4977af5ebab5af4b496395
+    checksum: 942bb57201d6fa4d43cf254546e66f955a3489bf92e1582f9109059ff0b61076
 version: "1.0"
