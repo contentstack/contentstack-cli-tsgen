@@ -1,13 +1,13 @@
 {
   "name": "contentstack-cli-tsgen",
   "description": "Generate TypeScript typings from a Stack.",
-  "version": "4.8.1",
+  "version": "4.8.2",
   "author": "Michael Davis",
   "bugs": "https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/issues",
   "dependencies": {
     "@contentstack/cli-command": "^1.7.2",
-    "@contentstack/cli-utilities": "^1.17.1",
-    "@contentstack/types-generator": "^3.9.1",
+    "@contentstack/cli-utilities": "^1.17.4",
+    "@contentstack/types-generator": "^3.9.3",
     "dotenv": "^16.6.1"
   },
   "devDependencies": {
