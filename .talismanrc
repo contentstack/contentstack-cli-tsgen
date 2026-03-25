@@ -4,4 +4,8 @@ fileignoreconfig:
       - filecontent
   - filename: package-lock.json
     checksum: fadad20d6e5ea2efd20595a8262b5f18ab59db802c18f4b1c1faec0c325ab2ac
+  - filename: .cursor/rules/oclif-tsgen.mdc
+    checksum: 83d43465e1b0d7d8c4fd3a13ca4cde13fc5ea2b578186891e3b268ede0e7d97c
+  - filename: AGENTS.md
+    checksum: 7cce7645c9ebd051f971ea157fc85b691b23c963211debf31729d9ee607c081f
 version: "1.0"
