@@ -1,0 +1,28 @@
+---
+description: PR and change review checklist for contentstack-cli-tsgen
+alwaysApply: true
+---
+
+# Code review checklist
+
+## API and documentation
+
+- **CLI surface:** Flag names, examples, and help text stay accurate; **`oclif readme`** output remains consistent when commands change.
+- **Terminology:** **Delivery** token / **GraphQL** vs REST—do not describe this plugin as a **CMA**-first tool.
+
+## Compatibility
+
+- **Backward compatibility:** Avoid breaking changes to flags, exit behavior, or output file contract without semver intent.
+- **Errors:** Align with **`printFormattedError`** and **`FormattedError`** patterns in [`src/lib/helper.ts`](src/lib/helper.ts); preserve stable error codes where used.
+
+## Dependencies
+
+- **`@contentstack/types-generator`:** Pin/bump per semver; do not duplicate library logic in the CLI—delegate to the package ([npm](https://www.npmjs.com/package/@contentstack/types-generator), [repo](https://github.com/contentstack/types-generator)).
+
+## Security and supply chain
+
+- **SCA:** `.github/workflows/sca-scan.yml` runs Snyk on pull requests.
+
+## Tests
+
+- **Integration:** Changes to **`csdx tsgen`** should keep **`tests/integration/`** passing when **`TOKEN_ALIAS`** and stack secrets are available.

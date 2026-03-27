@@ -1,0 +1,13 @@
+---
+description: TypeScript and ESLint conventions for contentstack-cli-tsgen
+alwaysApply: false
+globs:
+  - src/**/*.ts
+  - tests/**/*.ts
+---
+
+# TypeScript (`contentstack-cli-tsgen`)
+
+- **Compiler:** TypeScript **5.9**, **`strict: true`** ([tsconfig.json](tsconfig.json)); output **`lib/`** from **`src/`** via **`tsc -b`**.
+- **Layout:** **`src/commands/`** (OCLIF commands), **`src/lib/`** (helpers such as path sanitization and **`printFormattedError`**), **`src/types/`**.
+- **Linting:** **ESLint** with **`eslint-config-oclif`** / **`eslint-config-oclif-typescript`** (see **`.eslintrc.js`**). **`posttest`** runs `eslint . --ext .ts --config .eslintrc.js --fix` after Jest.
