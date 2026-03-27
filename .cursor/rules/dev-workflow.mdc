@@ -1,0 +1,41 @@
+---
+description: Branches, prepack/test, PR and release workflow for contentstack-cli-tsgen
+alwaysApply: false
+globs:
+  - package.json
+  - package-lock.json
+  - .github/workflows/**/*
+  - tsconfig.json
+  - jest.config.js
+  - .eslintrc.js
+  - AGENTS.md
+---
+
+# Development workflow
+
+For detail on tests and env, see **[skills/testing](../../skills/testing/SKILL.md)**; for PR expectations, **[skills/code-review](../../skills/code-review/SKILL.md)**.
+
+## Branches
+
+- **CI (Node.js workflow)** runs on **push** and **pull_request** for **`master`**, **`development`**, and **`staging`** (see `.github/workflows/node.js.yml`).
+- **Release** runs on **push** to **`master`** (see `.github/workflows/release.yml`), Node **22.x**, artifact **`lib`**, npm publish + GitHub release.
+
+**Maintainer note:** Other Contentstack repos may use different default branches (`main` vs `master`). Align docs and protection rules when convenient—no git config changes implied here.
+
+## Build and compile
+
+- **`npm run prepack`**: removes **`lib/`**, runs **`tsc -b`**, **`oclif manifest`**, **`oclif readme`**. This is the canonical build before pack/publish.
+- CI runs **`npm run prepack`** after global **`csdx`** setup and **`plugins:link`**.
+
+## Tests and lint
+
+- **`npm test`**: Jest with `--testPathPattern=tests`.
+- **`posttest`** (after `npm test`): ESLint with `.eslintrc.js` and `--fix`.
+
+## Pull requests
+
+- Run **`npm run prepack`** and **`npm test`** (which triggers **`posttest`**) before merge when touching source or tests.
+
+## Releases
+
+- Version in **`package.json`** drives publishing; release workflow builds with **`prepack`** and publishes from **`master`**.
