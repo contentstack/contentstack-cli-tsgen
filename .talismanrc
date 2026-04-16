@@ -3,9 +3,5 @@ fileignoreconfig:
     ignore_detectors:
       - filecontent
   - filename: package-lock.json
-    checksum: 9cf2ec1b73a078e9f3c974f1a9b7f70864f0307115d1f965b57752ba5a9dcdf2
-  - filename: .cursor/rules/oclif-tsgen.mdc
-    checksum: 83d43465e1b0d7d8c4fd3a13ca4cde13fc5ea2b578186891e3b268ede0e7d97c
-  - filename: AGENTS.md
-    checksum: 7cce7645c9ebd051f971ea157fc85b691b23c963211debf31729d9ee607c081f
+    checksum: d3011949884d2ceee74aa128c154e75d0943900ed4d13cceefee776e9386a5a6
 version: "1.0"
