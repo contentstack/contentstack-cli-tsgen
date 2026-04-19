@@ -3,9 +3,17 @@ fileignoreconfig:
     ignore_detectors:
       - filecontent
   - filename: package-lock.json
-    checksum: 9cf2ec1b73a078e9f3c974f1a9b7f70864f0307115d1f965b57752ba5a9dcdf2
-  - filename: .cursor/rules/oclif-tsgen.mdc
-    checksum: 83d43465e1b0d7d8c4fd3a13ca4cde13fc5ea2b578186891e3b268ede0e7d97c
+    checksum: 40cf1a77a8277c0236bdb74dee168a8ca9e0d4fc56706e0006b7ce69743319d7
   - filename: AGENTS.md
-    checksum: 7cce7645c9ebd051f971ea157fc85b691b23c963211debf31729d9ee607c081f
+    checksum: e442f35176d7263bc2ea3e7f5e112bfb4cbf6aad30f1a768d9695578b1b19636
+  - filename: skills/dev-workflow/SKILL.md
+    checksum: 036381e0d336cec14d0f83ba784f101a12ceaa9b86e486bc049e3aef0594c95b
+  - filename: skills/README.md
+    checksum: 6a74a10445c50ddebe3fae7737c04f2bc49c776ffdc8973711463c4d878e6041
+  - filename: skills/code-review/SKILL.md
+    checksum: 3cff88deeefd1fadf5714adf5657effdf5ce839a368dc71e4cb7f88db2cd7ddc
+  - filename: skills/typescript-cli-tsgen/SKILL.md
+    checksum: abbe95d052464f5d3434dd36caa7aab62cf6931f223aed70b698dc8f1aff5c28
+  - filename: skills/testing/SKILL.md
+    checksum: 6dbbb85e8eb83ebf0dda715fcd8f9c2704495ed6598a67b7222010d4c91366a5
 version: "1.0"

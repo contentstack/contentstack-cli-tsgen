@@ -1,11 +1,16 @@
-# Skills for `contentstack-cli-tsgen`
+# Skills – contentstack-cli-tsgen
 
-Use with [AGENTS.md](../AGENTS.md) and [`.cursor/rules/`](../.cursor/rules/README.md).
+Source of truth for detailed guidance. Read [AGENTS.md](../AGENTS.md) first, then open the skill that matches your task.
 
-| Skill | When to use |
+## When to use which skill
+
+| Skill folder | Use when |
 | --- | --- |
-| [code-review](code-review/SKILL.md) | PR checklist: CLI UX, errors, Delivery vs CMA wording, dependency on `@contentstack/types-generator` |
-| [testing](testing/SKILL.md) | Jest, `posttest` ESLint, integration tests, `TOKEN_ALIAS`, CI secrets |
-| [typescript-cli-tsgen](typescript-cli-tsgen/SKILL.md) | OCLIF command flow, helpers, where to change flags vs library behavior |
+| [dev-workflow](dev-workflow/SKILL.md) | Branches, CI, prepack, PR and release process |
+| [typescript-cli-tsgen](typescript-cli-tsgen/SKILL.md) | OCLIF `tsgen` command, flags, helpers vs library behavior |
+| [testing](testing/SKILL.md) | Jest, posttest ESLint, integration tests, `TOKEN_ALIAS`, CI secrets |
+| [code-review](code-review/SKILL.md) | PR checklist: CLI UX, errors, Delivery vs CMA wording, types-generator dependency |
 
-There is no separate **framework** skill: HTTP and generation details belong in **`@contentstack/types-generator`** (see npm / [github.com/contentstack/types-generator](https://github.com/contentstack/types-generator)), not relative paths to another checkout.
+HTTP and generation internals live in **`@contentstack/types-generator`** ([npm](https://www.npmjs.com/package/@contentstack/types-generator)); do not assume a sibling checkout.
+
+Each folder contains `SKILL.md` with YAML frontmatter (`name`, `description`).
