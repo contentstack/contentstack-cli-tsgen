@@ -25,3 +25,12 @@ description: Mental model for the contentstack-cli-tsgen OCLIF plugin and tsgen 
 ## OCLIF
 
 - Commands compile to **`lib/commands`**; **`prepack`** refreshes **`oclif.manifest.json`** and README.
+
+### Command shape (`tsgen`)
+
+- Extends **`Command`** from **`@contentstack/cli-command`** ([`src/commands/tsgen.ts`](../../src/commands/tsgen.ts)).
+- **Flags** include **`token-alias`** (`-a`, required), **`output`** (`-o`), **`prefix`**, **`doc`**, **`branch`**, **`include-system-fields`**, **`include-editable-tags`**, **`include-referenced-entry`**, **`api-type`** (`rest` \| `graphql`), **`namespace`** (GraphQL).
+- Resolve token via **`this.getToken(flags["token-alias"])`**; warn if **`token.type !== "delivery"`** (management token can break Delivery/GraphQL flows).
+- Build **`StackConnectionConfig`**: **`apiKey`**, **`token`**, **`region`**, **`environment`**, **`branch`**, **`host`** as in existing code.
+- **`api-type === "graphql"`** → **`graphqlTS(...)`** with delivery token; **REST** → **`generateTS`** with **`tokenType: "delivery"`**; write output with **`fs.writeFileSync`** to the resolved path.
+- Use **`printFormattedError`** from [`src/lib/helper.ts`](../../src/lib/helper.ts) for consistent CLI messaging.

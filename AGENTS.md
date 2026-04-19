@@ -1,51 +1,54 @@
-# `contentstack-cli-tsgen`
+# contentstack-cli-tsgen – Agent guide
 
-**Purpose:** Contentstack CLI (**OCLIF**) plugin that adds **`csdx tsgen`** to generate TypeScript typings from a stack. Generation is delegated to the **`@contentstack/types-generator`** npm package (`generateTS` / `graphqlTS`); this repo owns the command surface (flags, auth alias, file output, CLI error formatting).
+**Universal entry point** for contributors and AI agents. Detailed conventions live in **`skills/*/SKILL.md`**.
 
-- **Repository:** [github.com/Contentstack-Solutions/contentstack-cli-tsgen](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen)
-- **Homepage:** [https://github.com/Contentstack-Solutions/contentstack-cli-tsgen](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen)
+## What this repo is
 
-**Library dependency (separate repo):** [`@contentstack/types-generator`](https://www.npmjs.com/package/@contentstack/types-generator) (see version in [package.json](package.json)). Source for the generator itself: [github.com/contentstack/types-generator](https://github.com/contentstack/types-generator). Do not assume a local sibling folder; treat it as an npm dependency only.
+| Field | Detail |
+| --- | --- |
+| **Name:** | [Contentstack-Solutions/contentstack-cli-tsgen](https://github.com/Contentstack-Solutions/contentstack-cli-tsgen) |
+| **Purpose:** | OCLIF plugin that adds **`csdx tsgen`** to generate TypeScript typings from a stack. Generation is delegated to **`@contentstack/types-generator`** (`generateTS` / `graphqlTS`); this repo owns flags, auth alias, file output, and CLI error formatting. |
+| **Out of scope (if any):** | Core type-generation logic belongs in **`@contentstack/types-generator`** ([npm](https://www.npmjs.com/package/@contentstack/types-generator)), not reimplemented here. |
 
-## Tech stack
+## Tech stack (at a glance)
 
 | Area | Details |
 | --- | --- |
-| Language | TypeScript **5.9** (`strict` in [tsconfig.json](tsconfig.json)) |
-| Runtime | Node (CI **18.x** / **20.x**; release **22.x**) |
-| Build | **`tsc -b`** → **`lib/`**; **`npm run prepack`** runs `tsc -b`, **`oclif manifest`**, **`oclif readme`** |
-| CLI | **OCLIF** — commands compiled to **`lib/commands`** (see `oclif.commands` in [package.json](package.json)) |
-| Tests | **Jest** + **ts-jest** ([jest.config.js](jest.config.js)) |
-| Lint | **ESLint** runs in **`posttest`** after tests ([package.json](package.json) scripts) |
+| **Language** | TypeScript **5.9** (`strict` in [tsconfig.json](tsconfig.json)) |
+| **Build** | **`tsc -b`** → **`lib/`**; **`npm run prepack`** runs compile, **`oclif manifest`**, **`oclif readme`** |
+| **Tests** | **Jest** + **ts-jest** ([jest.config.js](jest.config.js)); integration tests under `tests/integration/` |
+| **Lint / coverage** | ESLint in **`posttest`** after **`npm test`** ([package.json](package.json)) |
+| **Other** | OCLIF, Node (CI **18.x** / **20.x**; release **22.x**) |
 
 **Main dependencies:** `@contentstack/cli-command`, `@contentstack/cli-utilities`, `@contentstack/types-generator`, `dotenv`.
 
-## Source layout
+## Commands (quick reference)
 
-- **Commands:** [src/commands/](src/commands/) (e.g. `tsgen.ts`)
-- **Helpers / errors:** [src/lib/](src/lib/)
-- **Types:** [src/types/](src/types/)
-- **Build output:** **`lib/`** (not committed as source of truth; produced by `prepack`)
-
-## Common commands
-
-| Command | Purpose |
+| Command type | Command |
 | --- | --- |
-| `npm run prepack` | Clean `lib/`, compile TypeScript, generate OCLIF manifest and README |
-| `npm test` | Jest (`--testPathPattern=tests`); then **`posttest`** runs ESLint with fix |
-| `npm run test:integration` | Jest for `tests/integration` only |
+| **Build** | `npm run prepack` (canonical compile; no separate `build` script) |
+| **Test** | `npm test` (then **`posttest`** → ESLint) |
+| **Lint** | via **`posttest`** after tests |
 
-There is no dedicated `build` script; **`prepack`** is the canonical compile path. CI may run `npm run build --if-present` (no-op here if no `build` script).
+**Integration tests:** `npm run test:integration` — Jest for `tests/integration` only.
+
+CI: [.github/workflows/node.js.yml](.github/workflows/node.js.yml); release: [.github/workflows/release.yml](.github/workflows/release.yml); SCA: [.github/workflows/sca-scan.yml](.github/workflows/sca-scan.yml).
 
 ## Credentials and integration tests
 
-Integration tests spawn **`csdx tsgen`** and require a configured **delivery token alias**. Set **`TOKEN_ALIAS`** (e.g. in **`.env`** at the package root; see [tests/integration/tsgen.integration.test.ts](tests/integration/tsgen.integration.test.ts)).
+Integration tests spawn **`csdx tsgen`** and require a **delivery token alias**. Set **`TOKEN_ALIAS`** (e.g. **`.env`** at package root; see [tests/integration/tsgen.integration.test.ts](tests/integration/tsgen.integration.test.ts)). CI uses secrets such as **`REGION`**, **`TOKEN_ALIAS`**, **`APIKEY`**, **`DELIVERYKEY`**, **`ENVIRONMENT`**.
 
-CI uses GitHub secrets such as **`REGION`**, **`TOKEN_ALIAS`**, **`APIKEY`**, **`DELIVERYKEY`**, **`ENVIRONMENT`** (see [.github/workflows/node.js.yml](.github/workflows/node.js.yml)).
+## Where the documentation lives: skills
 
----
+| Skill | Path | What it covers |
+| --- | --- | --- |
+| Development workflow | [skills/dev-workflow/SKILL.md](skills/dev-workflow/SKILL.md) | Branches, CI, prepack, PRs, releases |
+| TypeScript CLI tsgen | [skills/typescript-cli-tsgen/SKILL.md](skills/typescript-cli-tsgen/SKILL.md) | OCLIF command, flags, delegation to the library |
+| Testing | [skills/testing/SKILL.md](skills/testing/SKILL.md) | Jest, ESLint posttest, integration env |
+| Code review | [skills/code-review/SKILL.md](skills/code-review/SKILL.md) | PR checklist, terminology, semver |
 
-## AI guidance index
+An index with “when to use” hints is in [skills/README.md](skills/README.md).
 
-- [Cursor rules (overview)](.cursor/rules/README.md)
-- [Skills index](skills/README.md)
+## Using Cursor (optional)
+
+If you use **Cursor**, [.cursor/rules/README.md](.cursor/rules/README.md) only points to **`AGENTS.md`**—same docs as everyone else.
