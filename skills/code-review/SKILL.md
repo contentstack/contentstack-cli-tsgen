@@ -5,8 +5,6 @@ description: PR review checklist for contentstack-cli-tsgen (CLI, errors, Delive
 
 # Code review skill (`contentstack-cli-tsgen`)
 
-Aligned with [`.cursor/rules/code-review.mdc`](../../.cursor/rules/code-review.mdc).
-
 ## CLI and docs
 
 - Help text, **`static examples`**, and README/oclif-generated docs stay in sync when flags or behavior change.
@@ -27,6 +25,8 @@ Aligned with [`.cursor/rules/code-review.mdc`](../../.cursor/rules/code-review.m
 ## Tests and CI
 
 - Integration tests depend on **`csdx`** and **`TOKEN_ALIAS`**; document env needs when adding cases.
+- **Backward compatibility:** Avoid breaking changes to flags, exit behavior, or output file contract without semver intent.
+- **Supply chain:** `.github/workflows/sca-scan.yml` runs Snyk on pull requests.
 
 ## Optional severity
 
