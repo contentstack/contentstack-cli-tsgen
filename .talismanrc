@@ -3,17 +3,5 @@ fileignoreconfig:
     ignore_detectors:
       - filecontent
   - filename: package-lock.json
-    checksum: 40cf1a77a8277c0236bdb74dee168a8ca9e0d4fc56706e0006b7ce69743319d7
-  - filename: AGENTS.md
-    checksum: e442f35176d7263bc2ea3e7f5e112bfb4cbf6aad30f1a768d9695578b1b19636
-  - filename: skills/dev-workflow/SKILL.md
-    checksum: 036381e0d336cec14d0f83ba784f101a12ceaa9b86e486bc049e3aef0594c95b
-  - filename: skills/README.md
-    checksum: 6a74a10445c50ddebe3fae7737c04f2bc49c776ffdc8973711463c4d878e6041
-  - filename: skills/code-review/SKILL.md
-    checksum: 3cff88deeefd1fadf5714adf5657effdf5ce839a368dc71e4cb7f88db2cd7ddc
-  - filename: skills/typescript-cli-tsgen/SKILL.md
-    checksum: abbe95d052464f5d3434dd36caa7aab62cf6931f223aed70b698dc8f1aff5c28
-  - filename: skills/testing/SKILL.md
-    checksum: 6dbbb85e8eb83ebf0dda715fcd8f9c2704495ed6598a67b7222010d4c91366a5
+    checksum: efa1707cdc8a6e76f32e183d53f098011d63f3855ebf81768dad394437f4e3fc
 version: "1.0"
