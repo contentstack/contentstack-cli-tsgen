@@ -3,9 +3,9 @@ fileignoreconfig:
     ignore_detectors:
       - filecontent
   - filename: package-lock.json
-    checksum: 9d14217bdf0f79d1dc09da53067947e9d0f5b5a0cae6473f70e5ff3e5dc3fbb5
-  - filename: .cursor/rules/oclif-tsgen.mdc
-    checksum: 83d43465e1b0d7d8c4fd3a13ca4cde13fc5ea2b578186891e3b268ede0e7d97c
+    checksum: 441f3236602015591582c23d01bf888c5935c3e9e7606bb67d25877d26eacf02
+  - filename: skills/typescript-cli-tsgen/SKILL.md
+    checksum: d4309fdbdf7297096ac3a27d4df0998065067b07d2f165919d4333fd254fb716
   - filename: AGENTS.md
-    checksum: 7cce7645c9ebd051f971ea157fc85b691b23c963211debf31729d9ee607c081f
+    checksum: 01260523883552d9b6665ee6036672e21290872035b740501627d90c6518335e
 version: "1.0"
