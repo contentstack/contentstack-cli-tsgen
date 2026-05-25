@@ -1,7 +1,7 @@
 {
   "name": "contentstack-cli-tsgen",
   "description": "Generate TypeScript typings from a Stack.",
-  "version": "4.8.4",
+  "version": "4.9.1",
   "author": "Michael Davis",
   "bugs": "https://github.com/Contentstack-Solutions/contentstack-cli-tsgen/issues",
   "dependencies": {
@@ -11,18 +11,18 @@
     "dotenv": "^16.6.1"
   },
   "devDependencies": {
-    "@oclif/plugin-help": "^6.2.40",
-    "@oclif/test": "^4.1.16",
+    "@oclif/plugin-help": "^6.2.49",
+    "@oclif/test": "^4.1.18",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.19.15",
-    "@typescript-eslint/eslint-plugin": "^8.57.2",
-    "@typescript-eslint/parser": "^8.57.2",
+    "@types/node": "^22.19.19",
+    "@typescript-eslint/eslint-plugin": "^8.59.3",
+    "@typescript-eslint/parser": "^8.59.3",
     "eslint": "^8.57.1",
-    "eslint-config-oclif": "^6.0.129",
+    "eslint-config-oclif": "^6.0.165",
     "eslint-config-oclif-typescript": "^3.1.14",
     "jest": "^29.7.0",
-    "oclif": "^4.22.77",
-    "ts-jest": "^29.4.6",
+    "oclif": "^4.23.7",
+    "ts-jest": "^29.4.9",
     "typescript": "^5.9.3"
   },
   "engines": {
