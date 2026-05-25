@@ -4,4 +4,8 @@ fileignoreconfig:
       - filecontent
   - filename: package-lock.json
     checksum: 441f3236602015591582c23d01bf888c5935c3e9e7606bb67d25877d26eacf02
+  - filename: skills/typescript-cli-tsgen/SKILL.md
+    checksum: d4309fdbdf7297096ac3a27d4df0998065067b07d2f165919d4333fd254fb716
+  - filename: AGENTS.md
+    checksum: 01260523883552d9b6665ee6036672e21290872035b740501627d90c6518335e
 version: "1.0"
