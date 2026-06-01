@@ -1,3 +1,6 @@
+> **This repository is archived.** Development continues in the [cli-plugins](https://github.com/contentstack/cli-plugins) monorepo. Open issues at [cli-plugins/issues](https://github.com/contentstack/cli-plugins/issues).  
+> The npm package name is unchanged: **`contentstack-cli-tsgen`**.
+
 ![Node.js CI](https://github.com/contentstack/contentstack-cli-tsgen/workflows/Node.js%20CI/badge.svg)
 ![npm](https://img.shields.io/npm/v/contentstack-cli-tsgen)
 
