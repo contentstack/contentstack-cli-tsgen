@@ -3,7 +3,7 @@ fileignoreconfig:
     ignore_detectors:
       - filecontent
   - filename: package-lock.json
-    checksum: 4a20b0b4b051c956d748235749f8d7fb70c78c6a64a3ece21cf5a9d5ea0a6239
+    checksum: 34e508746fa20072e4c0299bf93b810c7c6f1cf9fe347d31a09429eea1fb39ad
   - filename: skills/typescript-cli-tsgen/SKILL.md
     checksum: d4309fdbdf7297096ac3a27d4df0998065067b07d2f165919d4333fd254fb716
   - filename: AGENTS.md
