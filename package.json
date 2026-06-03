@@ -61,5 +61,8 @@
     "shortCommandName": {
       "tsgen": "TSGEN"
     }
+  },
+  "overrides": {
+    "tmp": "0.2.7"
   }
 }
